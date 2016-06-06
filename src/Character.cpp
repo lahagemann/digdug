@@ -1,0 +1,60 @@
+#include "Character.h"
+
+Character::Character()
+{
+    this->position = APosition();
+}
+
+Character::Character(int x, int y, int z)
+{
+    this->position = APosition(x,y,z);
+}
+
+Character::~Character()
+{
+    //dtor
+}
+
+bool Character::load_new_model(const char *filename)
+{
+    char aszFilename[256];
+    strcpy(aszFilename, filename);
+
+    if(model)
+    {
+        free(model);
+        model = NULL;
+    }
+
+    model = glmReadOBJ(aszFilename);
+    if(!model)
+        return false;
+
+    glmUnitize(model);
+    glmFacetNormals(model);
+    glmVertexNormals(model, 90.0);
+
+    return true;
+}
+
+void Character::setModel(const char *filename)
+{
+    model = (GLMmodel *)malloc(sizeof(GLMmodel));
+    load_new_model(filename);
+}
+
+GLMmodel* Character::getModel()
+{
+    return model;
+}
+
+void Character::setPosition(APosition position)
+{
+    this->position = position;
+}
+
+APosition Character::getPosition()
+{
+    return position;
+}
+

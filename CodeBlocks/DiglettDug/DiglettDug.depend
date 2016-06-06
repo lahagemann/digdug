@@ -1,0 +1,200 @@
+# depslib dependency file v1.0
+1465150387 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
+	<GLUT/glut.h>
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+	<stdlib.h>
+
+1301139964 c:\users\luiza\documents\diglettdug\codeblocks\include\gl\gl.h
+
+976713772 c:\users\luiza\documents\diglettdug\codeblocks\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1301139964 c:\users\luiza\documents\diglettdug\codeblocks\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1465148220 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\src\cam.cpp
+	"Cam.h"
+
+1465148203 c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\include\cam.h
+	<cmath>
+	"Diglett.h"
+
+1465149202 c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\include\diglett.h
+	<Character.h>
+	<stdio.h>
+
+1465148355 c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\include\character.h
+	<stdlib.h>
+	<string.h>
+	"Position.h"
+	"glm.h"
+
+1465149262 c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\include\position.h
+	<stdio.h>
+
+1465148368 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\src\character.cpp
+	"Character.h"
+
+1465149212 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\src\diglett.cpp
+	"Diglett.h"
+
+1465149413 c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\include\glm.h
+	<GLUT/glut.h>
+	<GL/gl.h>
+	<GL/glut.h>
+
+1465149282 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\src\position.cpp
+	"Position.h"
+
+1150260362 source:c:\users\luiza\documents\diglettdug\src\bitmap.c
+	"bitmap.h"
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+
+1032744240 c:\users\luiza\documents\diglettdug\src\bitmap.h
+	<GL/glut.h>
+	<windows.h>
+	<wingdi.h>
+
+1398840820 source:c:\users\luiza\documents\diglettdug\src\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1465154019 c:\users\luiza\documents\diglettdug\src\glm.h
+	<GLUT/glut.h>
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+
+1399381928 source:c:\users\luiza\documents\diglettdug\src\glmimg.cpp
+	<string.h>
+	<math.h>
+	"Texture.h"
+	<windows.h>
+	<GL/gl.h>
+	"glm.h"
+
+1398840810 c:\users\luiza\documents\diglettdug\src\texture.h
+	<windows.h>
+	<windowsx.h>
+	<stdlib.h>
+	<stdio.h>
+	<GL/glut.h>
+	<math.h>
+
+1464228053 source:c:\users\luiza\documents\diglettdug\src\main.cpp
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<cmath>
+	<iostream>
+	<gl/glut.h>
+	"glm.h"
+	<al/alut.h>
+	"bitmap.h"
+
+1334628368 c:\users\luiza\documents\diglettdug\codeblocks\include\al\alut.h
+	<al/alc.h>
+	<al/al.h>
+	<OpenAL/alc.h>
+	<OpenAL/al.h>
+	<AL/al.h>
+	<AL/alc.h>
+
+1176530568 c:\users\luiza\documents\diglettdug\codeblocks\include\al\alc.h
+
+1165642258 c:\users\luiza\documents\diglettdug\codeblocks\include\al\al.h
+
+1398840812 source:c:\users\luiza\documents\diglettdug\src\texture.cpp
+	"Texture.h"
+
+1465152167 source:c:\users\luiza\documents\diglettdug\src\position.cpp
+	"Position.h"
+
+1465171101 source:c:\users\luiza\documents\diglettdug\src\character.cpp
+	"Character.h"
+
+1465171040 c:\users\luiza\documents\diglettdug\src\character.h
+	<stdlib.h>
+	<string.h>
+	"APosition.h"
+	"glm.h"
+
+1465152092 c:\users\luiza\documents\diglettdug\src\position.h
+	<stdio.h>
+
+1465170758 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
+	"Diglett.h"
+
+1465170704 c:\users\luiza\documents\diglettdug\src\diglett.h
+	"Character.h"
+	<stdio.h>
+
+1465171283 source:c:\users\luiza\documents\diglettdug\src\scyther.cpp
+	"Scyther.h"
+
+1465171214 c:\users\luiza\documents\diglettdug\src\scyther.h
+	"Character.h"
+	<stdio.h>
+
+1465171292 source:c:\users\luiza\documents\diglettdug\src\sharpedo.cpp
+	"Sharpedo.h"
+
+1465171315 c:\users\luiza\documents\diglettdug\src\sharpedo.h
+	"Character.h"
+
+1465171307 source:c:\users\luiza\documents\diglettdug\src\snorlax.cpp
+	"Snorlax.h"
+
+1465171323 c:\users\luiza\documents\diglettdug\src\snorlax.h
+	"Character.h"
+
+1465162605 c:\users\luiza\documents\diglettdug\src\aposition.h
+	<stdio.h>
+
+1465171026 source:c:\users\luiza\documents\diglettdug\src\aposition.cpp
+	"APosition.h"
+
+1465171121 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
+	"Cam.h"
+
+1465162491 c:\users\luiza\documents\diglettdug\src\cam.h
+	<cmath>
+	"Diglett.h"
+
+1465165599 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+	"GameMap.h"
+
+1465170822 c:\users\luiza\documents\diglettdug\src\gamemap.h
+	<stdio.h>
+	<iostream>
+	<vector>
+	"Diglett.h"
+	"Scyther.h"
+	"Sharpedo.h"
+	"Snorlax.h"
+	"bitmap.h"
+
+1465165808 source:c:\users\luiza\documents\diglettdug\src\player.cpp
+	"Player.h"
+
+1465165844 c:\users\luiza\documents\diglettdug\src\player.h
+	"Character.h"
+	<stdio.h>
+
+1465172985 source:c:\users\luiza\documents\diglettdug\src\a_rgb.cpp
+	"A_RGB.h"
+
+1465173258 c:\users\luiza\documents\diglettdug\src\a_rgb.h
+
