@@ -2,12 +2,12 @@
 
 APosition::APosition()
 {
-    this->x = 0;
-    this->y = 0;
-    this->z = 0;
+    this->x = 0.0f;
+    this->y = 0.0f;
+    this->z = 0.0f;
 }
 
-APosition::APosition(int x, int y, int z)
+APosition::APosition(GLfloat x, GLfloat y, GLfloat z)
 {
     this->x = x;
     this->y = y;

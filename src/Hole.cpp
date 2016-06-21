@@ -6,7 +6,7 @@ Hole::Hole() : Ground()
 
 }
 
-Hole::Hole(int x, int y, int z) : Ground(x,y,z)
+Hole::Hole(GLfloat x, GLfloat y, GLfloat z) : Ground(x,y,z)
 {
     this->setModel("Cube.obj");
 }

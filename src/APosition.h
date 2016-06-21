@@ -7,11 +7,11 @@ class APosition
 {
     public:
         APosition();
-        APosition(int x, int y, int z);
+        APosition(GLfloat x, GLfloat y, GLfloat z);
         virtual ~APosition();
-        int x;
-        int y;
-        int z;
+        GLfloat x;
+        GLfloat y;
+        GLfloat z;
 };
 
 #endif // APOSITION_H

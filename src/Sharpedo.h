@@ -8,7 +8,7 @@ class Sharpedo : public Character
 {
     public:
         Sharpedo();
-        Sharpedo(int x, int y, int z);
+        Sharpedo(GLfloat x, GLfloat y, GLfloat z);
         virtual ~Sharpedo();
         void swim();
 };

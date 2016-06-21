@@ -8,7 +8,7 @@ class Scyther : public Character
 {
     public:
         Scyther();
-        Scyther(int x, int y, int z);
+        Scyther(GLfloat x, GLfloat y, GLfloat z);
         virtual ~Scyther();
 
     protected:

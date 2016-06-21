@@ -7,7 +7,7 @@ class Floor : public Ground
 {
 public:
     Floor();
-    Floor(int x, int y, int z);
+    Floor(GLfloat x, GLfloat y, GLfloat z);
     virtual ~Floor();
 };
 

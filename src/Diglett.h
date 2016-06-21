@@ -8,7 +8,7 @@ class Diglett : public Character
 {
     public:
         Diglett();
-        Diglett(int x, int y, int z);
+        Diglett(GLfloat x, GLfloat y, GLfloat z);
         virtual ~Diglett();
         void setXRotation(float rotation);
         float getXRotation();
@@ -16,9 +16,15 @@ class Diglett : public Character
         float getYRotation();
         float getHeadPosition();
 
+        void walk(Direction dir);
+
+        const enum Direction {forwards, backwards, rotateLeft, rotateRight};
+
     private:
         float xRotation, yRotation;
         float headPosition;
+
+
 };
 
 #endif // DIGLETT_H

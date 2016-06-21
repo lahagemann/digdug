@@ -141,32 +141,35 @@ void Game::onWindowReshape(int x, int y)
 void Game::updateState()
 {
     if(walkPressed)
-    {
-        // atualizar a posição do diglett.
-    }
+        game_map.player.walk(Diglett::Direction::forwards);
+
 
     if(backPressed)
-    {
-        // atualiza a posição do diglett.
-    }
+        game_map.player.walk(Diglett::Direction::backwards);
+
 
     if(rotateLeftPressed)
-    {
+        game_map.player.walk(Diglett::Direction::rotateLeft);
 
-    }
 
     if(rotateRightPressed)
-    {
-
-    }
+        game_map.player.walk(Diglett::Direction::rotateRight);
 
     if(makeCrackPressed)
     {
+        // make crack, deal crack.
 
+        // ass.: pablo
     }
 
     if(pushPressed)
     {
+        // empurra inimigo.
+    }
 
+    if(changeCamera)
+    {
+        cam.changeCam(game_map.player);
+        changeCamera = false;
     }
 }

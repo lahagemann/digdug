@@ -5,7 +5,7 @@ Sharpedo::Sharpedo() : Character()
     this->setModel("Sharpedo.obj", 0.5f);
 }
 
-Sharpedo::Sharpedo(int x, int y, int z) : Character(x,y,z)
+Sharpedo::Sharpedo(GLfloat x, GLfloat y, GLfloat z) : Character(x,y,z)
 {
     this->setModel("Sharpedo.obj", 0.5f);
 }

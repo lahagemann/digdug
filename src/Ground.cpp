@@ -5,7 +5,7 @@ Ground::Ground()
     this->position = APosition();
 }
 
-Ground::Ground(int x, int y, int z)
+Ground::Ground(GLfloat x, GLfloat y, GLfloat z)
 {
     this->position = APosition(x,y,z);
 }

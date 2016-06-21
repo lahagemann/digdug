@@ -5,7 +5,7 @@ Character::Character()
     this->position = APosition();
 }
 
-Character::Character(int x, int y, int z)
+Character::Character(GLfloat x, GLfloat y, GLfloat z)
 {
     this->position = APosition(x,y,z);
 }

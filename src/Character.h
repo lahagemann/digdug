@@ -11,7 +11,7 @@ class Character
     public:
 
         Character();
-        Character(int x, int y, int z);
+        Character(GLfloat x, GLfloat y, GLfloat z);
         virtual ~Character();
 
         void setModel(const char *filename, GLfloat sFactor);

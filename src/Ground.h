@@ -5,7 +5,7 @@ class Ground
 {
 public:
     Ground();
-    Ground(int x, int y, int z);
+    Ground(GLfloat x, GLfloat y, GLfloat z);
     virtual ~Ground();
     APosition getPosition();
     void setModel(const char *filename);

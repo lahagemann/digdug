@@ -6,7 +6,7 @@ Snorlax::Snorlax() : Character()
 }
 
 
-Snorlax::Snorlax(int x, int y, int z) : Character(x,y,z)
+Snorlax::Snorlax(GLfloat x, GLfloat y, GLfloat z) : Character(x,y,z)
 {
     this->setModel("Snorlax.obj", 0.5f);
 }

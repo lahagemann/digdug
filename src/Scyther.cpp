@@ -5,7 +5,7 @@ Scyther::Scyther() : Character()
     this->setModel("Scyther.obj", 0.5f);
 }
 
-Scyther::Scyther(int x, int y, int z) : Character(x,y,z)
+Scyther::Scyther(GLfloat x, GLfloat y, GLfloat z) : Character(x,y,z)
 {
     this->setModel("Scyther.obj", 0.5f);
 }
