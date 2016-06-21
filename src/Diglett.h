@@ -10,13 +10,14 @@ class Diglett : public Character
         Diglett();
         Diglett(int x, int y, int z);
         virtual ~Diglett();
+        void setXRotation(float rotation);
+        float getXRotation();
+        void setYRotation(float rotation);
+        float getYRotation();
         float getHeadPosition();
-        //ver como vamos organizar os parâmetros que vamos passar.
-        //shove();
-        //walk();
-        //crack();
 
     private:
+        float xRotation, yRotation;
         float headPosition;
 };
 

@@ -7,6 +7,7 @@
 class Cam
 {
     public:
+        Cam();
         Cam(Diglett player);
         virtual ~Cam();
         void updateCam(Diglett player);
@@ -21,7 +22,7 @@ class Cam
         const float PI = 3.14159265;
 
         float posX, posY, posZ;
-        float rotX, rotY;
+        float xRotation, yRotation, playerHeadPosition;
         int camOption;
 };
 
