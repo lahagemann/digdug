@@ -283,3 +283,51 @@ bool GameMap::checkObstacleCollision(Diglett::Direction direction)
     return false;
 }
 
+bool GameMap::isAboveHole()
+{
+    A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(player.getPosition().j);
+
+    if(currentPositionColor.isBlack())
+        return true;
+    else
+        return false;
+}
+void GameMap::makeCrack()
+{
+    if(isAboveHole())
+    {
+        int i = player.getPosition().i;
+        int j = player.getPosition().j;
+
+        if(player.getXRotation() == 0.0f) // Virado para a direita do mapa
+        {
+            int iterationPosition = player.getPosition().j + 1;
+            A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
+
+            while(currentPositionColor.isGreen())
+            {
+                iterationPosition++;
+                currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
+            }
+
+            if(currentPositionColor.isBlack() || currentPositionColor.isRed())
+                for(int k = player.getPosition().j + 1; k <= iterationPosition; k++)
+                {
+                    currentPositionColor.setRed();
+                    stage_map.at(player.getPosition().i).at(iterationPosition) = currentPositionColor;
+                }
+        }
+        else if(player.getXRotation() == 90.0f) // Virado para a parte superior do mapa
+        {
+            //TODO i++;
+        }
+        else if(player.getXRotation() == 180.0f) // Virado para a esquerda do mapa
+        {
+            //TODO j--;
+        }
+        else if(player.getXRotation() == 270.0f) // Virado para a parte inferior do mapa
+        {
+            //TODO i--;
+        }
+    }
+}
