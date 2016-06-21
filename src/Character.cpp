@@ -1,5 +1,6 @@
 #include "Character.h"
 
+/*
 Character::Character()
 {
     this->position = APosition();
@@ -8,6 +9,17 @@ Character::Character()
 Character::Character(GLfloat x, GLfloat y, GLfloat z)
 {
     this->position = APosition(x,y,z);
+}
+*/
+
+Character::Character()
+{
+    this->position = CharacterPosition();
+}
+
+Character::Character(int i, int j)
+{
+    this->position = CharacterPosition(i,j);
 }
 
 Character::~Character()
@@ -49,6 +61,7 @@ GLMmodel* Character::getModel()
     return model;
 }
 
+/*
 void Character::setPosition(APosition position)
 {
     this->position = position;
@@ -57,5 +70,22 @@ void Character::setPosition(APosition position)
 APosition Character::getPosition()
 {
     return position;
+}
+*/
+
+void Character::setPosition(CharacterPosition position)
+{
+    this->position = position;
+}
+
+void Character::setPosition(int i, int j)
+{
+    this->position.i = i;
+    this->position.j = j;
+}
+
+CharacterPosition Character::getPosition()
+{
+    return this->position;
 }
 

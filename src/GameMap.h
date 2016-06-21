@@ -21,9 +21,11 @@ class GameMap
         GameMap();
         virtual ~GameMap();
         void load_models();
-        void load_stage();
         void flood_fill();
         bool allow_movement(Character *character);
+
+        bool checkEnemyCollision(Diglett::Direction direction);
+        bool checkObstacleCollision(Diglett::Direction direction);
 
         Diglett player;
 

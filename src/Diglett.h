@@ -8,7 +8,8 @@ class Diglett : public Character
 {
     public:
         Diglett();
-        Diglett(GLfloat x, GLfloat y, GLfloat z);
+        //Diglett(GLfloat x, GLfloat y, GLfloat z);
+        Diglett(int i, int j)
         virtual ~Diglett();
         void setXRotation(float rotation);
         float getXRotation();

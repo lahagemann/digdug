@@ -141,16 +141,23 @@ void Game::onWindowReshape(int x, int y)
 void Game::updateState()
 {
     if(walkPressed)
-        game_map.player.walk(Diglett::Direction::forwards);
+    {
+        if(game_map.checkEnemyCollision())
+            //death
+        else
+        {
+            if(!game_map.checkObstacleCollision())
+                game_map.player.walk(Diglett::Direction::forwards);
+        }
+
+    }
 
 
     if(backPressed)
         game_map.player.walk(Diglett::Direction::backwards);
 
-
     if(rotateLeftPressed)
         game_map.player.walk(Diglett::Direction::rotateLeft);
-
 
     if(rotateRightPressed)
         game_map.player.walk(Diglett::Direction::rotateRight);
