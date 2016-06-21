@@ -14,7 +14,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../include" />
 				</Compiler>
+				<Linker>
+					<Add library="../lib/EFX-Util.lib" />
+					<Add library="../lib/GlU32.Lib" />
+					<Add library="../lib/glut32.lib" />
+					<Add library="../lib/OpenGL32.Lib" />
+					<Add directory="../lib" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/DiglettDug" prefix_auto="1" extension_auto="1" />
@@ -42,6 +50,46 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Users/Luiza/Documents/DiglettDug/CodeBlocks/lib" />
 		</Linker>
+		<Unit filename="../../src/APosition.cpp" />
+		<Unit filename="../../src/APosition.h" />
+		<Unit filename="../../src/A_RGB.cpp" />
+		<Unit filename="../../src/A_RGB.h" />
+		<Unit filename="../../src/Cam.cpp" />
+		<Unit filename="../../src/Cam.h" />
+		<Unit filename="../../src/Character.cpp" />
+		<Unit filename="../../src/Character.h" />
+		<Unit filename="../../src/Crack.cpp" />
+		<Unit filename="../../src/Crack.h" />
+		<Unit filename="../../src/Diglett.cpp" />
+		<Unit filename="../../src/Diglett.h" />
+		<Unit filename="../../src/Floor.cpp" />
+		<Unit filename="../../src/Floor.h" />
+		<Unit filename="../../src/Game.cpp" />
+		<Unit filename="../../src/Game.h" />
+		<Unit filename="../../src/GameLight.cpp" />
+		<Unit filename="../../src/GameLight.h" />
+		<Unit filename="../../src/GameMap.cpp" />
+		<Unit filename="../../src/GameMap.h" />
+		<Unit filename="../../src/GameSettings.h" />
+		<Unit filename="../../src/Ground.cpp" />
+		<Unit filename="../../src/Ground.h" />
+		<Unit filename="../../src/Hole.cpp" />
+		<Unit filename="../../src/Hole.h" />
+		<Unit filename="../../src/Scyther.cpp" />
+		<Unit filename="../../src/Scyther.h" />
+		<Unit filename="../../src/Sharpedo.cpp" />
+		<Unit filename="../../src/Sharpedo.h" />
+		<Unit filename="../../src/Snorlax.cpp" />
+		<Unit filename="../../src/Snorlax.h" />
+		<Unit filename="../../src/Texture.cpp" />
+		<Unit filename="../../src/Texture.h" />
+		<Unit filename="../../src/bitmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/bitmap.h" />
+		<Unit filename="../../src/glm.cpp" />
+		<Unit filename="../../src/glm.h" />
+		<Unit filename="../../src/glmimg.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

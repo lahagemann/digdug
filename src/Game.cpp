@@ -140,5 +140,33 @@ void Game::onWindowReshape(int x, int y)
 
 void Game::updateState()
 {
+    if(walkPressed)
+    {
+        // atualizar a posição do diglett.
+    }
 
+    if(backPressed)
+    {
+        // atualiza a posição do diglett.
+    }
+
+    if(rotateLeftPressed)
+    {
+
+    }
+
+    if(rotateRightPressed)
+    {
+
+    }
+
+    if(makeCrackPressed)
+    {
+
+    }
+
+    if(pushPressed)
+    {
+
+    }
 }
