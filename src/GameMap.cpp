@@ -3,7 +3,6 @@
 GameMap::GameMap()
 {
     load_models();
-    load_stage();
 }
 
 GameMap::~GameMap()
@@ -27,9 +26,20 @@ void GameMap::load_models()
 
     for(int i = 0; i < info->bmiHeader.biHeight; i++)
     {
-        std::vector<A_RGB> newLine;
-        characters_map.push_back(newLine);
-        for(int j = 0; j < info->bmiHeader.biWidth; j++, ptr += 3){
+        std::vector<A_RGB> charRGBLine;
+        characters_map.push_back(charRGBLine);
+
+        std::vector<A_RGB> stageRGBLine;
+        stage_map.push_back(stageRGBLine);
+
+        std::vector<Character> charLine;
+        characters.push_back(charLine);
+
+        std::vector<Ground> groundLine;
+        ground.push_back(groundLine);
+
+        for(int j = 0; j < info->bmiHeader.biWidth; j++, ptr += 3)
+        {
             int r = ptr[2];
             int g = ptr[1];
             int b = ptr[0];
@@ -37,77 +47,79 @@ void GameMap::load_models()
             A_RGB rgb = A_RGB(r,g,b);
             characters_map.at(i).push_back(rgb);
 
-            if(rgb.isBlack()) {              //hole
+            if(rgb.isBlack()) //hole
+            {
+                Hole hole = Hole(j,GROUND_HEIGHT,31-i);
+                ground.at(i).push_back(hole);
+                stage_map.at(i).push_back(rgb);
 
-            } else if(rgb.isRed()) {       //crack
+            }
+            else if(rgb.isRed()) //crack
+            {
+                Crack crack = Crack(j,GROUND_HEIGHT, 31-i);
+                ground.at(i).push_back(crack);
+                stage_map.at(i).push_back(rgb);
 
-            } else if(rgb.isGreen()) {       //ground
+            }
+            else if(rgb.isGreen()) //ground
+            {
+                Floor floor = Floor(j,GROUND_HEIGHT, 31-i);
+                ground.at(i).push_back(floor);
+                stage_map.at(i).push_back(rgb);
+            }
+            else if(rgb.isBlue()) //sea
+            {
+                //Sea sea = Sea(j,SEA_HEIGHT, 31-i);
+                //ground.at(i).push_back(sea);
+                stage_map.at(i).push_back(rgb);
 
-            } else if(rgb.isBlue()) {
-
-            } else if(rgb.isYellow()) {    //enemy
+            }
+            else if(rgb.isYellow()) //enemy
+            {
                 Scyther enemy = Scyther(j,GROUND_HEIGHT,31-i);
-                enemies.push_back(enemy);
-            } else if(rgb.isMagenta()) {   //snorlax
+                Floor floor = Floor(j, GROUND_HEIGHT, 31-i);
+
+                characters.at(i).push_back(enemy);
+                ground.at(i).push_back(floor);
+
+                A_RGB green = A_RGB(0,255,0);
+                stage_map.at(i).push_back(green);
+                characters_map.push_back(rgb);
+
+            }
+            else if(rgb.isMagenta()) //snorlax
+            {
                 Snorlax obstacle = Snorlax(j,GROUND_HEIGHT,31-i);
-                rocks.push_back(obstacle);
-            } else if(rgb.isCyan()) {     //sharpedo
+                Floor floor = Floor(j, GROUND_HEIGHT, 31-i);
+
+                characters.at(i).push_back(obstacle);
+                ground.at(i).push_back(floor);
+
+                A_RGB green = A_RGB(0,255,0);
+                stage_map.at(i).push_back(green);
+                characters_map.push_back(rgb);
+            }
+            else if(rgb.isCyan()) //sharpedo
+            {
                 Sharpedo sharpedo = Sharpedo(j,SEA_HEIGHT,31-i);
-            } else if(rgb.isWhite()) {   //player
+                //Sea sea = Sea(j,SEA_HEIGHT, 31-i);
+
+                characters.at(i).push_back(sharpedo);
+                //ground.at(i).push_back(sea);
+
+                A_RGB blue = A_RGB(0,0,255);
+                characters_map.at(i).push_back(rgb);
+                stage_map.at(i).push_back(blue);
+            }
+            else if(rgb.isWhite()) //player
+            {
                 this->player = Diglett(j,GROUND_HEIGHT,31-i);
+
+                A_RGB green = A_RGB(0,255,0);
+                ground.at(i).push_back(green);
             }
         }
     }
-
 	std::cout << "Models ok." << std::endl << std::endl;
 }
 
-void GameMap::load_stage()
-{
-    std::cout << "Loading stage..." << std::endl;
-
-    BITMAPINFO	*info;           /* Bitmap information */
-    GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
-
-    bits = LoadDIBitmap("bitmap.bmp", &info);
-    if (bits == (GLubyte *)0) {
-		std::cout << "Error loading!" << std::endl << std::endl;
-		return;
-	}
-
-    ptr = bits;
-
-    for(int i = 0; i < info->bmiHeader.biHeight; i++){
-        std::vector<A_RGB> newLine;
-        stage_map.push_back(newLine);
-        for(int j = 0; j < info->bmiHeader.biWidth; j++, ptr += 3){
-            int r = ptr[2];
-            int g = ptr[1];
-            int b = ptr[0];
-
-            A_RGB rgb = A_RGB(r,g,b);
-            stage_map.at(i).push_back(rgb);
-
-            if(rgb.isBlack()) {              //hole
-
-            } else if(rgb.isRed()) {       //crack
-
-            } else if(rgb.isGreen()) {       //ground
-
-            } else if(rgb.isBlue()) {       //sea
-
-            } else if(rgb.isYellow()) {    //enemy
-
-            } else if(rgb.isMagenta()) {   //snorlax
-
-            } else if(rgb.isCyan()) {     //sharpedo
-
-            } else if(rgb.isWhite()) {   //player
-
-            }
-        }
-    }
-
-    original_map = stage_map;
-    std::cout << "Stage ok." << std::endl << std::endl;
-}

@@ -15,7 +15,7 @@ Character::~Character()
     //dtor
 }
 
-bool Character::load_new_model(const char *filename)
+bool Character::load_new_model(const char *filename, GLfloat sFactor)
 {
     char aszFilename[256];
     strcpy(aszFilename, filename);
@@ -31,16 +31,17 @@ bool Character::load_new_model(const char *filename)
         return false;
 
     glmUnitize(model);
+    glmScale(model,sFactor);
     glmFacetNormals(model);
     glmVertexNormals(model, 90.0);
 
     return true;
 }
 
-void Character::setModel(const char *filename)
+void Character::setModel(const char *filename, GLfloat sFactor)
 {
     model = (GLMmodel *)malloc(sizeof(GLMmodel));
-    load_new_model(filename);
+    load_new_model(filename, sFactor);
 }
 
 GLMmodel* Character::getModel()

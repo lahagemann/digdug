@@ -14,13 +14,13 @@ class Character
         Character(int x, int y, int z);
         virtual ~Character();
 
-        void setModel(const char *filename);
+        void setModel(const char *filename, GLfloat sFactor);
         GLMmodel* getModel();
         void setPosition(APosition position);
         APosition getPosition();
 
     private:
-        bool load_new_model(const char *filename);
+        bool load_new_model(const char *filename, GLfloat sFactor);
         GLMmodel *model;
         APosition position;
 };

@@ -35,8 +35,11 @@ class GameMap
         std::vector<Scyther> enemies;
         std::vector<Sharpedo> sharpedos;
         std::vector<Snorlax> rocks;
-        //std::vector<Floor> floor;
-        //std::vector<Crack> cracks;
+
+        // three levels of object control matrixes:
+        std::vector< std::vector<Character> > characters;
+        std::vector< std::vector<Ground> > ground;
+        //std::vector< std::vector<Sea> > sea;
 };
 
 #endif // GAMEMAP_H

@@ -173,10 +173,10 @@
 	<cmath>
 	"Diglett.h"
 
-1465165599 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+1465174101 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
 	"GameMap.h"
 
-1465170822 c:\users\luiza\documents\diglettdug\src\gamemap.h
+1465173129 c:\users\luiza\documents\diglettdug\src\gamemap.h
 	<stdio.h>
 	<iostream>
 	<vector>
@@ -185,6 +185,7 @@
 	"Sharpedo.h"
 	"Snorlax.h"
 	"bitmap.h"
+	"A_RGB.h"
 
 1465165808 source:c:\users\luiza\documents\diglettdug\src\player.cpp
 	"Player.h"
