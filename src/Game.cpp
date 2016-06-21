@@ -137,3 +137,8 @@ void Game::onWindowReshape(int x, int y)
 	setWindow();
 	setViewport(0, windowWidth, 0, windowHeight);
 }
+
+void Game::updateState()
+{
+
+}

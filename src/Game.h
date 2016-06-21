@@ -10,18 +10,19 @@ class Game
 public:
     Game();
     virtual ~Game();
+    Cam cam;
+    GameLight light;
     GameMap game_map;
     GameSettings settings;
-    Cam cam;
-    bool walkPressed;
+
     bool backPressed;
-    bool rotateLeftPressed;
-    bool rotateRightPressed;
     bool changeCamera;
     bool makeCrackPressed;
-    bool pushPressed;
     bool pausePressed;
-
+    bool pushPressed;
+    bool rotateLeftPressed;
+    bool rotateRightPressed;
+    bool walkPressed;
 
 private:
     const std::string GAME_NAME = "Dig(lett) Dug(trio)";
@@ -40,6 +41,9 @@ private:
     void onMouseMove(int x, int y);
     void onMousePassiveMove(int x, int y);
     void onWindowReshape(int x, int y);
+
+    void updateState();
+
 };
 
 #endif // GAME_H
