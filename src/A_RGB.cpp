@@ -76,3 +76,58 @@ bool A_RGB::isWhite()
         return false;
 }
 
+void A_RGB::setRed()
+{
+    r = 255;
+    g = 0;
+    b = 0;
+}
+
+void A_RGB::setGreen()
+{
+    r = 0;
+    g = 255;
+    b = 0;
+}
+
+void A_RGB::setBlue()
+{
+    r = 0;
+    g = 0;
+    b = 255;
+}
+
+void A_RGB::setCyan()
+{
+    r = 0;
+    g = 255;
+    b = 255;
+}
+
+void A_RGB::setMagenta()
+{
+    r = 255;
+    g = 0;
+    b = 255;
+}
+
+void A_RGB::setYellow()
+{
+    r = 255;
+    g = 255;
+    b = 0;
+}
+
+void A_RGB::setBlack()
+{
+    r = 0;
+    g = 0;
+    b = 0;
+}
+
+void A_RGB::setWhite()
+{
+    r = 255;
+    g = 255;
+    b = 255;
+}

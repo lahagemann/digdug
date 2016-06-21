@@ -16,6 +16,14 @@ class A_RGB
         bool isYellow();
         bool isWhite();
         bool isBlack();
+        void setRed();
+        void setGreen();
+        void setBlue();
+        void setCyan();
+        void setMagenta();
+        void setYellow();
+        void setWhite();
+        void setBlack();
 
         int r;
         int g;
