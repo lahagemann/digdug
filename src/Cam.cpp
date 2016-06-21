@@ -2,7 +2,7 @@
 
 Cam::Cam()
 {
-
+    camOption = THIRD_PERSON_CAM_OPTION;
 }
 
 Cam::Cam(Diglett player)
@@ -14,6 +14,18 @@ Cam::Cam(Diglett player)
 Cam::~Cam()
 {
     //dtor
+}
+
+void Cam::changeCam(Diglett player)
+{
+    if(camOption == UPPER_CAM_OPTION)
+        setThirdPersonCam(player);
+
+    else if(camOption == FIRST_PERSON_CAM_OPTION)
+        setUpperCam();
+
+    else if(camOption == THIRD_PERSON_CAM_OPTION)
+        setFirstPersonCam(player);
 }
 
 void Cam::updateCam(Diglett player)
