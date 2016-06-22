@@ -14,14 +14,21 @@ class Character
         //Character(GLfloat x, GLfloat y, GLfloat z);
         Character(int i, int j);
         virtual ~Character();
-
-        void setModel(const char *filename, GLfloat sFactor);
-        GLMmodel* getModel();
         //void setPosition(APosition position);
         //APosition getPosition();
+        GLMmodel* getModel();
         CharacterPosition getPosition();
+        float getXRotation();
+        float getYRotation();
+        bool load_new_model(const char *filename, GLfloat sFactor);
+        void setModel(const char *filename, GLfloat sFactor);
         void setPosition(CharacterPosition position);
         void setPosition(int i, int j);
+        void setXRotation(float rotation);
+        void setYRotation(float rotation);
+        void walk(Direction dir);
+
+        const enum Direction {forwards, backwards, rotateLeft, rotateRight};
 
     private:
         bool load_new_model(const char *filename, GLfloat sFactor);
