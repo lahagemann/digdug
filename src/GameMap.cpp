@@ -349,7 +349,9 @@ void GameMap::push()
             {
                 if(characters.at(k).getPosition().equals(i, j+1))
                 {
-                    Scyther enemy = characters.at()
+                    Scyther enemy = characters.at(k);
+                    enemy.setPosition(i, j+3);
+                    characters.at(k) = enemy;
                 }
             }
         }
