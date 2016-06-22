@@ -79,6 +79,7 @@
 		<Unit filename="../../src/Hole.h" />
 		<Unit filename="../../src/Scyther.cpp" />
 		<Unit filename="../../src/Scyther.h" />
+		<Unit filename="../../src/Sea.h" />
 		<Unit filename="../../src/Sharpedo.cpp" />
 		<Unit filename="../../src/Sharpedo.h" />
 		<Unit filename="../../src/Snorlax.cpp" />
