@@ -23,7 +23,7 @@ class GameMap
         void load_models();
         void flood_fill();
 
-        bool checkEnemyCollision();
+        bool checkEnemyCollision(int i, int j);
         bool checkObstacleCollision(Diglett::Direction direction);
         bool isEnemyPushable(int i, int j, float playerRotation);
         bool isPlayerAboveHole();
@@ -38,7 +38,6 @@ class GameMap
         Diglett player;
 
     private:
-        std::vector< std::vector<A_RGB> > original_map;
         std::vector< std::vector<A_RGB> > stage_map;
         std::vector< std::vector<A_RGB> > characters_map;
 

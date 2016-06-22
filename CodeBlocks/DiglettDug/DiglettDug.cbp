@@ -50,8 +50,6 @@
 			<Add library="gdi32" />
 			<Add directory="C:/Users/Luiza/Documents/DiglettDug/CodeBlocks/lib" />
 		</Linker>
-		<Unit filename="../../src/APosition.cpp" />
-		<Unit filename="../../src/APosition.h" />
 		<Unit filename="../../src/A_RGB.cpp" />
 		<Unit filename="../../src/A_RGB.h" />
 		<Unit filename="../../src/Cam.cpp" />

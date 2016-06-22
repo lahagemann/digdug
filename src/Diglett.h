@@ -9,7 +9,7 @@ class Diglett : public Character
     public:
         Diglett();
         //Diglett(GLfloat x, GLfloat y, GLfloat z);
-        Diglett(int i, int j)
+        Diglett(int i, int j);
         virtual ~Diglett();
         float getHeadPosition();
 

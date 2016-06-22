@@ -10,9 +10,9 @@ GameMap::~GameMap()
     //dtor
 }
 
-bool GameMap::checkEnemyCollision()
+bool GameMap::checkEnemyCollision(int i, int j)
 {
-    A_RGB rgb = characters_map.at(player.getPosition().i).at(player.getPosition().j);
+    A_RGB rgb = characters_map.at(i).at(j);
 
     if(rgb.isYellow())
         return true;
@@ -140,7 +140,7 @@ bool GameMap::isPlayerAboveWater()
 
 bool GameMap::isPlayerDead()
 {
-    if(checkEnemyCollision())
+    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j))
         return true;
     else if(isPlayerAboveWater())
         return true;

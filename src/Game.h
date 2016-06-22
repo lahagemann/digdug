@@ -10,7 +10,7 @@ class Game
 public:
     Game();
     virtual ~Game();
-    Cam cam;
+    //Cam cam;
     GameLight light;
     GameMap game_map;
     GameSettings settings;
