@@ -58,6 +58,8 @@
 		<Unit filename="../../src/Cam.h" />
 		<Unit filename="../../src/Character.cpp" />
 		<Unit filename="../../src/Character.h" />
+		<Unit filename="../../src/CharacterPosition.cpp" />
+		<Unit filename="../../src/CharacterPosition.h" />
 		<Unit filename="../../src/Crack.cpp" />
 		<Unit filename="../../src/Crack.h" />
 		<Unit filename="../../src/Diglett.cpp" />

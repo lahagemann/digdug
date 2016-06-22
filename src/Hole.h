@@ -7,7 +7,8 @@ class Hole : public Ground
 {
 public:
     Hole();
-    Hole(GLfloat x, GLfloat y, GLfloat z);
+    //Hole(GLfloat x, GLfloat y, GLfloat z);
+    Hole(int i, int j);
     virtual ~Hole();
 };
 

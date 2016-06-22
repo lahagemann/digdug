@@ -9,7 +9,8 @@ class Snorlax : public Character
 {
     public:
         Snorlax();
-        Snorlax(GLfloat x, GLfloat y, GLfloat z);
+        //Snorlax(GLfloat x, GLfloat y, GLfloat z);
+        Snorlax(int i, int j);
         virtual ~Snorlax();
 };
 

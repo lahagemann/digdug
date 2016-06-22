@@ -10,6 +10,125 @@ GameMap::~GameMap()
     //dtor
 }
 
+bool GameMap::checkEnemyCollision()
+{
+    A_RGB rgb = characters_map.at(player.getPosition().i).at(player.getPosition().j);
+
+    if(rgb.isYellow())
+        return true;
+    else
+        return false;
+}
+
+bool GameMap::checkObstacleCollision(Diglett::Direction direction)
+{
+    int i = player.getPosition().i;
+    int j = player.getPosition().j;
+
+    if(direction == Diglett::Direction::forwards)
+    {
+        if(player.getXRotation() == 0.0f)
+        {
+            A_RGB rgb = characters_map.at(i).at(j+1);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(player.getXRotation() == 90.0f)
+        {
+            A_RGB rgb = characters_map.at(i-1).at(j);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(player.getXRotation() == 180.0f)
+        {
+            A_RGB rgb = characters_map.at(i).at(j-1);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(player.getXRotation() == 270.0f)
+        {
+            A_RGB rgb = characters_map.at(i+1).at(j);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+    }
+    else if(direction == Diglett::Direction::backwards)
+    {
+        if(player.getXRotation() == 0.0f)
+        {
+            A_RGB rgb = characters_map.at(i).at(j-1);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(player.getXRotation() == 90.0f)
+        {
+            A_RGB rgb = characters_map.at(i+1).at(j);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(player.getXRotation() == 180.0f)
+        {
+            A_RGB rgb = characters_map.at(i).at(j+1);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(player.getXRotation() == 270.0f)
+        {
+            A_RGB rgb = characters_map.at(i-1).at(j);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+    }
+
+    return false;
+}
+
+bool GameMap::isPlayerAboveHole()
+{
+    A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(player.getPosition().j);
+
+    if(currentPositionColor.isBlack())
+        return true;
+    else
+        return false;
+}
+
+bool GameMap::isPlayerAboveWater()
+{
+    A_RGB rgb = stage_map.at(player.getPosition().i).at(player.getPosition().j);
+
+    if(rgb.isBlue())
+        return true;
+    else
+        return false;
+}
+
+bool GameMap::isPlayerDead()
+{
+    if(checkEnemyCollision())
+        return true;
+    else if(isPlayerAboveWater())
+        return true;
+
+    return false;
+}
+
 void GameMap::load_models()
 {
     std::cout << "Loading models..." << std::endl;
@@ -121,176 +240,6 @@ void GameMap::load_models()
         }
     }
 	std::cout << "Models ok." << std::endl << std::endl;
-}
-
-bool GameMap::checkEnemyCollision(Diglett::Direction direction)
-{
-    int i = player.getPosition().i;
-    int j = player.getPosition().j;
-
-    if(direction == Diglett::Direction::forwards)
-    {
-        if(player.getXRotation() == 0.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j+1);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 90.0f)
-        {
-            A_RGB rgb = characters_map.at(i-1).at(j);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 180.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j-1);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 270.0f)
-        {
-            A_RGB rgb = characters_map.at(i+1).at(j);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else
-            return false;
-    }
-    else if(direction == Diglett::Direction::backwards)
-    {
-        if(player.getXRotation() == 0.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j-1);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 90.0f)
-        {
-            A_RGB rgb = characters_map.at(i+1).at(j);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 180.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j+1);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 270.0f)
-        {
-            A_RGB rgb = characters_map.at(i-1).at(j);
-            if(rgb.isYellow())
-                return true;
-            else
-                return false;
-        }
-    }
-
-    return false;
-}
-
-bool GameMap::checkObstacleCollision(Diglett::Direction direction)
-{
-    int i = player.getPosition().i;
-    int j = player.getPosition().j;
-
-    if(direction == Diglett::Direction::forwards)
-    {
-        if(player.getXRotation() == 0.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j+1);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 90.0f)
-        {
-            A_RGB rgb = characters_map.at(i-1).at(j);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 180.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j-1);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 270.0f)
-        {
-            A_RGB rgb = characters_map.at(i+1).at(j);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-    }
-    else if(direction == Diglett::Direction::backwards)
-    {
-        if(player.getXRotation() == 0.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j-1);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 90.0f)
-        {
-            A_RGB rgb = characters_map.at(i+1).at(j);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 180.0f)
-        {
-            A_RGB rgb = characters_map.at(i).at(j+1);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-        else if(player.getXRotation() == 270.0f)
-        {
-            A_RGB rgb = characters_map.at(i-1).at(j);
-            if(rgb.isMagenta())
-                return true;
-            else
-                return false;
-        }
-    }
-
-    return false;
-}
-
-bool GameMap::isAboveHole()
-{
-    A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(player.getPosition().j);
-
-    if(currentPositionColor.isBlack())
-        return true;
-    else
-        return false;
 }
 
 void GameMap::makeCrack()

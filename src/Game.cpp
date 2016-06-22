@@ -142,19 +142,16 @@ void Game::updateState()
 {
     if(walkPressed)
     {
-        if(game_map.checkEnemyCollision())
-            //death
-        else
-        {
-            if(!game_map.checkObstacleCollision())
-                game_map.player.walk(Diglett::Direction::forwards);
-        }
-
+        if(!game_map.checkObstacleCollision())
+            game_map.player.walk(Diglett::Direction::forwards);
     }
 
 
     if(backPressed)
-        game_map.player.walk(Diglett::Direction::backwards);
+    {
+        if(!game_map.checkObstacleCollision())
+            game_map.player.walk(Diglett::Direction::forwards);
+    }
 
     if(rotateLeftPressed)
         game_map.player.walk(Diglett::Direction::rotateLeft);
@@ -179,4 +176,7 @@ void Game::updateState()
         cam.changeCam(game_map.player);
         changeCamera = false;
     }
+
+    if(game_map.isPlayerDead())
+            //death
 }

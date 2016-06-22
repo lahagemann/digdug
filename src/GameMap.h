@@ -22,11 +22,12 @@ class GameMap
         virtual ~GameMap();
         void load_models();
         void flood_fill();
-        bool allow_movement(Character *character);
 
-        bool checkEnemyCollision(Diglett::Direction direction);
+        bool checkEnemyCollision();
         bool checkObstacleCollision(Diglett::Direction direction);
-        bool isAboveHole();
+        bool isPlayerAboveHole();
+        bool isPlayerAboveWater();
+        bool isPlayerDead();
         void makeCrack();
 
         Diglett player;
@@ -35,10 +36,6 @@ class GameMap
         std::vector< std::vector<A_RGB> > original_map;
         std::vector< std::vector<A_RGB> > stage_map;
         std::vector< std::vector<A_RGB> > characters_map;
-
-        std::vector<Scyther> enemies;
-        std::vector<Sharpedo> sharpedos;
-        std::vector<Snorlax> rocks;
 
         // three levels of object control matrixes:
         std::vector< std::vector<Character> > characters;
