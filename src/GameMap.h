@@ -25,6 +25,7 @@ class GameMap
 
         bool checkEnemyCollision();
         bool checkObstacleCollision(Diglett::Direction direction);
+        bool isEnemyPushable(int i, int j, float playerRotation);
         bool isPlayerAboveHole();
         bool isPlayerAboveWater();
         bool isPlayerDead();

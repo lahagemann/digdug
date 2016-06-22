@@ -99,6 +99,25 @@ bool GameMap::checkObstacleCollision(Diglett::Direction direction)
     return false;
 }
 
+bool GameMap::isEnemyPushable(int i, int j, float playerRotation)
+{
+    A_RGB movementPosition;
+
+    if(playerRotation == 0.0f) // Virado para a direita do mapa
+        movementPosition = characters_map.at(i).at(j+1);
+    else if(playerRotation == 90.0f) // Virado para a parte superior do mapa
+        movementPosition = characters_map.at(i-1).at(j);
+    else if(playerRotation == 180.0f) // Virado para a esquerda do mapa
+        movementPosition = characters_map.at(i).at(j-1);
+    else if(playerRotation == 270.0f) // Virado para a parte inferior do mapa
+        movementPosition = characters_map.at(i+1).at(j);
+
+    if(movementPosition.isBlue())
+        return true;
+    else
+        return false;
+}
+
 bool GameMap::isPlayerAboveHole()
 {
     A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(player.getPosition().j);
@@ -242,19 +261,19 @@ void GameMap::makeCrack()
         }
         else if(player.getXRotation() == 90.0f) // Virado para a parte superior do mapa
         {
-            int iterationPosition = player.getPosition().i + 1;
+            int iterationPosition = player.getPosition().i - 1;
             A_RGB currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
 
             while(currentPositionColor.isGreen())
             {
-                iterationPosition++;
+                iterationPosition--;
                 currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
             }
 
             if(currentPositionColor.isBlack() || currentPositionColor.isRed())
             {
                 currentPositionColor.setRed();
-                for(int k = player.getPosition().i + 1; k < iterationPosition; k++)
+                for(int k = player.getPosition().i - 1; k > iterationPosition; k--)
                     stage_map.at(k).at(player.getPosition().j) = currentPositionColor;
             }
         }
@@ -278,19 +297,19 @@ void GameMap::makeCrack()
         }
         else if(player.getXRotation() == 270.0f) // Virado para a parte inferior do mapa
         {
-            int iterationPosition = player.getPosition().i - 1;
+            int iterationPosition = player.getPosition().i + 1;
             A_RGB currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
 
             while(currentPositionColor.isGreen())
             {
-                iterationPosition--;
+                iterationPosition++;
                 currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
             }
 
             if(currentPositionColor.isBlack() || currentPositionColor.isRed())
             {
                 currentPositionColor.setRed();
-                for(int k = player.getPosition().i - 1; k > iterationPosition; k--)
+                for(int k = player.getPosition().i + 1; k < iterationPosition; k++)
                     stage_map.at(k).at(player.getPosition().j) = currentPositionColor;
             }
         }
@@ -336,36 +355,190 @@ void GameMap::push()
 
     if(player.getXRotation() == 0.0f)
     {
-        A_RGB rgb = characters_map.at(i).at(j+1);
-        if(rgb.isYellow())
+        A_RGB rgb_near = characters_map.at(i).at(j+1);
+        A_RGB rgb_far = characters_map.at(i).at(j+2);
+        if(rgb_near.isYellow())
         {
-            rgb.setBlue();
-            characters_map.at(i).at(j+1) = rgb;
-
-            rgb.setYellow();
-            characters_map.at(i).at(j+3) = rgb;
-
-            for(int k = 0; k < characters.size(); k++)
+            if(isEnemyPushable(i,j+1,0.0f))
             {
-                if(characters.at(k).getPosition().equals(i, j+1))
+                rgb_near.setBlue();
+                characters_map.at(i).at(j+1) = rgb_near;
+
+                rgb_near.setYellow();
+                characters_map.at(i).at(j+3) = rgb_near;
+
+                for(int k = 0; k < characters.size(); k++)
                 {
-                    Scyther enemy = characters.at(k);
-                    enemy.setPosition(i, j+3);
-                    characters.at(k) = enemy;
+                    if(characters.at(k).getPosition().equals(i, j+1))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i, j+3);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
+        else if(rgb_far.isYellow() && rgb_near.isBlue())
+        {
+            if(isEnemyPushable(i,j+2,0.0f))
+            {
+                rgb_far.setBlue();
+                characters_map.at(i).at(j+2) = rgb_far;
+
+                rgb_far.setYellow();
+                characters_map.at(i).at(j+4) = rgb_far;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i, j+2))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i, j+4);
+                        characters.at(k) = enemy;
+                    }
                 }
             }
         }
     }
     else if(player.getXRotation() == 90.0f)
     {
-        //i--
+        A_RGB rgb_near = characters_map.at(i-1).at(j);
+        A_RGB rgb_far = characters_map.at(i-2).at(j);
+        if(rgb_near.isYellow())
+        {
+            if(isEnemyPushable(i-1,j,90.0f))
+            {
+                rgb_near.setBlue();
+                characters_map.at(i-1).at(j) = rgb_near;
+
+                rgb_near.setYellow();
+                characters_map.at(i-3).at(j) = rgb_near;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i-1, j))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i-3, j);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
+        else if(rgb_far.isYellow() && rgb_near.isBlue())
+        {
+            if(isEnemyPushable(i-2,j,90.0f))
+            {
+                rgb_far.setBlue();
+                characters_map.at(i-2).at(j) = rgb_far;
+
+                rgb_far.setYellow();
+                characters_map.at(i-4).at(j) = rgb_far;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i-2, j))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i-4, j);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
     }
     else if(player.getXRotation() == 180.0f)
     {
-        //j--
+        A_RGB rgb_near = characters_map.at(i).at(j-1);
+        A_RGB rgb_far = characters_map.at(i).at(j-2);
+        if(rgb_near.isYellow())
+        {
+            if(isEnemyPushable(i,j-1,180.0f))
+            {
+                rgb_near.setBlue();
+                characters_map.at(i).at(j-1) = rgb_near;
+
+                rgb_near.setYellow();
+                characters_map.at(i).at(j-3) = rgb_near;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i, j-1))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i, j-3);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
+        else if(rgb_far.isYellow() && rgb_near.isBlue())
+        {
+            if(isEnemyPushable(i,j-2,180.0f))
+            {
+                rgb_far.setBlue();
+                characters_map.at(i).at(j-2) = rgb_far;
+
+                rgb_far.setYellow();
+                characters_map.at(i).at(j-4) = rgb_far;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i, j-2))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i, j-4);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
     }
     else if(player.getXRotation() == 270.0f)
     {
-        //i++
+        A_RGB rgb_near = characters_map.at(i+1).at(j);
+        A_RGB rgb_far = characters_map.at(i+2).at(j);
+        if(rgb_near.isYellow())
+        {
+            if(isEnemyPushable(i+1,j,270.0f))
+            {
+                rgb_near.setBlue();
+                characters_map.at(i+1).at(j) = rgb_near;
+
+                rgb_near.setYellow();
+                characters_map.at(i+3).at(j) = rgb_near;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i+1, j))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i+3, j);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
+        else if(rgb_far.isYellow() && rgb_near.isBlue())
+        {
+            if(isEnemyPushable(i+2,j,270.0f))
+            {
+                rgb_far.setBlue();
+                characters_map.at(i+2).at(j) = rgb_far;
+
+                rgb_far.setYellow();
+                characters_map.at(i+4).at(j) = rgb_far;
+
+                for(int k = 0; k < characters.size(); k++)
+                {
+                    if(characters.at(k).getPosition().equals(i+2, j))
+                    {
+                        Scyther enemy = characters.at(k);
+                        enemy.setPosition(i+4, j);
+                        characters.at(k) = enemy;
+                    }
+                }
+            }
+        }
     }
 }
