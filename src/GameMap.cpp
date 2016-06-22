@@ -297,7 +297,34 @@ void GameMap::makeCrack()
     }
 }
 
-void GameMap::moveEnemies()
+void GameMap::moveAScyther(int i, int j, int enemiesIndex)
 {
 
+}
+
+void GameMap::moveASharpedo(int i, int j, int enemiesIndex)
+{
+
+}
+
+void GameMap::moveEnemies()
+{
+    for(int i=0; i<characters_map.size(); i++)
+        for(int j=0; j<characters_map.at(i).size(); j++)
+        {
+            A_RGB currentCharacter = characters_map.at(i).at(j);
+
+            if(currentCharacter.isYellow()) // A wild Scyther appears
+            {
+                for(int k=0; k<characters.size(); k++)
+                    if(characters.at(k).getPosition().equals(i,j))
+                        moveAScyther(i,j,k);
+            }
+            else if(currentCharacter.isCyan()) // A wild Sharpedo appears
+            {
+                for(int k=0; k<characters.size(); k++)
+                    if(characters.at(k).getPosition().equals(i,j))
+                        moveASharpedo(i,j,k);
+            }
+        }
 }

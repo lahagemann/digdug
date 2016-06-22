@@ -29,6 +29,8 @@ class GameMap
         bool isPlayerAboveWater();
         bool isPlayerDead();
         void makeCrack();
+        void moveAScyther(int i, int j, int enemiesIndex);
+        void moveASharpedo(int i, int j, int enemiesIndex);
         void moveEnemies();
 
         Diglett player;
