@@ -292,13 +292,11 @@ bool GameMap::isAboveHole()
     else
         return false;
 }
+
 void GameMap::makeCrack()
 {
     if(isAboveHole())
     {
-        int i = player.getPosition().i;
-        int j = player.getPosition().j;
-
         if(player.getXRotation() == 0.0f) // Virado para a direita do mapa
         {
             int iterationPosition = player.getPosition().j + 1;
@@ -311,23 +309,65 @@ void GameMap::makeCrack()
             }
 
             if(currentPositionColor.isBlack() || currentPositionColor.isRed())
-                for(int k = player.getPosition().j + 1; k <= iterationPosition; k++)
-                {
-                    currentPositionColor.setRed();
-                    stage_map.at(player.getPosition().i).at(iterationPosition) = currentPositionColor;
-                }
+            {
+                currentPositionColor.setRed();
+                for(int k = player.getPosition().j + 1; k < iterationPosition; k++)
+                    stage_map.at(player.getPosition().i).at(k) = currentPositionColor;
+            }
         }
         else if(player.getXRotation() == 90.0f) // Virado para a parte superior do mapa
         {
-            //TODO i++;
+            int iterationPosition = player.getPosition().i + 1;
+            A_RGB currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
+
+            while(currentPositionColor.isGreen())
+            {
+                iterationPosition++;
+                currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
+            }
+
+            if(currentPositionColor.isBlack() || currentPositionColor.isRed())
+            {
+                currentPositionColor.setRed();
+                for(int k = player.getPosition().i + 1; k < iterationPosition; k++)
+                    stage_map.at(k).at(player.getPosition().j) = currentPositionColor;
+            }
         }
         else if(player.getXRotation() == 180.0f) // Virado para a esquerda do mapa
         {
-            //TODO j--;
+            int iterationPosition = player.getPosition().j - 1;
+            A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
+
+            while(currentPositionColor.isGreen())
+            {
+                iterationPosition--;
+                currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
+            }
+
+            if(currentPositionColor.isBlack() || currentPositionColor.isRed())
+            {
+                currentPositionColor.setRed();
+                for(int k = player.getPosition().j - 1; k > iterationPosition; k--)
+                    stage_map.at(player.getPosition().i).at(k) = currentPositionColor;
+            }
         }
         else if(player.getXRotation() == 270.0f) // Virado para a parte inferior do mapa
         {
-            //TODO i--;
+            int iterationPosition = player.getPosition().i - 1;
+            A_RGB currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
+
+            while(currentPositionColor.isGreen())
+            {
+                iterationPosition--;
+                currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
+            }
+
+            if(currentPositionColor.isBlack() || currentPositionColor.isRed())
+            {
+                currentPositionColor.setRed();
+                for(int k = player.getPosition().i - 1; k > iterationPosition; k--)
+                    stage_map.at(k).at(player.getPosition().j) = currentPositionColor;
+            }
         }
     }
 }

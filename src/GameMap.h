@@ -26,6 +26,8 @@ class GameMap
 
         bool checkEnemyCollision(Diglett::Direction direction);
         bool checkObstacleCollision(Diglett::Direction direction);
+        bool isAboveHole();
+        void makeCrack();
 
         Diglett player;
 
