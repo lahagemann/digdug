@@ -67,17 +67,34 @@ void Diglett::walk(Direction dir)
     switch(dir)
     {
         case forwards:
-            this->position.z += 1.0f;
+            if(this->xRotation == 0.0f) // Virado para a direita do mapa
+                this->position.j++;
+            else if(this->xRotation == 90.0f) // Virado para a parte superior do mapa
+                this->position.i++;
+            else if(this->xRotation == 180.0f) // Virado para a esquerda do mapa
+                this->position.j--;
+            else if(this->xRotation == 270.0f) // Virado para a parte inferior do mapa
+                this->position.i--;
             break;
+
         case backwards:
-            this->position.z -= 1.0f;
+            if(this->xRotation == 0.0f) // Virado para a direita do mapa
+                this->position.j--;
+            else if(this->xRotation == 90.0f) // Virado para a parte superior do mapa
+                this->position.i--;
+            else if(this->xRotation == 180.0f) // Virado para a esquerda do mapa
+                this->position.j++;
+            else if(this->xRotation == 270.0f) // Virado para a parte inferior do mapa
+                this->position.i++;
             break;
+
         case rotateLeft:
             if(this->xRotation == 270.0f)
                 this->xRotation = 0.0f;
             else
                 this->xRotation += 90.0f;
             break;
+
         case rotateRight:
             if(this->xRotation == 0.0f)
                 this->xRotation = 270.0f;
