@@ -164,7 +164,9 @@ void Game::updateState()
 
     if(pushPressed)
     {
-        // empurra inimigo.
+        game_map.push();
+        // verifica a direção para a qual o player está virado
+        // se há um inimigo na célula ao lado, desloca a posição do inimigo em 2 células na direção da rotação do player.
     }
 
     if(changeCamera)

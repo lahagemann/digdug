@@ -328,3 +328,42 @@ void GameMap::moveEnemies()
             }
         }
 }
+
+void GameMap::push()
+{
+    int i = player.getPosition().i;
+    int j = player.getPosition().j;
+
+    if(player.getXRotation() == 0.0f)
+    {
+        A_RGB rgb = characters_map.at(i).at(j+1);
+        if(rgb.isYellow())
+        {
+            rgb.setBlue();
+            characters_map.at(i).at(j+1) = rgb;
+
+            rgb.setYellow();
+            characters_map.at(i).at(j+3) = rgb;
+
+            for(int k = 0; k < characters.size(); k++)
+            {
+                if(characters.at(k).getPosition().equals(i, j+1))
+                {
+                    Scyther enemy = characters.at()
+                }
+            }
+        }
+    }
+    else if(player.getXRotation() == 90.0f)
+    {
+        //i--
+    }
+    else if(player.getXRotation() == 180.0f)
+    {
+        //j--
+    }
+    else if(player.getXRotation() == 270.0f)
+    {
+        //i++
+    }
+}

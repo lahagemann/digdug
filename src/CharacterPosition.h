@@ -11,6 +11,8 @@ class CharacterPosition
         virtual ~CharacterPosition();
         int i;
         int j;
+
+        bool equals(int i, int j);
 };
 
 

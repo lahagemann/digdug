@@ -17,3 +17,11 @@ CharacterPosition::~CharacterPosition()
 {
     //dtor
 }
+
+bool CharacterPosition::equals(int i, int j)
+{
+    if(i == this->i && j == this->j)
+        return true;
+
+    return false;
+}
