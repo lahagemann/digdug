@@ -160,11 +160,7 @@ void Game::updateState()
         game_map.player.walk(Diglett::Direction::rotateRight);
 
     if(makeCrackPressed)
-    {
-        // make crack, deal crack.
-
-        // ass.: pablo
-    }
+        game_map.makeCrack();
 
     if(pushPressed)
     {
@@ -176,6 +172,8 @@ void Game::updateState()
         cam.changeCam(game_map.player);
         changeCamera = false;
     }
+
+    game_map.moveEnemies();
 
     if(game_map.isPlayerDead())
             //death

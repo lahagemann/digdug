@@ -151,12 +151,6 @@ void GameMap::load_models()
         std::vector<A_RGB> stageRGBLine;
         stage_map.push_back(stageRGBLine);
 
-        std::vector<Character> charLine;
-        characters.push_back(charLine);
-
-        std::vector<Ground> groundLine;
-        ground.push_back(groundLine);
-
         for(int j = 0; j < info->bmiHeader.biWidth; j++, ptr += 3)
         {
             int r = ptr[2];
@@ -164,78 +158,60 @@ void GameMap::load_models()
             int b = ptr[0];
 
             A_RGB rgb = A_RGB(r,g,b);
-            characters_map.at(i).push_back(rgb);
+            //characters_map.at(i).push_back(rgb);
 
             if(rgb.isBlack()) //hole
             {
-                Hole hole = Hole(j,GROUND_HEIGHT,31-i);
-                ground.at(i).push_back(hole);
                 stage_map.at(i).push_back(rgb);
-
+                characters_map.at(i).push_back(rgb.setBlue());
             }
             else if(rgb.isRed()) //crack
             {
-                Crack crack = Crack(j,GROUND_HEIGHT, 31-i);
-                ground.at(i).push_back(crack);
                 stage_map.at(i).push_back(rgb);
-
+                characters_map.at(i).push_back(rgb.setBlue());
             }
             else if(rgb.isGreen()) //ground
             {
-                Floor floor = Floor(j,GROUND_HEIGHT, 31-i);
-                ground.at(i).push_back(floor);
                 stage_map.at(i).push_back(rgb);
+                characters_map.at(i).push_back(rgb.setBlue());
             }
             else if(rgb.isBlue()) //sea
             {
-                //Sea sea = Sea(j,SEA_HEIGHT, 31-i);
-                //ground.at(i).push_back(sea);
                 stage_map.at(i).push_back(rgb);
-
+                characters_map.at(i).push_back(rgb.setBlue());
             }
             else if(rgb.isYellow()) //enemy
             {
-                Scyther enemy = Scyther(j,GROUND_HEIGHT,31-i);
-                Floor floor = Floor(j, GROUND_HEIGHT, 31-i);
+                Scyther enemy = Scyther(i,31-j);
+                characters.push_back(enemy);
 
-                characters.at(i).push_back(enemy);
-                ground.at(i).push_back(floor);
-
-                A_RGB green = A_RGB(0,255,0);
-                stage_map.at(i).push_back(green);
                 characters_map.push_back(rgb);
+                stage_map.at(i).push_back(rgb.setGreen());
 
             }
             else if(rgb.isMagenta()) //snorlax
             {
-                Snorlax obstacle = Snorlax(j,GROUND_HEIGHT,31-i);
-                Floor floor = Floor(j, GROUND_HEIGHT, 31-i);
+                Snorlax obstacle = Snorlax(i,31-j);
+                characters.push_back(obstacle);
 
-                characters.at(i).push_back(obstacle);
-                ground.at(i).push_back(floor);
-
-                A_RGB green = A_RGB(0,255,0);
-                stage_map.at(i).push_back(green);
                 characters_map.push_back(rgb);
+                stage_map.at(i).push_back(rgb.setGreen());
             }
             else if(rgb.isCyan()) //sharpedo
             {
-                Sharpedo sharpedo = Sharpedo(j,SEA_HEIGHT,31-i);
-                //Sea sea = Sea(j,SEA_HEIGHT, 31-i);
+                Sharpedo sharpedo = Sharpedo(i,31-j);
+                characters.push_back(sharpedo);
 
-                characters.at(i).push_back(sharpedo);
-                //ground.at(i).push_back(sea);
-
-                A_RGB blue = A_RGB(0,0,255);
                 characters_map.at(i).push_back(rgb);
-                stage_map.at(i).push_back(blue);
+                stage_map.at(i).push_back(rgb.setBlue());
             }
             else if(rgb.isWhite()) //player
             {
-                this->player = Diglett(j,GROUND_HEIGHT,31-i);
+                this->player = Diglett(i,31-j);
 
                 A_RGB green = A_RGB(0,255,0);
-                ground.at(i).push_back(green);
+                characters_map.at(i).push_back(rgb.setBlue());
+                stage_map.at(i).push_back(green);
             }
         }
     }
@@ -319,4 +295,9 @@ void GameMap::makeCrack()
             }
         }
     }
+}
+
+void GameMap::moveEnemies()
+{
+
 }

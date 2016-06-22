@@ -29,6 +29,7 @@ class GameMap
         bool isPlayerAboveWater();
         bool isPlayerDead();
         void makeCrack();
+        void moveEnemies();
 
         Diglett player;
 
@@ -37,10 +38,8 @@ class GameMap
         std::vector< std::vector<A_RGB> > stage_map;
         std::vector< std::vector<A_RGB> > characters_map;
 
-        // three levels of object control matrixes:
-        std::vector< std::vector<Character> > characters;
-        std::vector< std::vector<Ground> > ground;
-        //std::vector< std::vector<Sea> > sea;
+        // object control matrixes:
+        std::vector<Character> characters;
 };
 
 #endif // GAMEMAP_H
