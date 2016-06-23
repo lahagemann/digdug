@@ -39,7 +39,9 @@ class GameMap
     private:
         std::vector< std::vector<A_RGB> > stage_map;
         std::vector< std::vector<A_RGB> > characters_map;
-        std::vector<Character> characters;
+        std::vector<Scyther> scythers;
+        std::vector<Sharpedo> sharpedos;
+        std::vector<Snorlax> snorlaxs;
 };
 
 #endif // GAMEMAP_H

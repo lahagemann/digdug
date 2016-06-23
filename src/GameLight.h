@@ -1,6 +1,7 @@
 #ifndef GAMELIGHT_H
 #define GAMELIGHT_H
 
+#include <windows.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
 #include "A_RGB.h"

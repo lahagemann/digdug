@@ -8,10 +8,10 @@
 #include <gl/glut.h>
 #include <stdlib.h>
 
-#include "Cam.h"
-#include "GameLight.h"
-#include "GameMap.h"
-#include "GameSettings.h"
+#include "../../src/Cam.h"
+#include "../../src/GameLight.h"
+#include "../../src/GameMap.h"
+#include "../../src/GameSettings.h"
 
 /* function declaration */
 void initTexture(void);
@@ -256,9 +256,9 @@ void renderScene()
         glPopMatrix();
     }
 
-    for(int i = 0; i < game_map.stage_map.size())
+    for(int i = 0; i < game_map.stage_map.size(); i++)
     {
-        for(int j = 0; j < game_map.stage_map.at(i).size())
+        for(int j = 0; j < game_map.stage_map.at(i).size(); j++)
         {
             A_RGB rgb = game_map.stage_map.at(i).at(j);
             if(rgb.isBlack())

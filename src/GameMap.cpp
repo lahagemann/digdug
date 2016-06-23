@@ -20,12 +20,12 @@ bool GameMap::checkEnemyCollision(int i, int j)
         return false;
 }
 
-bool GameMap::checkObstacleCollision(Diglett::Direction direction)
+bool GameMap::checkObstacleCollision(Character::Direction direction)
 {
     int i = player.getPosition().i;
     int j = player.getPosition().j;
 
-    if(direction == Diglett::Direction::forwards)
+    if(direction == Character::forwards)
     {
         if(player.getXRotation() == 0.0f)
         {
@@ -60,7 +60,7 @@ bool GameMap::checkObstacleCollision(Diglett::Direction direction)
                 return false;
         }
     }
-    else if(direction == Diglett::Direction::backwards)
+    else if(direction == Character::backwards)
     {
         if(player.getXRotation() == 0.0f)
         {
@@ -150,8 +150,6 @@ bool GameMap::isPlayerDead()
 
 void GameMap::load_models()
 {
-    std::cout << "Loading models..." << std::endl;
-
     BITMAPINFO	*info;           /* Bitmap information */
     GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
 
@@ -182,64 +180,71 @@ void GameMap::load_models()
             if(rgb.isBlack()) //hole
             {
                 stage_map.at(i).push_back(rgb);
-                characters_map.at(i).push_back(rgb.setBlue());
+                rgb.setBlue();
+                characters_map.at(i).push_back(rgb);
             }
             else if(rgb.isRed()) //crack
             {
                 stage_map.at(i).push_back(rgb);
-                characters_map.at(i).push_back(rgb.setBlue());
+                rgb.setBlue();
+                characters_map.at(i).push_back(rgb);
             }
             else if(rgb.isGreen()) //ground
             {
                 stage_map.at(i).push_back(rgb);
-                characters_map.at(i).push_back(rgb.setBlue());
+                rgb.setBlue();
+                characters_map.at(i).push_back(rgb);
             }
             else if(rgb.isBlue()) //sea
             {
                 stage_map.at(i).push_back(rgb);
-                characters_map.at(i).push_back(rgb.setBlue());
+                rgb.setBlue();
+                characters_map.at(i).push_back(rgb);
             }
             else if(rgb.isYellow()) //enemy
             {
                 Scyther enemy = Scyther(i,31-j);
-                characters.push_back(enemy);
+                scythers.push_back(enemy);
 
-                characters_map.push_back(rgb);
-                stage_map.at(i).push_back(rgb.setGreen());
+                characters_map.at(i).push_back(rgb);
+                rgb.setGreen();
+                stage_map.at(i).push_back(rgb);
 
             }
             else if(rgb.isMagenta()) //snorlax
             {
                 Snorlax obstacle = Snorlax(i,31-j);
-                characters.push_back(obstacle);
+                snorlaxs.push_back(obstacle);
 
-                characters_map.push_back(rgb);
-                stage_map.at(i).push_back(rgb.setGreen());
+                characters_map.at(i).push_back(rgb);
+                rgb.setGreen();
+                stage_map.at(i).push_back(rgb);
             }
             else if(rgb.isCyan()) //sharpedo
             {
                 Sharpedo sharpedo = Sharpedo(i,31-j);
-                characters.push_back(sharpedo);
+                sharpedos.push_back(sharpedo);
 
                 characters_map.at(i).push_back(rgb);
-                stage_map.at(i).push_back(rgb.setBlue());
+                rgb.setBlue();
+                stage_map.at(i).push_back(rgb);
             }
             else if(rgb.isWhite()) //player
             {
                 this->player = Diglett(i,31-j);
 
                 A_RGB green = A_RGB(0,255,0);
-                characters_map.at(i).push_back(rgb.setBlue());
+                rgb.setBlue();
+                characters_map.at(i).push_back(rgb);
                 stage_map.at(i).push_back(green);
             }
         }
     }
-	std::cout << "Models ok." << std::endl << std::endl;
 }
 
 void GameMap::makeCrack()
 {
-    if(isAboveHole())
+    if(isPlayerAboveHole())
     {
         if(player.getXRotation() == 0.0f) // Virado para a direita do mapa
         {
@@ -335,14 +340,14 @@ void GameMap::moveEnemies()
 
             if(currentCharacter.isYellow()) // A wild Scyther appears
             {
-                for(int k=0; k<characters.size(); k++)
-                    if(characters.at(k).getPosition().equals(i,j))
+                for(int k=0; k<scythers.size(); k++)
+                    if(scythers.at(k).getPosition().equals(i,j))
                         moveAScyther(i,j,k);
             }
             else if(currentCharacter.isCyan()) // A wild Sharpedo appears
             {
-                for(int k=0; k<characters.size(); k++)
-                    if(characters.at(k).getPosition().equals(i,j))
+                for(int k=0; k<sharpedos.size(); k++)
+                    if(sharpedos.at(k).getPosition().equals(i,j))
                         moveASharpedo(i,j,k);
             }
         }
@@ -367,13 +372,13 @@ void GameMap::push()
                 rgb_near.setYellow();
                 characters_map.at(i).at(j+3) = rgb_near;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i, j+1))
+                    if(scythers.at(k).getPosition().equals(i, j+1))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i, j+3);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -388,13 +393,13 @@ void GameMap::push()
                 rgb_far.setYellow();
                 characters_map.at(i).at(j+4) = rgb_far;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i, j+2))
+                    if(scythers.at(k).getPosition().equals(i, j+2))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i, j+4);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -414,13 +419,13 @@ void GameMap::push()
                 rgb_near.setYellow();
                 characters_map.at(i-3).at(j) = rgb_near;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i-1, j))
+                    if(scythers.at(k).getPosition().equals(i-1, j))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i-3, j);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -435,13 +440,13 @@ void GameMap::push()
                 rgb_far.setYellow();
                 characters_map.at(i-4).at(j) = rgb_far;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i-2, j))
+                    if(scythers.at(k).getPosition().equals(i-2, j))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i-4, j);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -461,13 +466,13 @@ void GameMap::push()
                 rgb_near.setYellow();
                 characters_map.at(i).at(j-3) = rgb_near;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i, j-1))
+                    if(scythers.at(k).getPosition().equals(i, j-1))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i, j-3);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -482,13 +487,13 @@ void GameMap::push()
                 rgb_far.setYellow();
                 characters_map.at(i).at(j-4) = rgb_far;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i, j-2))
+                    if(scythers.at(k).getPosition().equals(i, j-2))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i, j-4);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -508,13 +513,13 @@ void GameMap::push()
                 rgb_near.setYellow();
                 characters_map.at(i+3).at(j) = rgb_near;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i+1, j))
+                    if(scythers.at(k).getPosition().equals(i+1, j))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i+3, j);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }
@@ -529,13 +534,13 @@ void GameMap::push()
                 rgb_far.setYellow();
                 characters_map.at(i+4).at(j) = rgb_far;
 
-                for(int k = 0; k < characters.size(); k++)
+                for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(characters.at(k).getPosition().equals(i+2, j))
+                    if(scythers.at(k).getPosition().equals(i+2, j))
                     {
-                        Scyther enemy = characters.at(k);
+                        Scyther enemy = scythers.at(k);
                         enemy.setPosition(i+4, j);
-                        characters.at(k) = enemy;
+                        scythers.at(k) = enemy;
                     }
                 }
             }

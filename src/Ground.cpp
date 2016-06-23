@@ -2,7 +2,7 @@
 
 Ground::Ground()
 {
-    this->position = APosition();
+    this->position = CharacterPosition();
 }
 
 Ground::Ground(int i, int j)

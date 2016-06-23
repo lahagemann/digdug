@@ -202,7 +202,7 @@
 1466687140 source:c:\users\marcelo\documents\git\digdug\src\a_rgb.cpp
 	"A_RGB.h"
 
-1466687140 c:\users\marcelo\documents\git\digdug\src\a_rgb.h
+1466695912 c:\users\marcelo\documents\git\digdug\src\a_rgb.h
 
 1466687140 source:c:\users\marcelo\documents\git\digdug\src\bitmap.c
 	"bitmap.h"
@@ -229,13 +229,12 @@
 1466690783 source:c:\users\marcelo\documents\git\digdug\src\cam.cpp
 	"Cam.h"
 
-1466690233 c:\users\marcelo\documents\git\digdug\src\cam.h
+1466695854 c:\users\marcelo\documents\git\digdug\src\cam.h
 	<cmath>
 	"Diglett.h"
 
-1466689170 c:\users\marcelo\documents\git\digdug\src\diglett.h
+1466695637 c:\users\marcelo\documents\git\digdug\src\diglett.h
 	"Character.h"
-	<stdio.h>
 
 1466689329 c:\users\marcelo\documents\git\digdug\src\character.h
 	<stdlib.h>
@@ -243,7 +242,7 @@
 	"CharacterPosition.h"
 	"glm.h"
 
-1466688175 c:\users\marcelo\documents\git\digdug\src\characterposition.h
+1466695723 c:\users\marcelo\documents\git\digdug\src\characterposition.h
 	<stdio.h>
 
 1466687140 c:\users\marcelo\documents\git\digdug\src\glm.h
@@ -261,10 +260,10 @@
 1466689525 source:c:\users\marcelo\documents\git\digdug\src\crack.cpp
 	"Crack.h"
 
-1466689486 c:\users\marcelo\documents\git\digdug\src\crack.h
+1466695668 c:\users\marcelo\documents\git\digdug\src\crack.h
 	"Ground.h"
 
-1466690963 c:\users\marcelo\documents\git\digdug\src\ground.h
+1466695301 c:\users\marcelo\documents\git\digdug\src\ground.h
 	"CharacterPosition.h"
 	"glm.h"
 
@@ -274,7 +273,7 @@
 1466689563 source:c:\users\marcelo\documents\git\digdug\src\floor.cpp
 	"Floor.h"
 
-1466689793 c:\users\marcelo\documents\git\digdug\src\floor.h
+1466695597 c:\users\marcelo\documents\git\digdug\src\floor.h
 	"Ground.h"
 
 1466643136 c:\users\luiza\documents\diglettdug\src\characterposition.h
@@ -298,4 +297,81 @@
 
 1466689789 c:\users\luiza\documents\diglettdug\src\floor.h
 	"Ground.h"
+
+1466687140 source:c:\users\marcelo\documents\git\digdug\src\gamelight.cpp
+	"GameLight.h"
+
+1466696496 c:\users\marcelo\documents\git\digdug\src\gamelight.h
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+	"A_RGB.h"
+
+1466697442 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
+	"GameMap.h"
+
+1466697079 c:\users\marcelo\documents\git\digdug\src\gamemap.h
+	<stdio.h>
+	<iostream>
+	<vector>
+	"A_RGB.h"
+	"bitmap.h"
+	"Diglett.h"
+	"Scyther.h"
+	"Sharpedo.h"
+	"Snorlax.h"
+
+1466695334 c:\users\marcelo\documents\git\digdug\src\scyther.h
+	"Character.h"
+
+1466695325 c:\users\marcelo\documents\git\digdug\src\sharpedo.h
+	"Character.h"
+
+1466695320 c:\users\marcelo\documents\git\digdug\src\snorlax.h
+	"Character.h"
+
+1466687140 source:c:\users\marcelo\documents\git\digdug\src\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1466687140 source:c:\users\marcelo\documents\git\digdug\src\glmimg.cpp
+	<string.h>
+	<math.h>
+	"Texture.h"
+	<windows.h>
+	<GL/gl.h>
+	"glm.h"
+
+1466687140 c:\users\marcelo\documents\git\digdug\src\texture.h
+	<windows.h>
+	<windowsx.h>
+	<stdlib.h>
+	<stdio.h>
+	<GL/glut.h>
+	<math.h>
+
+1466697476 source:c:\users\marcelo\documents\git\digdug\src\ground.cpp
+	"Ground.h"
+
+1466689735 source:c:\users\marcelo\documents\git\digdug\src\hole.cpp
+	"Hole.h"
+
+1466695341 c:\users\marcelo\documents\git\digdug\src\hole.h
+	"Ground.h"
+
+1466689361 source:c:\users\marcelo\documents\git\digdug\src\scyther.cpp
+	"Scyther.h"
+
+1466689374 source:c:\users\marcelo\documents\git\digdug\src\sharpedo.cpp
+	"Sharpedo.h"
+
+1466689639 source:c:\users\marcelo\documents\git\digdug\src\snorlax.cpp
+	"Snorlax.h"
+
+1466687140 source:c:\users\marcelo\documents\git\digdug\src\texture.cpp
+	"Texture.h"
 
