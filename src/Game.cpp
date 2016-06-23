@@ -1,25 +1,15 @@
 #include "Game.h"
 
-Game::Game()
+int main(int argc, char **argv)
 {
-    windowWidth = 600;
-    windowHeight = 480;
-    windowXPos = 100;
-    windowYPos = 150;
-    mainWindowId = 0;
-
-    MouseXPosition = 0;
-    MouseYPosition = 0;
-
-    planeSize = 15.5f;
-
+	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(this->windowWidth, this->windowHeight);
-	glutInitWindowPosition(this->windowXPos, this->windowYPos);
+	glutInitWindowSize(windowWidth, windowHeight);
+	glutInitWindowPosition(windowXPos, windowYPos);
 
 	// Store main window id so that glui can send it redisplay events
 	mainWindowId = glutCreateWindow(GAME_NAME);
-	glutDisplayFunc(Game::mainRender);
+	glutDisplayFunc(mainRender);
 	glutReshapeFunc(onWindowReshape);
 
 	// Register mouse events handlers
@@ -32,13 +22,6 @@ Game::Game()
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
 	glutMainLoop();
-}
-
-int main(int argc, char **argv)
-{
-
-	glutInit(&argc, argv);
-	Game game = Game();
 
     return 0;
 }
