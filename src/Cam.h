@@ -10,11 +10,12 @@ class Cam
         Cam();
         Cam(Diglett player);
         virtual ~Cam();
+
         void changeCam(Diglett player);
-        void updateCam(Diglett player);
-        void setUpperCam();
         void setFirstPersonCam(Diglett player);
         void setThirdPersonCam(Diglett player);
+        void setUpperCam();
+        void updateCam(Diglett player);
 
     private:
         const int UPPER_CAM_OPTION = 1;
