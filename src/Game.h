@@ -4,7 +4,6 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
-#include <stdlib.h>
 #include "Cam.h"
 #include "GameLight.h"
 #include "GameMap.h"
@@ -32,18 +31,18 @@ public:
 
 private:
     const char* GAME_NAME = "Dig(lett) Dug(trio)";
-    int windowWidth;
-    int windowHeight;
-    int windowXPos;
-    int windowYPos;
-    int mainWindowId;
+    int windowWidth = 600;
+    int windowHeight = 480;
+    int windowXPos = 100;
+    int windowYPos = 150;
 
-    int MouseXPosition;
-    int MouseYPosition;
+    int MouseXPosition = 0;
+    int MouseYPosition = 0;
+    int mainWindowId = 0;
 
     GLenum type;            /* Texture type */
     GLuint texture;         /* Texture object */
-    float planeSize;
+    float planeSize = 15.5f;
 
     void initTexture(void);
 
