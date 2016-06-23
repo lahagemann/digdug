@@ -99,6 +99,31 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
     return false;
 }
 
+std::vector< std::vector<A_RGB> > GameMap::getCharactersMap()
+{
+    return characters_map;
+}
+
+std::vector<Scyther> GameMap::getScythers()
+{
+    return scythers;
+}
+
+std::vector<Sharpedo> GameMap::getSharpedos()
+{
+    return sharpedos;
+}
+
+std::vector<Snorlax> GameMap::getSnorlaxs()
+{
+    return snorlaxs;
+}
+
+std::vector< std::vector<A_RGB> > GameMap::getStageMap()
+{
+    return stage_map;
+}
+
 bool GameMap::isEnemyPushable(int i, int j, float playerRotation)
 {
     A_RGB movementPosition;

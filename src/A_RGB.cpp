@@ -1,5 +1,12 @@
 #include "A_RGB.h"
 
+A_RGB::A_RGB()
+{
+    r = 0;
+    g = 0;
+    b = 0;
+}
+
 A_RGB::A_RGB(int red, int green, int blue)
 {
     r = red;

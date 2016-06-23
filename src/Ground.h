@@ -2,7 +2,7 @@
 #define GROUND_H
 
 #include "CharacterPosition.h"
-#include "glm.h"
+#include "Model.h"
 
 class Ground
 {

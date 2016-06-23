@@ -9,9 +9,13 @@
 #include <stdlib.h>
 
 #include "../../src/Cam.h"
+#include "../../src/Crack.h"
+#include "../../src/Floor.h"
 #include "../../src/GameLight.h"
 #include "../../src/GameMap.h"
 #include "../../src/GameSettings.h"
+#include "../../src/Hole.h"
+#include "../../src/Model.h"
 
 /* function declaration */
 void initTexture(void);
@@ -61,6 +65,8 @@ bool walkPressed;
 void initTexture()
 {
     BITMAPINFO	*info;           /* Bitmap information */
+    GLubyte	    *bits;           /* Bitmap RGB pixels */
+    GLubyte     *ptr;            /* Pointer into bit buffer */
     GLubyte	    *rgba;           /* RGBA pixel buffer */
     GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
 
@@ -124,72 +130,62 @@ void mainRender()
 
 void onKeyDown(unsigned char key, int x, int y)
 {
-    switch(tolower(key))
-    {
-        case settings.walk_forward:
-            walkPressed = true;
-            break;
-        case settings.walk_back:
-            backPressed = true;
-            break;
-        case settings.rotate_right:
-            rotateRightPressed = true;
-            break;
-        case settings.rotate_left:
-            rotateLeftPressed = true;
-            break;
-        case settings.change_camera:
-            changeCamera = true;
-            break;
-        case settings.make_crack:
-            makeCrackPressed = true;
-            break;
-        case settings.push_enemy:
-            pushPressed = true;
-            break;
-        case settings.pause:
-            pausePressed = true;
-            break;
-        case settings.quit:
-            exit(0);
-        default:
-            break;
-    }
+    if(tolower(key) == settings.walk_forward)
+        walkPressed = true;
+
+    else if(tolower(key) == settings.walk_back)
+        backPressed = true;
+
+    else if(tolower(key) == settings.rotate_right)
+        rotateRightPressed = true;
+
+    else if(tolower(key) == settings.rotate_left)
+        rotateLeftPressed = true;
+
+    else if(tolower(key) == settings.change_camera)
+        changeCamera = true;
+
+    else if(tolower(key) == settings.make_crack)
+        makeCrackPressed = true;
+
+    else if(tolower(key) == settings.push_enemy)
+        pushPressed = true;
+
+    else if(tolower(key) == settings.pause)
+        pausePressed = true;
+
+    else if(tolower(key) == settings.quit)
+        exit(0);
 }
 
 void onKeyUp(unsigned char key, int x, int y)
 {
-    switch(tolower(key))
-    {
-        case settings.walk_forward:
-            walkPressed = false;
-            break;
-        case settings.walk_back:
-            backPressed = false;
-            break;
-        case settings.rotate_right:
-            rotateRightPressed = false;
-            break;
-        case settings.rotate_left:
-            rotateLeftPressed = false;
-            break;
-        case settings.change_camera:
-            changeCamera = false;
-            break;
-        case settings.make_crack:
-            makeCrackPressed = false;
-            break;
-        case settings.push_enemy:
-            pushPressed = false;
-            break;
-        case settings.pause:
-            pausePressed = false;
-            break;
-        case settings.quit:
-            exit(0);
-        default:
-            break;
-    }
+    if(tolower(key) == settings.walk_forward)
+        walkPressed = false;
+
+    else if(tolower(key) == settings.walk_back)
+        backPressed = false;
+
+    else if(tolower(key) == settings.rotate_right)
+        rotateRightPressed = false;
+
+    else if(tolower(key) == settings.rotate_left)
+        rotateLeftPressed = false;
+
+    else if(tolower(key) == settings.change_camera)
+        changeCamera = false;
+
+    else if(tolower(key) == settings.make_crack)
+        makeCrackPressed = false;
+
+    else if(tolower(key) == settings.push_enemy)
+        pushPressed = false;
+
+    else if(tolower(key) == settings.pause)
+        pausePressed = false;
+
+    else if(tolower(key) == settings.quit)
+        exit(0);
 }
 
 void onMouseButton(int button, int state, int x, int y)
@@ -208,10 +204,10 @@ void onMousePassiveMove(int x, int y)
     game_map.player.setYRotation(x - MouseXPosition);
 
 	if(game_map.player.getXRotation() < -128.0)
-		game_map.player.getXRotation() = -128.0;
+		game_map.player.setXRotation(-128.0);
 
 	if(game_map.player.getXRotation() > -45.0)
-		game_map.player.getXRotation() = -45.0;
+		game_map.player.setXRotation(-45.0);
 
 	MouseXPosition = x;
 	MouseYPosition = y;
@@ -232,7 +228,7 @@ void renderScene()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	updateCam();
+	cam.updateCam(game_map.player);
 
     float x, z;
 	// loading player...
@@ -245,22 +241,44 @@ void renderScene()
     glPopMatrix();
 
     // loading enemies...
-    for(int i = 0; i < game_map.characters.size(); i++)
+    for(int i = 0; i < game_map.getScythers().size(); i++)
     {
-        Character c = game_map.characters.at(i);
-        c.getPosition().convert_to_xz(&x, &z);
+        Scyther schyther = game_map.getScythers().at(i);
+        schyther.getPosition().convert_to_xz(&x, &z);
 
         glPushMatrix();
             glTranslatef(x,0.0f,z);
-            glmDraw(c.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+            glmDraw(schyther.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
 
-    for(int i = 0; i < game_map.stage_map.size(); i++)
+    for(int i = 0; i < game_map.getSharpedos().size(); i++)
     {
-        for(int j = 0; j < game_map.stage_map.at(i).size(); j++)
+        Sharpedo sharpedo = game_map.getSharpedos().at(i);
+        sharpedo.getPosition().convert_to_xz(&x, &z);
+
+        glPushMatrix();
+            glTranslatef(x,0.0f,z);
+            glmDraw(sharpedo.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glPopMatrix();
+    }
+
+    for(int i = 0; i < game_map.getSnorlaxs().size(); i++)
+    {
+        Snorlax snorlax = game_map.getSnorlaxs().at(i);
+        snorlax.getPosition().convert_to_xz(&x, &z);
+
+        glPushMatrix();
+            glTranslatef(x,0.0f,z);
+            glmDraw(snorlax.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glPopMatrix();
+    }
+
+    for(int i = 0; i < game_map.getStageMap().size(); i++)
+    {
+        for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
         {
-            A_RGB rgb = game_map.stage_map.at(i).at(j);
+            A_RGB rgb = game_map.getStageMap().at(i).at(j);
             if(rgb.isBlack())
             {
                 Hole hole = Hole(i,j);
@@ -361,22 +379,22 @@ void updateState()
 {
     if(walkPressed)
     {
-        if(!game_map.checkObstacleCollision())
-            game_map.player.walk(Diglett::Direction::forwards);
+        if(!game_map.checkObstacleCollision(Character::forwards))
+            game_map.player.walk(Character::forwards);
     }
 
 
     if(backPressed)
     {
-        if(!game_map.checkObstacleCollision())
-            game_map.player.walk(Diglett::Direction::forwards);
+        if(!game_map.checkObstacleCollision(Character::backwards))
+            game_map.player.walk(Character::backwards);
     }
 
     if(rotateLeftPressed)
-        game_map.player.walk(Diglett::Direction::rotateLeft);
+        game_map.player.walk(Character::rotateLeft);
 
     if(rotateRightPressed)
-        game_map.player.walk(Diglett::Direction::rotateRight);
+        game_map.player.walk(Character::rotateRight);
 
     if(makeCrackPressed)
         game_map.makeCrack();
@@ -392,7 +410,7 @@ void updateState()
 
     game_map.moveEnemies();
 
-    if(game_map.isPlayerDead())
+    if(game_map.isPlayerDead());
             //death
 }
 

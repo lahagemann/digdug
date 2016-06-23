@@ -236,11 +236,11 @@
 1466695637 c:\users\marcelo\documents\git\digdug\src\diglett.h
 	"Character.h"
 
-1466689329 c:\users\marcelo\documents\git\digdug\src\character.h
+1466701276 c:\users\marcelo\documents\git\digdug\src\character.h
 	<stdlib.h>
 	<string.h>
 	"CharacterPosition.h"
-	"glm.h"
+	"Model.h"
 
 1466695723 c:\users\marcelo\documents\git\digdug\src\characterposition.h
 	<stdio.h>
@@ -263,9 +263,9 @@
 1466695668 c:\users\marcelo\documents\git\digdug\src\crack.h
 	"Ground.h"
 
-1466695301 c:\users\marcelo\documents\git\digdug\src\ground.h
+1466701232 c:\users\marcelo\documents\git\digdug\src\ground.h
 	"CharacterPosition.h"
-	"glm.h"
+	"Model.h"
 
 1466691041 source:c:\users\marcelo\documents\git\digdug\src\diglett.cpp
 	"Diglett.h"
@@ -307,10 +307,10 @@
 	<gl/glut.h>
 	"A_RGB.h"
 
-1466697442 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
+1466700708 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
 	"GameMap.h"
 
-1466697079 c:\users\marcelo\documents\git\digdug\src\gamemap.h
+1466700580 c:\users\marcelo\documents\git\digdug\src\gamemap.h
 	<stdio.h>
 	<iostream>
 	<vector>
@@ -374,4 +374,27 @@
 
 1466687140 source:c:\users\marcelo\documents\git\digdug\src\texture.cpp
 	"Texture.h"
+
+1466701207 c:\users\marcelo\documents\git\digdug\src\model.h
+	"glm.h"
+
+1466701152 source:c:\users\marcelo\documents\git\digdug\src\model.cpp
+	"Model.h"
+
+1466701701 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
+	<GLUT/glut.h>
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+	<stdlib.h>
+	"../../src/Cam.h"
+	"../../src/Crack.h"
+	"../../src/Floor.h"
+	"../../src/GameLight.h"
+	"../../src/GameMap.h"
+	"../../src/GameSettings.h"
+	"../../src/Hole.h"
+	"../../src/Model.h"
+
+1466695367 c:\users\marcelo\documents\git\digdug\src\gamesettings.h
 

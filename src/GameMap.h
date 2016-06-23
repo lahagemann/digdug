@@ -23,6 +23,11 @@ class GameMap
         bool checkEnemyCollision(int i, int j);
         bool checkObstacleCollision(Diglett::Direction direction);
         void flood_fill();
+        std::vector< std::vector<A_RGB> > getCharactersMap();
+        std::vector<Scyther> getScythers();
+        std::vector<Sharpedo> getSharpedos();
+        std::vector<Snorlax> getSnorlaxs();
+        std::vector< std::vector<A_RGB> > getStageMap();
         bool isEnemyPushable(int i, int j, float playerRotation);
         bool isPlayerAboveHole();
         bool isPlayerAboveWater();
