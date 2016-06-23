@@ -17,10 +17,10 @@
 					<Add directory="../include" />
 				</Compiler>
 				<Linker>
-					<Add library="../lib/EFX-Util.lib" />
-					<Add library="../lib/GlU32.Lib" />
-					<Add library="../lib/glut32.lib" />
-					<Add library="../lib/OpenGL32.Lib" />
+					<Add library="..\lib\EFX-Util.lib" />
+					<Add library="..\lib\GlU32.Lib" />
+					<Add library="..\lib\glut32.lib" />
+					<Add library="..\lib\OpenGL32.Lib" />
 					<Add directory="../lib" />
 				</Linker>
 			</Target>
@@ -77,7 +77,6 @@
 		<Unit filename="../../src/Hole.h" />
 		<Unit filename="../../src/Scyther.cpp" />
 		<Unit filename="../../src/Scyther.h" />
-		<Unit filename="../../src/Sea.h" />
 		<Unit filename="../../src/Sharpedo.cpp" />
 		<Unit filename="../../src/Sharpedo.h" />
 		<Unit filename="../../src/Snorlax.cpp" />

@@ -23,9 +23,9 @@ class Cam
         const int THIRD_PERSON_CAM_OPTION = 3;
         const float PI = 3.14159265;
 
+        int camOption;
         float posX, posY, posZ;
         float xRotation, yRotation, playerHeadPosition;
-        int camOption;
 };
 
 #endif // CAM_H

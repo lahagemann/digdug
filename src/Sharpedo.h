@@ -3,7 +3,6 @@
 
 #include "Character.h"
 
-
 class Sharpedo : public Character
 {
     public:

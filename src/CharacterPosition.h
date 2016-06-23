@@ -9,11 +9,12 @@ class CharacterPosition
         CharacterPosition();
         CharacterPosition(int i, int j);
         virtual ~CharacterPosition();
+
+        void convert_to_xz(float *x, float *z);
+        bool equals(int i, int j);
+
         int i;
         int j;
-
-        bool equals(int i, int j);
-        void convert_to_xz(float *x, float *z);
 };
 
 

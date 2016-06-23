@@ -2,7 +2,6 @@
 #define DIGLETT_H
 
 #include "Character.h"
-#include <stdio.h>
 
 class Diglett : public Character
 {

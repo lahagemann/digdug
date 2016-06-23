@@ -5,10 +5,10 @@
 
 class Floor : public Ground
 {
-public:
-    Floor();
-    Floor(int i, int j);
-    virtual ~Floor();
+    public:
+        Floor();
+        Floor(int i, int j);
+        virtual ~Floor();
 };
 
 #endif // FLOOR_H

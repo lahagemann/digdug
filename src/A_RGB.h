@@ -1,13 +1,13 @@
 #ifndef A_RGB_H
 #define A_RGB_H
 
-
 class A_RGB
 {
     public:
         A_RGB();
         A_RGB(int red, int green, int blue);
         virtual ~A_RGB();
+
         bool isRed();
         bool isGreen();
         bool isBlue();
@@ -31,4 +31,3 @@ class A_RGB
 };
 
 #endif // RGB_H
-

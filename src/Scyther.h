@@ -2,7 +2,6 @@
 #define SCYTHER_H
 
 #include "Character.h"
-#include <stdio.h>
 
 class Scyther : public Character
 {

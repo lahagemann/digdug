@@ -5,10 +5,10 @@
 
 class Crack : public Ground
 {
-public:
-    Crack();
-    Crack(int i, int j);
-    virtual ~Crack();
+    public:
+        Crack();
+        Crack(int i, int j);
+        virtual ~Crack();
 };
 
 #endif // CRACK_H

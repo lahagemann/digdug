@@ -3,7 +3,6 @@
 
 #include "Character.h"
 
-
 class Snorlax : public Character
 {
     public:

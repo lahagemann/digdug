@@ -6,20 +6,20 @@
 
 class Ground
 {
-public:
-    Ground();
-    Ground(int i, int j);
-    virtual ~Ground();
+    public:
+        Ground();
+        Ground(int i, int j);
+        virtual ~Ground();
 
-    GLMmodel* getModel();
-    CharacterPosition getPosition();
-    void setModel(const char *filename);
+        GLMmodel* getModel();
+        CharacterPosition getPosition();
+        void setModel(const char *filename);
 
-private:
-    bool load_new_model(const char *filename);
+    private:
+        bool load_new_model(const char *filename);
 
-    CharacterPosition position;
-    GLMmodel *model;
+        CharacterPosition position;
+        GLMmodel *model;
 };
 
 #endif // GROUND_H
