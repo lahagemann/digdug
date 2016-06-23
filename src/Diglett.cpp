@@ -3,16 +3,16 @@
 Diglett::Diglett() : Character()
 {
     this->setModel("Diglett.obj", 0.5f);
-    xRotation = 270.0f;
-    yRotation = 0.0f;
+    this->setXRotation(270.0f);
+    this->setYRotation(0.0f);
     headPosition = 0.0f;
 }
 
 Diglett::Diglett(int i, int j) : Character(i,j)
 {
     this->setModel("Diglett.obj", 0.5f);
-    xRotation = 270.0f;
-    yRotation = 0.0f;
+    this->setXRotation(270.0f);
+    this->setYRotation(0.0f);
     headPosition = 0.0f;
 }
 

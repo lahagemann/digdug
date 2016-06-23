@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Cam.h"
+#include "GameLight.h"
 #include "GameMap.h"
 #include "GameSettings.h"
 #include <string>

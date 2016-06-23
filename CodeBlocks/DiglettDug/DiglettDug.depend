@@ -199,3 +199,81 @@
 
 1466543169 c:\users\luiza\documents\diglettdug\src\a_rgb.h
 
+1466687140 source:c:\users\marcelo\documents\git\digdug\src\a_rgb.cpp
+	"A_RGB.h"
+
+1466687140 c:\users\marcelo\documents\git\digdug\src\a_rgb.h
+
+1466687140 source:c:\users\marcelo\documents\git\digdug\src\bitmap.c
+	"bitmap.h"
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+
+1466687140 c:\users\marcelo\documents\git\digdug\src\bitmap.h
+	<GL/glut.h>
+	<windows.h>
+	<wingdi.h>
+
+1466687140 c:\users\marcelo\documents\git\digdug\codeblocks\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1466687140 c:\users\marcelo\documents\git\digdug\codeblocks\include\gl\gl.h
+
+1466687140 c:\users\marcelo\documents\git\digdug\codeblocks\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1466690783 source:c:\users\marcelo\documents\git\digdug\src\cam.cpp
+	"Cam.h"
+
+1466690233 c:\users\marcelo\documents\git\digdug\src\cam.h
+	<cmath>
+	"Diglett.h"
+
+1466689170 c:\users\marcelo\documents\git\digdug\src\diglett.h
+	"Character.h"
+	<stdio.h>
+
+1466689329 c:\users\marcelo\documents\git\digdug\src\character.h
+	<stdlib.h>
+	<string.h>
+	"CharacterPosition.h"
+	"glm.h"
+
+1466688175 c:\users\marcelo\documents\git\digdug\src\characterposition.h
+	<stdio.h>
+
+1466687140 c:\users\marcelo\documents\git\digdug\src\glm.h
+	<GLUT/glut.h>
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+
+1466689666 source:c:\users\marcelo\documents\git\digdug\src\character.cpp
+	"Character.h"
+
+1466689678 source:c:\users\marcelo\documents\git\digdug\src\characterposition.cpp
+	"CharacterPosition.h"
+
+1466689525 source:c:\users\marcelo\documents\git\digdug\src\crack.cpp
+	"Crack.h"
+
+1466689486 c:\users\marcelo\documents\git\digdug\src\crack.h
+	"Ground.h"
+
+1466690963 c:\users\marcelo\documents\git\digdug\src\ground.h
+	"CharacterPosition.h"
+	"glm.h"
+
+1466691041 source:c:\users\marcelo\documents\git\digdug\src\diglett.cpp
+	"Diglett.h"
+
+1466689563 source:c:\users\marcelo\documents\git\digdug\src\floor.cpp
+	"Floor.h"
+
+1466689793 c:\users\marcelo\documents\git\digdug\src\floor.h
+	"Ground.h"
+

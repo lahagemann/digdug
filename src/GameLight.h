@@ -3,6 +3,7 @@
 
 #include <gl/gl.h>
 #include <gl/glut.h>
+#include "A_RGB.h"
 
 class GameLight
 {

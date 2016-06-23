@@ -1,6 +1,9 @@
 #ifndef GROUND_H
 #define GROUND_H
 
+#include "CharacterPosition.h"
+#include "glm.h"
+
 class Ground
 {
 public:
