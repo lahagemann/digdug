@@ -206,7 +206,7 @@
 
 1466695901 c:\users\luiza\documents\diglettdug\src\a_rgb.h
 
-1466687140 source:c:\users\marcelo\documents\git\digdug\src\a_rgb.cpp
+1466701758 source:c:\users\marcelo\documents\git\digdug\src\a_rgb.cpp
 	"A_RGB.h"
 
 1466695912 c:\users\marcelo\documents\git\digdug\src\a_rgb.h
@@ -264,7 +264,7 @@
 1466689678 source:c:\users\marcelo\documents\git\digdug\src\characterposition.cpp
 	"CharacterPosition.h"
 
-1466689525 source:c:\users\marcelo\documents\git\digdug\src\crack.cpp
+1466703529 source:c:\users\marcelo\documents\git\digdug\src\crack.cpp
 	"Crack.h"
 
 1466695668 c:\users\marcelo\documents\git\digdug\src\crack.h
@@ -277,7 +277,7 @@
 1466691041 source:c:\users\marcelo\documents\git\digdug\src\diglett.cpp
 	"Diglett.h"
 
-1466689563 source:c:\users\marcelo\documents\git\digdug\src\floor.cpp
+1466703529 source:c:\users\marcelo\documents\git\digdug\src\floor.cpp
 	"Floor.h"
 
 1466695597 c:\users\marcelo\documents\git\digdug\src\floor.h
@@ -314,8 +314,9 @@
 	<gl/glut.h>
 	"A_RGB.h"
 
-1466700708 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
+1466706359 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
 	"GameMap.h"
+	<iostream>
 
 1466700580 c:\users\marcelo\documents\git\digdug\src\gamemap.h
 	<stdio.h>
@@ -364,19 +365,19 @@
 1466697476 source:c:\users\marcelo\documents\git\digdug\src\ground.cpp
 	"Ground.h"
 
-1466689735 source:c:\users\marcelo\documents\git\digdug\src\hole.cpp
+1466703529 source:c:\users\marcelo\documents\git\digdug\src\hole.cpp
 	"Hole.h"
 
 1466695341 c:\users\marcelo\documents\git\digdug\src\hole.h
 	"Ground.h"
 
-1466689361 source:c:\users\marcelo\documents\git\digdug\src\scyther.cpp
+1466706263 source:c:\users\marcelo\documents\git\digdug\src\scyther.cpp
 	"Scyther.h"
 
-1466689374 source:c:\users\marcelo\documents\git\digdug\src\sharpedo.cpp
+1466706269 source:c:\users\marcelo\documents\git\digdug\src\sharpedo.cpp
 	"Sharpedo.h"
 
-1466689639 source:c:\users\marcelo\documents\git\digdug\src\snorlax.cpp
+1466706276 source:c:\users\marcelo\documents\git\digdug\src\snorlax.cpp
 	"Snorlax.h"
 
 1466687140 source:c:\users\marcelo\documents\git\digdug\src\texture.cpp
@@ -388,12 +389,13 @@
 1466701152 source:c:\users\marcelo\documents\git\digdug\src\model.cpp
 	"Model.h"
 
-1466701701 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
+1466707950 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
 	<stdlib.h>
+	<iostream>
 	"../../src/Cam.h"
 	"../../src/Crack.h"
 	"../../src/Floor.h"
