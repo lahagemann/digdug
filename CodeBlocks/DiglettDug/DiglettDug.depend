@@ -122,22 +122,22 @@
 1465152167 source:c:\users\luiza\documents\diglettdug\src\position.cpp
 	"Position.h"
 
-1465171101 source:c:\users\luiza\documents\diglettdug\src\character.cpp
+1466689789 source:c:\users\luiza\documents\diglettdug\src\character.cpp
 	"Character.h"
 
-1465171040 c:\users\luiza\documents\diglettdug\src\character.h
+1466689789 c:\users\luiza\documents\diglettdug\src\character.h
 	<stdlib.h>
 	<string.h>
-	"APosition.h"
+	"CharacterPosition.h"
 	"glm.h"
 
 1465152092 c:\users\luiza\documents\diglettdug\src\position.h
 	<stdio.h>
 
-1465170758 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
+1466690989 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
 	"Diglett.h"
 
-1465170704 c:\users\luiza\documents\diglettdug\src\diglett.h
+1466689789 c:\users\luiza\documents\diglettdug\src\diglett.h
 	"Character.h"
 	<stdio.h>
 
@@ -166,10 +166,10 @@
 1465171026 source:c:\users\luiza\documents\diglettdug\src\aposition.cpp
 	"APosition.h"
 
-1465171121 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
+1466690583 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
 	"Cam.h"
 
-1465162491 c:\users\luiza\documents\diglettdug\src\cam.h
+1466690583 c:\users\luiza\documents\diglettdug\src\cam.h
 	<cmath>
 	"Diglett.h"
 
@@ -275,5 +275,27 @@
 	"Floor.h"
 
 1466689793 c:\users\marcelo\documents\git\digdug\src\floor.h
+	"Ground.h"
+
+1466643136 c:\users\luiza\documents\diglettdug\src\characterposition.h
+	<stdio.h>
+
+1466689789 source:c:\users\luiza\documents\diglettdug\src\characterposition.cpp
+	"CharacterPosition.h"
+
+1466689789 source:c:\users\luiza\documents\diglettdug\src\crack.cpp
+	"Crack.h"
+
+1466689789 c:\users\luiza\documents\diglettdug\src\crack.h
+	"Ground.h"
+
+1466690989 c:\users\luiza\documents\diglettdug\src\ground.h
+	"CharacterPosition.h"
+	"glm.h"
+
+1466689789 source:c:\users\luiza\documents\diglettdug\src\floor.cpp
+	"Floor.h"
+
+1466689789 c:\users\luiza\documents\diglettdug\src\floor.h
 	"Ground.h"
 

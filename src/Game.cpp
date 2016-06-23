@@ -1,15 +1,25 @@
 #include "Game.h"
 
-int main(int argc, char **argv)
+Game::Game()
 {
-	glutInit(&argc, argv);
+    windowWidth = 600;
+    windowHeight = 480;
+    windowXPos = 100;
+    windowYPos = 150;
+    mainWindowId = 0;
+
+    MouseXPosition = 0;
+    MouseYPosition = 0;
+
+    planeSize = 15.5f;
+
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
-	glutInitWindowSize(windowWidth, windowHeight);
-	glutInitWindowPosition(windowXPos, windowYPos);
+	glutInitWindowSize(this->windowWidth, this->windowHeight);
+	glutInitWindowPosition(this->windowXPos, this->windowYPos);
 
 	// Store main window id so that glui can send it redisplay events
 	mainWindowId = glutCreateWindow(GAME_NAME);
-	glutDisplayFunc(mainRender);
+	glutDisplayFunc(Game::mainRender);
 	glutReshapeFunc(onWindowReshape);
 
 	// Register mouse events handlers
@@ -22,6 +32,13 @@ int main(int argc, char **argv)
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
 	glutMainLoop();
+}
+
+int main(int argc, char **argv)
+{
+
+	glutInit(&argc, argv);
+	Game game = Game();
 
     return 0;
 }
@@ -308,6 +325,21 @@ void Game::renderSea()
 
 	glDisable(type);
 	glPopMatrix();
+}
+
+void Game::setViewport(GLint left, GLint right, GLint bottom, GLint top)
+{
+	glViewport(left, bottom, right - left, top - bottom);
+}
+
+void Game::setWindow()
+{
+    glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0f,(GLfloat)windowWidth/(GLfloat)windowHeight,0.1f, 100.0f);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 void Game::updateState()

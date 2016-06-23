@@ -1,11 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <windows.h>
+#include <gl/gl.h>
+#include <gl/glut.h>
+#include <stdlib.h>
 #include "Cam.h"
 #include "GameLight.h"
 #include "GameMap.h"
 #include "GameSettings.h"
-#include <string>
+
 
 class Game
 {
@@ -27,18 +31,19 @@ public:
     bool walkPressed;
 
 private:
-    const std::string GAME_NAME = "Dig(lett) Dug(trio)";
-    int windowWidth = 600;
-    int windowHeight = 480;
-    int windowXPos = 100;
-    int windowYPos = 150;
+    const char* GAME_NAME = "Dig(lett) Dug(trio)";
+    int windowWidth;
+    int windowHeight;
+    int windowXPos;
+    int windowYPos;
+    int mainWindowId;
 
-    int MouseXPosition = 0;
-    int MouseYPosition = 0;
+    int MouseXPosition;
+    int MouseYPosition;
 
     GLenum type;            /* Texture type */
     GLuint texture;         /* Texture object */
-    float planeSize = 15.5f;
+    float planeSize;
 
     void initTexture(void);
 
@@ -53,6 +58,8 @@ private:
 
     void renderScene();
     void renderSea();
+    void setViewport(GLint left, GLint right, GLint bottom, GLint top);
+    void setWindow();
 
     void updateState();
 
