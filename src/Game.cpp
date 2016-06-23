@@ -138,6 +138,47 @@ void Game::onWindowReshape(int x, int y)
 	setViewport(0, windowWidth, 0, windowHeight);
 }
 
+void Game::renderScene()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // limpar o depth buffer
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	updateCam();
+
+	// loading player...
+	float playerX, playerZ;
+	game_map.player.getPosition().convert_to_xz(&playerX, &playerZ);
+
+	glPushMatrix();
+        glTranslatef(playerX,0.0f,playerZ);
+        glmDraw(game_map.player.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+    glPopMatrix();
+
+    // loading enemies...
+    for(int i = 0; i < game_map.characters.size(); i++)
+    {
+        Character c = game_map.characters.at(i);
+        float enemyX, enemyZ;
+        c.getPosition().convert_to_xz(&enemyX, &enemyZ);
+
+        glPushMatrix();
+            glTranslatef(enemyX,0.0f,enemyZ);
+            glmDraw(c.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glPopMatrix();
+    }
+
+    for(int i = 0; i < game_map.stage_map.size())
+    {
+        for(int j = 0; j < game_map.stage_map.at(i).size())
+        {
+            A_RGB rgb = game_map.stage_map.at(i).at(j);
+        }
+    }
+
+}
+
 void Game::updateState()
 {
     if(walkPressed)

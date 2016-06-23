@@ -13,6 +13,7 @@ class CharacterPosition
         int j;
 
         bool equals(int i, int j);
+        void convert_to_xz(float *x, float *z);
 };
 
 

@@ -42,6 +42,8 @@ private:
     void onMousePassiveMove(int x, int y);
     void onWindowReshape(int x, int y);
 
+    void renderScene();
+
     void updateState();
 
 };
