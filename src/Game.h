@@ -34,7 +34,14 @@ private:
     int MouseXPosition = 0;
     int MouseYPosition = 0;
 
+    GLenum type;            /* Texture type */
+    GLuint texture;         /* Texture object */
+    float planeSize = 15.5f;
+
+    void initTexture(void);
+
     void mainRender();
+    void mainInit();
     void onKeyDown(unsigned char key, int x, int y);
     void onKeyUp(unsigned char key, int x, int y);
     void onMouseButton(int button, int state, int x, int y);
@@ -43,6 +50,7 @@ private:
     void onWindowReshape(int x, int y);
 
     void renderScene();
+    void renderSea();
 
     void updateState();
 

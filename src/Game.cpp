@@ -26,6 +26,61 @@ int main(int argc, char **argv)
     return 0;
 }
 
+void Game::initTexture()
+{
+    BITMAPINFO	*info;           /* Bitmap information */
+    GLubyte	    *rgba;           /* RGBA pixel buffer */
+    GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
+
+    // Load a texture object (256x256 true color)
+    bits = LoadDIBitmap("tiledbronze.bmp", &info);
+    if (bits == (GLubyte *)0)
+		return;
+
+    // Figure out the type of texture
+    if (info->bmiHeader.biHeight == 1)
+      type = GL_TEXTURE_1D;
+    else
+      type = GL_TEXTURE_2D;
+
+    // Create and bind a texture object
+    glGenTextures(1, &texture);
+	glBindTexture(type, texture);
+
+    // Create an RGBA image
+    rgba = (GLubyte *)malloc(info->bmiHeader.biWidth * info->bmiHeader.biHeight * 4);
+
+    int i = info->bmiHeader.biWidth * info->bmiHeader.biHeight;
+    for( rgbaptr = rgba, ptr = bits;  i > 0; i--, rgbaptr += 4, ptr += 3)
+    {
+            rgbaptr[0] = ptr[2];     // windows BMP = BGR
+            rgbaptr[1] = ptr[1];
+            rgbaptr[2] = ptr[0];
+            rgbaptr[3] = (ptr[0] + ptr[1] + ptr[2]) / 3;
+    }
+
+	// Set texture parameters
+	glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+    glTexImage2D(type, 0, 4, info->bmiHeader.biWidth, info->bmiHeader.biHeight,
+                  0, GL_RGBA, GL_UNSIGNED_BYTE, rgba );
+}
+
+void Game::mainInit()
+{
+    glClearColor(1.0,1.0,1.0,0.0);
+	glColor3f(0.0f,0.0f,0.0f);
+	setWindow();
+	setViewport(0, windowWidth, 0, windowHeight);
+
+	// habilita o z-buffer
+	glEnable(GL_DEPTH_TEST);
+    initTexture();
+}
+
 void Game::mainRender()
 {
     updateState();
@@ -147,12 +202,13 @@ void Game::renderScene()
 
 	updateCam();
 
+    float x, z;
 	// loading player...
-	float playerX, playerZ;
-	game_map.player.getPosition().convert_to_xz(&playerX, &playerZ);
+
+	game_map.player.getPosition().convert_to_xz(&x, &z);
 
 	glPushMatrix();
-        glTranslatef(playerX,0.0f,playerZ);
+        glTranslatef(x,0.0f,z);
         glmDraw(game_map.player.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
     glPopMatrix();
 
@@ -160,11 +216,10 @@ void Game::renderScene()
     for(int i = 0; i < game_map.characters.size(); i++)
     {
         Character c = game_map.characters.at(i);
-        float enemyX, enemyZ;
-        c.getPosition().convert_to_xz(&enemyX, &enemyZ);
+        c.getPosition().convert_to_xz(&x, &z);
 
         glPushMatrix();
-            glTranslatef(enemyX,0.0f,enemyZ);
+            glTranslatef(x,0.0f,z);
             glmDraw(c.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
@@ -174,9 +229,85 @@ void Game::renderScene()
         for(int j = 0; j < game_map.stage_map.at(i).size())
         {
             A_RGB rgb = game_map.stage_map.at(i).at(j);
+            if(rgb.isBlack())
+            {
+                Hole hole = Hole(i,j);
+                hole.getPosition().convert_to_xz(&x, &z);
+
+                glPushMatrix();
+                    glTranslatef(x,-0.5f,z);
+                    glmDraw(hole.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                glPopMatrix();
+            }
+            else if(rgb.isGreen())
+            {
+                Floor floor = Floor(i,j);
+                floor.getPosition().convert_to_xz(&x, &z);
+
+                glPushMatrix();
+                    glTranslatef(x,-0.5f,z);
+                    glmDraw(floor.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                glPopMatrix();
+            }
+            else if(rgb.isRed())
+            {
+                Crack crack = Crack(i,j);
+                crack.getPosition().convert_to_xz(&x, &z);
+
+                glPushMatrix();
+                    glTranslatef(x,-0.5f,z);
+                    glmDraw(crack.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                glPopMatrix();
+            }
         }
     }
 
+    glBindTexture(type, texture);
+
+	renderSea();
+}
+
+void Game::renderSea()
+{
+    // set things up to render the floor with the texture
+	glShadeModel(GL_SMOOTH);
+	glEnable(type);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	glPushMatrix();
+
+    glTranslatef(-(float)planeSize/2.0f, 0.0f, -(float)planeSize/2.0f);
+
+	float textureScaleX = 10.0;
+	float textureScaleY = 10.0;
+    glColor4f(1.0f,1.0f,1.0f,1.0f);
+    int xQuads = 40;
+    int zQuads = 40;
+    for (int i = 0; i < xQuads; i++) {
+        for (int j = 0; j < zQuads; j++) {
+            glBegin(GL_QUADS);
+                glTexCoord2f(1.0f, 0.0f);   // coords for the texture
+                glNormal3f(0.0f,1.0f,0.0f);
+                glVertex3f(i * (float)planeSize/xQuads, 0.0f, (j+1) * (float)planeSize/zQuads);
+
+                glTexCoord2f(0.0f, 0.0f);  // coords for the texture
+                glNormal3f(0.0f,1.0f,0.0f);
+                glVertex3f((i+1) * (float)planeSize/xQuads, 0.0f, (j+1) * (float)planeSize/zQuads);
+
+                glTexCoord2f(0.0f, 1.0f);  // coords for the texture
+                glNormal3f(0.0f,1.0f,0.0f);
+                glVertex3f((i+1) * (float)planeSize/xQuads, 0.0f, j * (float)planeSize/zQuads);
+
+                glTexCoord2f(1.0f, 1.0f);  // coords for the texture
+                glNormal3f(0.0f,1.0f,0.0f);
+                glVertex3f(i * (float)planeSize/xQuads, 0.0f, j * (float)planeSize/zQuads);
+
+            glEnd();
+        }
+    }
+
+	glDisable(type);
+	glPopMatrix();
 }
 
 void Game::updateState()
