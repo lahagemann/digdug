@@ -61,9 +61,8 @@ void Cam::setFirstPersonCam(Diglett player)
 {
     camOption = FIRST_PERSON_CAM_OPTION;
 
-    posX = player.getPosition().x;
-    posY = player.getPosition().y;
-    posZ = player.getPosition().z;
+    player.getPosition().convert_to_xz(&posX, &posZ);
+    posY = 1.0f;
 
     // AQUI TEM QUE SETAR AS VARIAVEIS ROT PARA DAR EFEITO DE SOBE E DESCE
     xRotation = 1.0f;
@@ -75,9 +74,9 @@ void Cam::setThirdPersonCam(Diglett player)
 {
     camOption = THIRD_PERSON_CAM_OPTION;
 
-    posX = player.getPosition().x;
-    posY = player.getPosition().y;
-    posZ = player.getPosition().z - 2.0f;
+    player.getPosition().convert_to_xz(&posX, &posZ);
+    posY = 1.5f;
+    posZ += 1.0f;
 
     // AQUI TEM QUE SETAR AS VARIAVEIS ROT PARA DAR EFEITO DE SOBE E DESCE
     xRotation = 1.0f;
