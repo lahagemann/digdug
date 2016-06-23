@@ -5,22 +5,19 @@ Ground::Ground()
     this->position = APosition();
 }
 
-/*
-Ground::Ground(GLfloat x, GLfloat y, GLfloat z)
-{
-    this->position = APosition(x,y,z);
-}
-
-
-APosition Ground::getPosition()
-{
-    return this->position;
-}
-*/
-
 Ground::Ground(int i, int j)
 {
     this->position = CharacterPosition(i,j);
+}
+
+Ground::~Ground()
+{
+    //dtor
+}
+
+GLMmodel* Ground::getModel()
+{
+    return model;
 }
 
 CharacterPosition Ground::getPosition()

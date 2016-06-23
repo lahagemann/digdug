@@ -1,4 +1,3 @@
-
 #include "CharacterPosition.h"
 
 CharacterPosition::CharacterPosition()

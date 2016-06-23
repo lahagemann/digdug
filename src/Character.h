@@ -9,14 +9,12 @@
 class Character
 {
     public:
+        enum Direction {forwards, backwards, rotateLeft, rotateRight};
 
         Character();
-        //Character(GLfloat x, GLfloat y, GLfloat z);
         Character(int i, int j);
         virtual ~Character();
-        enum Direction {forwards, backwards, rotateLeft, rotateRight};
-        //void setPosition(APosition position);
-        //APosition getPosition();
+
         GLMmodel* getModel();
         CharacterPosition getPosition();
         float getXRotation();
@@ -28,13 +26,12 @@ class Character
         void setYRotation(float rotation);
         void walk(Direction dir);
 
-
-
     private:
         bool load_new_model(const char *filename, GLfloat sFactor);
+
         GLMmodel *model;
         CharacterPosition position;
-        //APosition position
+        float xRotation, yRotation;
 };
 
 #endif // CHARACTER_H

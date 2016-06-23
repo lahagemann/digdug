@@ -7,7 +7,6 @@ class Crack : public Ground
 {
 public:
     Crack();
-    //Crack(int x, int y, int z);
     Crack(int i, int j);
     virtual ~Crack();
 };

@@ -1,4 +1,3 @@
-
 #ifndef SNORLAX_H
 #define SNORLAX_H
 
@@ -9,7 +8,6 @@ class Snorlax : public Character
 {
     public:
         Snorlax();
-        //Snorlax(GLfloat x, GLfloat y, GLfloat z);
         Snorlax(int i, int j);
         virtual ~Snorlax();
 };

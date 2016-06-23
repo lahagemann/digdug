@@ -5,16 +5,16 @@ class Ground
 {
 public:
     Ground();
-    //Ground(GLfloat x, GLfloat y, GLfloat z);
     Ground(int i, int j);
     virtual ~Ground();
-    //APosition getPosition();
+
+    GLMmodel* getModel();
     CharacterPosition getPosition();
     void setModel(const char *filename);
 
 private:
     bool load_new_model(const char *filename);
-    //APosition position;
+
     CharacterPosition position;
     GLMmodel *model;
 };
