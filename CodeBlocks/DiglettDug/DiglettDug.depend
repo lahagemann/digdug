@@ -1,10 +1,18 @@
 # depslib dependency file v1.0
-1465150387 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
+1466702854 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
 	<stdlib.h>
+	"../../src/Cam.h"
+	"../../src/Crack.h"
+	"../../src/Floor.h"
+	"../../src/GameLight.h"
+	"../../src/GameMap.h"
+	"../../src/GameSettings.h"
+	"../../src/Hole.h"
+	"../../src/Model.h"
 
 1301139964 c:\users\luiza\documents\diglettdug\codeblocks\include\gl\gl.h
 
@@ -125,11 +133,11 @@
 1466689789 source:c:\users\luiza\documents\diglettdug\src\character.cpp
 	"Character.h"
 
-1466689789 c:\users\luiza\documents\diglettdug\src\character.h
+1466701584 c:\users\luiza\documents\diglettdug\src\character.h
 	<stdlib.h>
 	<string.h>
 	"CharacterPosition.h"
-	"glm.h"
+	"Model.h"
 
 1465152092 c:\users\luiza\documents\diglettdug\src\position.h
 	<stdio.h>
@@ -137,27 +145,25 @@
 1466690989 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
 	"Diglett.h"
 
-1466689789 c:\users\luiza\documents\diglettdug\src\diglett.h
+1466695901 c:\users\luiza\documents\diglettdug\src\diglett.h
 	"Character.h"
-	<stdio.h>
 
-1465171283 source:c:\users\luiza\documents\diglettdug\src\scyther.cpp
+1466689789 source:c:\users\luiza\documents\diglettdug\src\scyther.cpp
 	"Scyther.h"
 
-1465171214 c:\users\luiza\documents\diglettdug\src\scyther.h
+1466695901 c:\users\luiza\documents\diglettdug\src\scyther.h
 	"Character.h"
-	<stdio.h>
 
-1465171292 source:c:\users\luiza\documents\diglettdug\src\sharpedo.cpp
+1466689789 source:c:\users\luiza\documents\diglettdug\src\sharpedo.cpp
 	"Sharpedo.h"
 
-1465171315 c:\users\luiza\documents\diglettdug\src\sharpedo.h
+1466695901 c:\users\luiza\documents\diglettdug\src\sharpedo.h
 	"Character.h"
 
-1465171307 source:c:\users\luiza\documents\diglettdug\src\snorlax.cpp
+1466689789 source:c:\users\luiza\documents\diglettdug\src\snorlax.cpp
 	"Snorlax.h"
 
-1465171323 c:\users\luiza\documents\diglettdug\src\snorlax.h
+1466695901 c:\users\luiza\documents\diglettdug\src\snorlax.h
 	"Character.h"
 
 1465162605 c:\users\luiza\documents\diglettdug\src\aposition.h
@@ -169,23 +175,24 @@
 1466690583 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
 	"Cam.h"
 
-1466690583 c:\users\luiza\documents\diglettdug\src\cam.h
+1466695901 c:\users\luiza\documents\diglettdug\src\cam.h
 	<cmath>
 	"Diglett.h"
 
-1465174101 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+1466702166 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
 	"GameMap.h"
+	<iostream>
 
-1465173129 c:\users\luiza\documents\diglettdug\src\gamemap.h
+1466701584 c:\users\luiza\documents\diglettdug\src\gamemap.h
 	<stdio.h>
 	<iostream>
 	<vector>
+	"A_RGB.h"
+	"bitmap.h"
 	"Diglett.h"
 	"Scyther.h"
 	"Sharpedo.h"
 	"Snorlax.h"
-	"bitmap.h"
-	"A_RGB.h"
 
 1465165808 source:c:\users\luiza\documents\diglettdug\src\player.cpp
 	"Player.h"
@@ -194,10 +201,10 @@
 	"Character.h"
 	<stdio.h>
 
-1466543169 source:c:\users\luiza\documents\diglettdug\src\a_rgb.cpp
+1466701584 source:c:\users\luiza\documents\diglettdug\src\a_rgb.cpp
 	"A_RGB.h"
 
-1466543169 c:\users\luiza\documents\diglettdug\src\a_rgb.h
+1466695901 c:\users\luiza\documents\diglettdug\src\a_rgb.h
 
 1466687140 source:c:\users\marcelo\documents\git\digdug\src\a_rgb.cpp
 	"A_RGB.h"
@@ -276,26 +283,26 @@
 1466695597 c:\users\marcelo\documents\git\digdug\src\floor.h
 	"Ground.h"
 
-1466643136 c:\users\luiza\documents\diglettdug\src\characterposition.h
+1466695901 c:\users\luiza\documents\diglettdug\src\characterposition.h
 	<stdio.h>
 
 1466689789 source:c:\users\luiza\documents\diglettdug\src\characterposition.cpp
 	"CharacterPosition.h"
 
-1466689789 source:c:\users\luiza\documents\diglettdug\src\crack.cpp
+1466701712 source:c:\users\luiza\documents\diglettdug\src\crack.cpp
 	"Crack.h"
 
-1466689789 c:\users\luiza\documents\diglettdug\src\crack.h
+1466695901 c:\users\luiza\documents\diglettdug\src\crack.h
 	"Ground.h"
 
-1466690989 c:\users\luiza\documents\diglettdug\src\ground.h
+1466701584 c:\users\luiza\documents\diglettdug\src\ground.h
 	"CharacterPosition.h"
-	"glm.h"
+	"Model.h"
 
-1466689789 source:c:\users\luiza\documents\diglettdug\src\floor.cpp
+1466701697 source:c:\users\luiza\documents\diglettdug\src\floor.cpp
 	"Floor.h"
 
-1466689789 c:\users\luiza\documents\diglettdug\src\floor.h
+1466695901 c:\users\luiza\documents\diglettdug\src\floor.h
 	"Ground.h"
 
 1466687140 source:c:\users\marcelo\documents\git\digdug\src\gamelight.cpp
@@ -397,4 +404,27 @@
 	"../../src/Model.h"
 
 1466695367 c:\users\marcelo\documents\git\digdug\src\gamesettings.h
+
+1466701584 c:\users\luiza\documents\diglettdug\src\model.h
+	"glm.h"
+
+1466533845 source:c:\users\luiza\documents\diglettdug\src\gamelight.cpp
+	"GameLight.h"
+
+1466697536 c:\users\luiza\documents\diglettdug\src\gamelight.h
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+	"A_RGB.h"
+
+1466697536 source:c:\users\luiza\documents\diglettdug\src\ground.cpp
+	"Ground.h"
+
+1466695901 c:\users\luiza\documents\diglettdug\src\gamesettings.h
+
+1466689789 c:\users\luiza\documents\diglettdug\src\hole.h
+	"Ground.h"
+
+1466701942 source:c:\users\luiza\documents\diglettdug\src\hole.cpp
+	"Hole.h"
 

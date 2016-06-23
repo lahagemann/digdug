@@ -2,13 +2,13 @@
 
 Crack::Crack() : Ground()
 {
-    this->setModel("Cube.obj");
+    this->setModel("Crack.obj");
 
 }
 
 Crack::Crack(int i, int j) : Ground(i,j)
 {
-    this->setModel("Cube.obj");
+    this->setModel("Crack.obj");
 }
 
 Crack::~Crack()

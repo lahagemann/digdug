@@ -49,7 +49,7 @@ int windowYPos = 150;
 /* game objects declaration */
 Cam cam;
 GameLight light;
-GameMap game_map;
+GameMap game_map = GameMap();
 GameSettings settings;
 
 /* key pressing verification */
@@ -71,7 +71,7 @@ void initTexture()
     GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
 
     // Load a texture object (256x256 true color)
-    bits = LoadDIBitmap("tiledbronze.bmp", &info);
+    bits = LoadDIBitmap("Textures\\Sea.bmp", &info);
     if (bits == (GLubyte *)0)
 		return;
 

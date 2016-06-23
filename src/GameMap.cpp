@@ -1,4 +1,5 @@
 #include "GameMap.h"
+#include <iostream>
 
 GameMap::GameMap()
 {
@@ -178,7 +179,7 @@ void GameMap::load_models()
     BITMAPINFO	*info;           /* Bitmap information */
     GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
 
-    bits = LoadDIBitmap("bitmap.bmp", &info);
+    bits = LoadDIBitmap("Stage1.bmp", &info);
     if(bits == (GLubyte *)0)
     {
 		std::cout << "Error loading!" << std::endl << std::endl;
@@ -265,6 +266,7 @@ void GameMap::load_models()
             }
         }
     }
+    std::cout << "done\n" << std::endl;
 }
 
 void GameMap::makeCrack()

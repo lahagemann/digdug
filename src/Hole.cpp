@@ -2,12 +2,12 @@
 
 Hole::Hole() : Ground()
 {
-    this->setModel("Cube.obj");
+    this->setModel("Hole.obj");
 }
 
 Hole::Hole(int i, int j) : Ground(i,j)
 {
-    this->setModel("Cube.obj");
+    this->setModel("Hole.obj");
 }
 
 Hole::~Hole()
