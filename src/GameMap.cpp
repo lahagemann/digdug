@@ -20,7 +20,6 @@ bool GameMap::checkEnemyCollision(int i, int j)
         if(rgb.isYellow())
             return true;
     }
-
     return false;
 }
 
@@ -29,7 +28,7 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
     int i = player.getPosition().i;
     int j = player.getPosition().j;
 
-    if(i < characters_map.size() && j < characters_map.at(i).size())
+    if(i < characters_map.size()-1 && j < characters_map.at(i).size()-1 && i > 0 && j > 0)
     {
         if(direction == Character::forwards)
         {
@@ -133,7 +132,7 @@ std::vector< std::vector<A_RGB> > GameMap::getStageMap()
 
 bool GameMap::isEnemyPushable(int i, int j, float playerRotation)
 {
-    if(i < characters_map.size() && j < characters_map.at(i).size())
+    if(i < characters_map.size()-1 && j < characters_map.at(i).size()-1 && i > 0 && j > 0)
     {
         A_RGB movementPosition;
 
@@ -297,90 +296,6 @@ void GameMap::load_models()
             stage_map.at(31-i/32).push_back(green);
         }
     }
-
-    /*
-    for(int i = 0; i < info->bmiHeader.biHeight; i++)
-    {
-        std::vector<A_RGB> charRGBLine;
-        characters_map.push_back(charRGBLine);
-
-        std::vector<A_RGB> stageRGBLine;
-        stage_map.push_back(stageRGBLine);
-
-        for(int j = 0; j < info->bmiHeader.biWidth; j++, ptr += 3)
-        {
-            int r = ptr[2];
-            int g = ptr[1];
-            int b = ptr[0];
-
-            A_RGB rgb = A_RGB(r,g,b);
-            std::cout << r << " " << g << " " << b << std::endl;
-            //characters_map.at(i).push_back(rgb);
-
-            if(rgb.isBlack()) //hole
-            {
-                stage_map.at(i).push_back(rgb);
-                rgb.setBlue();
-                characters_map.at(i).push_back(rgb);
-            }
-            else if(rgb.isRed()) //crack
-            {
-                stage_map.at(i).push_back(rgb);
-                rgb.setBlue();
-                characters_map.at(i).push_back(rgb);
-            }
-            else if(rgb.isGreen()) //ground
-            {
-                stage_map.at(i).push_back(rgb);
-                rgb.setBlue();
-                characters_map.at(i).push_back(rgb);
-            }
-            else if(rgb.isBlue()) //sea
-            {
-                stage_map.at(i).push_back(rgb);
-                rgb.setBlue();
-                characters_map.at(i).push_back(rgb);
-            }
-            else if(rgb.isYellow()) //enemy
-            {
-                Scyther enemy = Scyther(i,31-j);
-                scythers.push_back(enemy);
-
-                characters_map.at(i).push_back(rgb);
-                rgb.setGreen();
-                stage_map.at(i).push_back(rgb);
-
-            }
-            else if(rgb.isMagenta()) //snorlax
-            {
-                Snorlax obstacle = Snorlax(i,31-j);
-                snorlaxs.push_back(obstacle);
-
-                characters_map.at(i).push_back(rgb);
-                rgb.setGreen();
-                stage_map.at(i).push_back(rgb);
-            }
-            else if(rgb.isCyan()) //sharpedo
-            {
-                Sharpedo sharpedo = Sharpedo(i,31-j);
-                sharpedos.push_back(sharpedo);
-
-                characters_map.at(i).push_back(rgb);
-                rgb.setBlue();
-                stage_map.at(i).push_back(rgb);
-            }
-            else if(rgb.isWhite()) //player
-            {
-                this->player = Diglett(i,31-j);
-
-                A_RGB green = A_RGB(0,255,0);
-                rgb.setBlue();
-                characters_map.at(i).push_back(rgb);
-                stage_map.at(i).push_back(green);
-            }
-        }
-    }
-    */
     std::cout << "done\n" << std::endl;
 }
 

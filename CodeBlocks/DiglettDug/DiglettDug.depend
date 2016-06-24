@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1466787354 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
+1466787669 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
@@ -179,7 +179,7 @@
 	<cmath>
 	"Diglett.h"
 
-1466786913 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+1466789311 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
 	"GameMap.h"
 	<iostream>
 

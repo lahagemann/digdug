@@ -9,12 +9,10 @@
 #include <stdlib.h>
 
 #include "../../src/Cam.h"
-#include "../../src/Crack.h"
-#include "../../src/Floor.h"
 #include "../../src/GameLight.h"
 #include "../../src/GameMap.h"
 #include "../../src/GameSettings.h"
-#include "../../src/Hole.h"
+#include "../../src/Ground.h"
 #include "../../src/Model.h"
 
 /* function declaration */
@@ -502,8 +500,8 @@ void updateState()
 
     game_map.moveEnemies();
 
-    if(game_map.isPlayerDead());
-            //death
+    if(game_map.isPlayerDead())
+        exit(0);
 }
 
 /* Program entry point */
