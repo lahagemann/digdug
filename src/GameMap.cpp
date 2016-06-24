@@ -190,6 +190,69 @@ bool GameMap::isPlayerDead()
     return false;
 }
 
+bool GameMap::isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *direction)
+{
+    Scyther scyther = scythers.at(enemiesIndex);
+
+    // case north
+    if(directionOptions[0] != 0)
+    {
+        for(int i = 1; i < 5; i++)
+        {
+            A_RGB rgb = stage_map.at(scyther.getPosition().i - i,scyther.getPosition().j);
+            if(rgb.isWhite())
+            {
+                *direction = 1;
+                return true;
+            }
+        }
+    }
+
+    if(directionOptions[1] != 0) // case east
+    {
+        for(int j = 1; j < 5; j++)
+        {
+            A_RGB rgb = stage_map.at(scyther.getPosition().i,scyther.getPosition().j - j);
+            if(rgb.isWhite())
+            {
+                *direction = 2;
+                return true;
+            }
+        }
+    }
+
+    // case south
+    if(directionOptions[2] != 0)
+    {
+        for(int i = 1; i < 5; i++)
+        {
+            A_RGB rgb = stage_map.at(scyther.getPosition().i + i,scyther.getPosition().j);
+            if(rgb.isWhite())
+            {
+                *direction = 3;
+                return true;
+            }
+        }
+    }
+
+    // case west
+    if(directionOptions[1] != 0)
+    {
+        for(int j = 1; j < 5; j++)
+        {
+            A_RGB rgb = stage_map.at(scyther.getPosition().i,scyther.getPosition().j + j);
+            if(rgb.isWhite())
+            {
+                *direction = 4;
+                return true;
+            }
+        }
+    }
+
+    *direction = 5;
+    return false;
+}
+
 void GameMap::load_models()
 {
     BITMAPINFO	*info;           /* Bitmap information */
@@ -380,6 +443,93 @@ void GameMap::makeCrack()
 
 void GameMap::moveAScyther(int i, int j, int enemiesIndex)
 {
+    int direction;
+    int directionOptions[4] = {1,2,3,4};
+    bool moved = false;
+    Scyther scyther = scythers.at(enemiesIndex);
+
+    while(!moved)
+    {
+        if(isPlayerNearEnemy(enemiesIndex, directionOptions, &direction))
+        {
+            if(directionOptions[0] == 0 && directionOptions[1] == 0
+               && directionOptions[1] == 0 && directionOptions[1] == 0)
+                direction = 5;
+        }
+        else
+        {
+            srand (time(NULL));
+            direction = rand() % 5 + 1;
+            moved = false;
+        }
+
+        switch(direction)
+        {
+            case 1: //north
+                A_RGB rgb = stage_map.at(i-1).at(j);
+                if(rgb.isGreen())
+                {
+                    CharacterPosition pos = CharacterPosition(i-1,j);
+                    scyther.setPosition(pos);
+                    scyther.setYRotation(90.0f);
+                    scythers.at(enemiesIndex) = scyther;
+                    directionOptions[0] = 0;
+                    moved = true;
+                }
+                break;
+            case 2: //east
+                A_RGB rgb = stage_map.at(i).at(j+1);
+                if(rgb.isGreen())
+                {
+                    CharacterPosition pos = CharacterPosition(i,j+1);
+                    scyther.setPosition(pos);
+                    scyther.setYRotation(0.0f);
+                    scythers.at(enemiesIndex) = scyther;
+                    directionOptions[1] = 0;
+                    moved = true;
+                }
+                break;
+            case 3: //south
+                A_RGB rgb = stage_map.at(i+1).at(j);
+                if(rgb.isGreen())
+                {
+                    CharacterPosition pos = CharacterPosition(i+1,j);
+                    scyther.setPosition(pos);
+                    scyther.setYRotation(270.0f);
+                    scythers.at(enemiesIndex) = scyther;
+                    directionOptions[3] = 0;
+                    moved = true;
+                }
+                break;
+            case 4: //west
+                A_RGB rgb = stage_map.at(i).at(j-1);
+                if(rgb.isGreen())
+                {
+                    CharacterPosition pos = CharacterPosition(i+1,j);
+                    scyther.setPosition(pos);
+                    scyther.setYRotation(180.0f);
+                    scythers.at(enemiesIndex) = scyther;
+                    directionOptions[4] = 0;
+                    moved = true;
+                }
+                break;
+            case 5: //don't move
+                moved = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    // detectar se o player está a 4 células de distância deste scyther.
+
+
+
+
+    }
+
+    //scythers.at(enemiesIndex);
 
 }
 

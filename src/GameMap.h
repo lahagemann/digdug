@@ -32,6 +32,7 @@ class GameMap
         bool isPlayerAboveHole();
         bool isPlayerAboveWater();
         bool isPlayerDead();
+        bool isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *direction);
         void load_models();
         void makeCrack();
         void moveAScyther(int i, int j, int enemiesIndex);
