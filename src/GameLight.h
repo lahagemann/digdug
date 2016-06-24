@@ -12,8 +12,10 @@ class GameLight
         GameLight();
         virtual ~GameLight();
 
+        void makeLight();
+
     private:
-        const A_RGB skyColor = A_RGB(0, 185, 255);
+        const A_RGB skyColor = A_RGB(100, 185, 255);
 };
 
 #endif // GAMELIGHT_H

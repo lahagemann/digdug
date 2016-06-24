@@ -233,7 +233,7 @@
 	<stddef.h>
 	<GL/gl.h>
 
-1466690783 source:c:\users\marcelo\documents\git\digdug\src\cam.cpp
+1466772472 source:c:\users\marcelo\documents\git\digdug\src\cam.cpp
 	"Cam.h"
 
 1466772388 c:\users\marcelo\documents\git\digdug\src\cam.h
@@ -305,10 +305,10 @@
 1466695901 c:\users\luiza\documents\diglettdug\src\floor.h
 	"Ground.h"
 
-1466687140 source:c:\users\marcelo\documents\git\digdug\src\gamelight.cpp
+1466773707 source:c:\users\marcelo\documents\git\digdug\src\gamelight.cpp
 	"GameLight.h"
 
-1466696496 c:\users\marcelo\documents\git\digdug\src\gamelight.h
+1466773470 c:\users\marcelo\documents\git\digdug\src\gamelight.h
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
@@ -389,7 +389,7 @@
 1466701152 source:c:\users\marcelo\documents\git\digdug\src\model.cpp
 	"Model.h"
 
-1466770552 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
+1466773254 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
