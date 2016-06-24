@@ -290,7 +290,6 @@ void renderScene()
 	glPushMatrix();
         glTranslatef(x,0.5f,z);
         glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
-        glRotatef(-270.0f,0.0f,1.0f,0.0f);
         glScalef(0.5f,0.5f,0.5f);
         glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
     glPopMatrix();
@@ -304,7 +303,6 @@ void renderScene()
         glPushMatrix();
             glTranslatef(x,0.5f,z);
             glRotatef(schyther.getYRotation(),0.0f,1.0f,0.0f);
-            glRotatef(-270.0f,0.0f,1.0f,0.0f);
             glmDraw(scytherModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
@@ -317,7 +315,6 @@ void renderScene()
         glPushMatrix();
             glTranslatef(x,0.0f,z);
             glRotatef(sharpedo.getYRotation(),0.0f,1.0f,0.0f);
-            glRotatef(-270.0f,0.0f,1.0f,0.0f);
             glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
@@ -330,7 +327,6 @@ void renderScene()
         glPushMatrix();
             glTranslatef(x,0.2f,z);
             glRotatef(snorlax.getYRotation(),0.0f,1.0f,0.0f);
-            glRotatef(-270.0f,0.0f,1.0f,0.0f);
             glRotatef(270.0f,1.0f,0.0f,0.0f);
             glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
@@ -505,7 +501,7 @@ void updateState()
         changeCamera = false;
     }
 
-    game_map.moveEnemies();
+    //game_map.moveEnemies();
 
     if(game_map.isPlayerDead())
         exit(0);

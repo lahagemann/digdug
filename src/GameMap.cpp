@@ -199,7 +199,7 @@ bool GameMap::isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *
     {
         for(int i = 1; i < 5; i++)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i - i,scyther.getPosition().j);
+            A_RGB rgb = stage_map.at(scyther.getPosition().i - i).at(scyther.getPosition().j);
             if(rgb.isWhite())
             {
                 *direction = 1;
@@ -212,7 +212,7 @@ bool GameMap::isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *
     {
         for(int j = 1; j < 5; j++)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i,scyther.getPosition().j - j);
+            A_RGB rgb = stage_map.at(scyther.getPosition().i).at(scyther.getPosition().j - j);
             if(rgb.isWhite())
             {
                 *direction = 2;
@@ -226,7 +226,7 @@ bool GameMap::isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *
     {
         for(int i = 1; i < 5; i++)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i + i,scyther.getPosition().j);
+            A_RGB rgb = stage_map.at(scyther.getPosition().i + i).at(scyther.getPosition().j);
             if(rgb.isWhite())
             {
                 *direction = 3;
@@ -240,7 +240,7 @@ bool GameMap::isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *
     {
         for(int j = 1; j < 5; j++)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i,scyther.getPosition().j + j);
+            A_RGB rgb = stage_map.at(scyther.getPosition().i).at(scyther.getPosition().j + j);
             if(rgb.isWhite())
             {
                 *direction = 4;
@@ -463,10 +463,12 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex)
             moved = false;
         }
 
+        A_RGB rgb;
+
         switch(direction)
         {
             case 1: //north
-                A_RGB rgb = stage_map.at(i-1).at(j);
+                rgb = stage_map.at(i-1).at(j);
                 if(rgb.isGreen())
                 {
                     CharacterPosition pos = CharacterPosition(i-1,j);
@@ -478,7 +480,7 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex)
                 }
                 break;
             case 2: //east
-                A_RGB rgb = stage_map.at(i).at(j+1);
+                rgb = stage_map.at(i).at(j+1);
                 if(rgb.isGreen())
                 {
                     CharacterPosition pos = CharacterPosition(i,j+1);
@@ -490,7 +492,7 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex)
                 }
                 break;
             case 3: //south
-                A_RGB rgb = stage_map.at(i+1).at(j);
+                rgb = stage_map.at(i+1).at(j);
                 if(rgb.isGreen())
                 {
                     CharacterPosition pos = CharacterPosition(i+1,j);
@@ -502,7 +504,7 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex)
                 }
                 break;
             case 4: //west
-                A_RGB rgb = stage_map.at(i).at(j-1);
+                rgb = stage_map.at(i).at(j-1);
                 if(rgb.isGreen())
                 {
                     CharacterPosition pos = CharacterPosition(i+1,j);
@@ -523,11 +525,6 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex)
 
 
     // detectar se o player está a 4 células de distância deste scyther.
-
-
-
-
-    }
 
     //scythers.at(enemiesIndex);
 

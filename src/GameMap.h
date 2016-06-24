@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <ctime>
 #include <vector>
 #include "A_RGB.h"
 #include "bitmap.h"
