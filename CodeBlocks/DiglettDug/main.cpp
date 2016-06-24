@@ -288,7 +288,7 @@ void renderScene()
 	game_map.player.getPosition().convert_to_xz(&x, &z);
 
 	glPushMatrix();
-        glTranslatef(x,1.0f,z);
+        glTranslatef(x,0.5f,z);
         glRotatef(180.0f,0.0f,1.0f,0.0f);
         glScalef(0.5f,0.5f,0.5f);
         glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
@@ -301,7 +301,7 @@ void renderScene()
         schyther.getPosition().convert_to_xz(&x, &z);
 
         glPushMatrix();
-            glTranslatef(x,1.0f,z);
+            glTranslatef(x,0.5f,z);
             glmDraw(scytherModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
@@ -317,18 +317,19 @@ void renderScene()
         glPopMatrix();
     }
 
-    /*
     for(int i = 0; i < game_map.getSnorlaxs().size(); i++)
     {
         Snorlax snorlax = game_map.getSnorlaxs().at(i);
         snorlax.getPosition().convert_to_xz(&x, &z);
 
         glPushMatrix();
-            glTranslatef(x,0.0f,z);
+            glTranslatef(x,0.2f,z);
+            glRotatef(180.0f,0.0f,0.0f,1.0f);
+            glRotatef(90.0f,1.0f,0.0f,0.0f);
             glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
-    */
+
     for(int i = 0; i < game_map.getStageMap().size(); i++)
     {
         for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)

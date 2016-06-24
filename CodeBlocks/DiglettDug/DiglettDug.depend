@@ -233,7 +233,7 @@
 	<stddef.h>
 	<GL/gl.h>
 
-1466781678 source:c:\users\marcelo\documents\git\digdug\src\cam.cpp
+1466788123 source:c:\users\marcelo\documents\git\digdug\src\cam.cpp
 	"Cam.h"
 
 1466776467 c:\users\marcelo\documents\git\digdug\src\cam.h
@@ -314,7 +314,7 @@
 	<gl/glut.h>
 	"A_RGB.h"
 
-1466781180 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
+1466789857 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
 	"GameMap.h"
 	<iostream>
 
@@ -389,19 +389,17 @@
 1466701152 source:c:\users\marcelo\documents\git\digdug\src\model.cpp
 	"Model.h"
 
-1466781180 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
+1466789899 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
 	<stdlib.h>
 	"../../src/Cam.h"
-	"../../src/Crack.h"
-	"../../src/Floor.h"
 	"../../src/GameLight.h"
 	"../../src/GameMap.h"
 	"../../src/GameSettings.h"
-	"../../src/Hole.h"
+	"../../src/Ground.h"
 	"../../src/Model.h"
 
 1466695367 c:\users\marcelo\documents\git\digdug\src\gamesettings.h
