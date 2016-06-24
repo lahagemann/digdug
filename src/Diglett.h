@@ -10,11 +10,7 @@ class Diglett : public Character
         Diglett(int i, int j);
         virtual ~Diglett();
 
-        float getHeadPosition();
         void walkIn2DMode(Direction dir);
-
-    private:
-        float headPosition;
 };
 
 #endif // DIGLETT_H

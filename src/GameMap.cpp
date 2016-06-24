@@ -1,5 +1,4 @@
 #include "GameMap.h"
-#include <iostream>
 
 GameMap::GameMap()
 {
@@ -32,15 +31,7 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
     {
         if(direction == Character::forwards)
         {
-            if(player.getXRotation() == 0.0f)
-            {
-                A_RGB rgb = characters_map.at(i).at(j+1);
-                if(rgb.isMagenta())
-                    return true;
-                else
-                    return false;
-            }
-            else if(player.getXRotation() == 90.0f)
+            if(player.getYRotation() == 0.0f)
             {
                 A_RGB rgb = characters_map.at(i-1).at(j);
                 if(rgb.isMagenta())
@@ -48,17 +39,25 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
                 else
                     return false;
             }
-            else if(player.getXRotation() == 180.0f)
+            else if(player.getYRotation() == 90.0f)
             {
-                A_RGB rgb = characters_map.at(i).at(j-1);
+                A_RGB rgb = characters_map.at(i).at(j+1);
                 if(rgb.isMagenta())
                     return true;
                 else
                     return false;
             }
-            else if(player.getXRotation() == 270.0f)
+            else if(player.getYRotation() == 180.0f)
             {
                 A_RGB rgb = characters_map.at(i+1).at(j);
+                if(rgb.isMagenta())
+                    return true;
+                else
+                    return false;
+            }
+            else if(player.getYRotation() == 270.0f)
+            {
+                A_RGB rgb = characters_map.at(i).at(j-1);
                 if(rgb.isMagenta())
                     return true;
                 else
@@ -67,15 +66,7 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
         }
         else if(direction == Character::backwards)
         {
-            if(player.getXRotation() == 0.0f)
-            {
-                A_RGB rgb = characters_map.at(i).at(j-1);
-                if(rgb.isMagenta())
-                    return true;
-                else
-                    return false;
-            }
-            else if(player.getXRotation() == 90.0f)
+            if(player.getYRotation() == 0.0f)
             {
                 A_RGB rgb = characters_map.at(i+1).at(j);
                 if(rgb.isMagenta())
@@ -83,17 +74,25 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
                 else
                     return false;
             }
-            else if(player.getXRotation() == 180.0f)
+            else if(player.getYRotation() == 90.0f)
             {
-                A_RGB rgb = characters_map.at(i).at(j+1);
+                A_RGB rgb = characters_map.at(i).at(j-1);
                 if(rgb.isMagenta())
                     return true;
                 else
                     return false;
             }
-            else if(player.getXRotation() == 270.0f)
+            else if(player.getYRotation() == 180.0f)
             {
                 A_RGB rgb = characters_map.at(i-1).at(j);
+                if(rgb.isMagenta())
+                    return true;
+                else
+                    return false;
+            }
+            else if(player.getYRotation() == 270.0f)
+            {
+                A_RGB rgb = characters_map.at(i).at(j+1);
                 if(rgb.isMagenta())
                     return true;
                 else
@@ -137,13 +136,13 @@ bool GameMap::isEnemyPushable(int i, int j, float playerRotation)
         A_RGB movementPosition;
 
         if(playerRotation == 0.0f) // Virado para a direita do mapa
-            movementPosition = characters_map.at(i).at(j+1);
-        else if(playerRotation == 90.0f) // Virado para a parte superior do mapa
             movementPosition = characters_map.at(i-1).at(j);
+        else if(playerRotation == 90.0f) // Virado para a parte superior do mapa
+            movementPosition = characters_map.at(i).at(j+1);
         else if(playerRotation == 180.0f) // Virado para a esquerda do mapa
-            movementPosition = characters_map.at(i).at(j-1);
-        else if(playerRotation == 270.0f) // Virado para a parte inferior do mapa
             movementPosition = characters_map.at(i+1).at(j);
+        else if(playerRotation == 270.0f) // Virado para a parte inferior do mapa
+            movementPosition = characters_map.at(i).at(j-1);
 
         if(movementPosition.isBlue())
             return true;
@@ -157,9 +156,9 @@ bool GameMap::isPlayerAboveHole()
     if(player.getPosition().i < stage_map.size() &&
        player.getPosition().j < stage_map.at(player.getPosition().i).size())
     {
-        A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(player.getPosition().j);
+        A_RGB rgb = stage_map.at(player.getPosition().i).at(player.getPosition().j);
 
-        if(currentPositionColor.isBlack())
+        if(rgb.isBlack())
             return true;
     }
 
@@ -182,9 +181,7 @@ bool GameMap::isPlayerAboveWater()
 
 bool GameMap::isPlayerDead()
 {
-    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j))
-        return true;
-    else if(isPlayerAboveWater())
+    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j) || isPlayerAboveWater())
         return true;
 
     return false;
@@ -259,10 +256,6 @@ void GameMap::load_models()
     GLubyte	    *bits;           /* Bitmap RGB pixels */
     GLubyte     *ptr;            /* Pointer into bit buffer */
     GLubyte	    *rgba;           /* RGBA pixel buffer */
-    GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
-
-    //BITMAPINFO	*info;           /* Bitmap information */
-    //GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
 
     bits = LoadDIBitmap("Stage2.bmp", &info);
     if(bits == (GLubyte *)0)
@@ -283,14 +276,8 @@ void GameMap::load_models()
 	rgba = (GLubyte *)malloc(info->bmiHeader.biWidth * info->bmiHeader.biHeight * 4);
 
     int i = info->bmiHeader.biWidth * info->bmiHeader.biHeight-1;
-    for( rgbaptr = rgba, ptr = bits;  i >= 0; i--, rgbaptr += 4, ptr += 3)
+    for(ptr = bits;  i >= 0; i--, ptr += 3)
     {
-        rgbaptr[0] = ptr[2];     // windows BMP = BGR
-        rgbaptr[1] = ptr[1];
-        rgbaptr[2] = ptr[0];
-        rgbaptr[3] = (ptr[0] + ptr[1] + ptr[2]) / 3;
-
-
         int r = ptr[2];
         int g = ptr[1];
         int b = ptr[0];
@@ -359,32 +346,13 @@ void GameMap::load_models()
             stage_map.at(31-i/32).push_back(green);
         }
     }
-    std::cout << "done\n" << std::endl;
 }
 
 void GameMap::makeCrack()
 {
     if(isPlayerAboveHole())
     {
-        if(player.getXRotation() == 0.0f) // Virado para a direita do mapa
-        {
-            int iterationPosition = player.getPosition().j + 1;
-            A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
-
-            while(currentPositionColor.isGreen())
-            {
-                iterationPosition++;
-                currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
-            }
-
-            if(currentPositionColor.isBlack() || currentPositionColor.isRed())
-            {
-                currentPositionColor.setRed();
-                for(int k = player.getPosition().j + 1; k < iterationPosition; k++)
-                    stage_map.at(player.getPosition().i).at(k) = currentPositionColor;
-            }
-        }
-        else if(player.getXRotation() == 90.0f) // Virado para a parte superior do mapa
+        if(player.getYRotation() == 0.0f) // Virado para a parte superior do mapa
         {
             int iterationPosition = player.getPosition().i - 1;
             A_RGB currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
@@ -402,25 +370,25 @@ void GameMap::makeCrack()
                     stage_map.at(k).at(player.getPosition().j) = currentPositionColor;
             }
         }
-        else if(player.getXRotation() == 180.0f) // Virado para a esquerda do mapa
+        else if(player.getYRotation() == 90.0f) // Virado para a esquerda do mapa
         {
-            int iterationPosition = player.getPosition().j - 1;
+            int iterationPosition = player.getPosition().j + 1;
             A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
 
             while(currentPositionColor.isGreen())
             {
-                iterationPosition--;
+                iterationPosition++;
                 currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
             }
 
             if(currentPositionColor.isBlack() || currentPositionColor.isRed())
             {
                 currentPositionColor.setRed();
-                for(int k = player.getPosition().j - 1; k > iterationPosition; k--)
+                for(int k = player.getPosition().j + 1; k < iterationPosition; k++)
                     stage_map.at(player.getPosition().i).at(k) = currentPositionColor;
             }
         }
-        else if(player.getXRotation() == 270.0f) // Virado para a parte inferior do mapa
+        else if(player.getYRotation() == 180.0f) // Virado para a parte inferior do mapa
         {
             int iterationPosition = player.getPosition().i + 1;
             A_RGB currentPositionColor = stage_map.at(iterationPosition).at(player.getPosition().j);
@@ -436,6 +404,24 @@ void GameMap::makeCrack()
                 currentPositionColor.setRed();
                 for(int k = player.getPosition().i + 1; k < iterationPosition; k++)
                     stage_map.at(k).at(player.getPosition().j) = currentPositionColor;
+            }
+        }
+        else if(player.getYRotation() == 270.0f) // Virado para a direita do mapa
+        {
+            int iterationPosition = player.getPosition().j - 1;
+            A_RGB currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
+
+            while(currentPositionColor.isGreen())
+            {
+                iterationPosition--;
+                currentPositionColor = stage_map.at(player.getPosition().i).at(iterationPosition);
+            }
+
+            if(currentPositionColor.isBlack() || currentPositionColor.isRed())
+            {
+                currentPositionColor.setRed();
+                for(int k = player.getPosition().j - 1; k > iterationPosition; k--)
+                    stage_map.at(player.getPosition().i).at(k) = currentPositionColor;
             }
         }
     }
@@ -562,54 +548,7 @@ void GameMap::push()
     int i = player.getPosition().i;
     int j = player.getPosition().j;
 
-    if(player.getXRotation() == 0.0f)
-    {
-        A_RGB rgb_near = characters_map.at(i).at(j+1);
-        A_RGB rgb_far = characters_map.at(i).at(j+2);
-        if(rgb_near.isYellow())
-        {
-            if(isEnemyPushable(i,j+1,0.0f))
-            {
-                rgb_near.setBlue();
-                characters_map.at(i).at(j+1) = rgb_near;
-
-                rgb_near.setYellow();
-                characters_map.at(i).at(j+3) = rgb_near;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i, j+1))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j+3);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-        else if(rgb_far.isYellow() && rgb_near.isBlue())
-        {
-            if(isEnemyPushable(i,j+2,0.0f))
-            {
-                rgb_far.setBlue();
-                characters_map.at(i).at(j+2) = rgb_far;
-
-                rgb_far.setYellow();
-                characters_map.at(i).at(j+4) = rgb_far;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i, j+2))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j+4);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-    }
-    else if(player.getXRotation() == 90.0f)
+    if(player.getYRotation() == 0.0f)
     {
         A_RGB rgb_near = characters_map.at(i-1).at(j);
         A_RGB rgb_far = characters_map.at(i-2).at(j);
@@ -656,26 +595,26 @@ void GameMap::push()
             }
         }
     }
-    else if(player.getXRotation() == 180.0f)
+    else if(player.getYRotation() == 90.0f)
     {
-        A_RGB rgb_near = characters_map.at(i).at(j-1);
-        A_RGB rgb_far = characters_map.at(i).at(j-2);
+        A_RGB rgb_near = characters_map.at(i).at(j+1);
+        A_RGB rgb_far = characters_map.at(i).at(j+2);
         if(rgb_near.isYellow())
         {
-            if(isEnemyPushable(i,j-1,180.0f))
+            if(isEnemyPushable(i,j+1,0.0f))
             {
                 rgb_near.setBlue();
-                characters_map.at(i).at(j-1) = rgb_near;
+                characters_map.at(i).at(j+1) = rgb_near;
 
                 rgb_near.setYellow();
-                characters_map.at(i).at(j-3) = rgb_near;
+                characters_map.at(i).at(j+3) = rgb_near;
 
                 for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(scythers.at(k).getPosition().equals(i, j-1))
+                    if(scythers.at(k).getPosition().equals(i, j+1))
                     {
                         Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j-3);
+                        enemy.setPosition(i, j+3);
                         scythers.at(k) = enemy;
                     }
                 }
@@ -683,27 +622,27 @@ void GameMap::push()
         }
         else if(rgb_far.isYellow() && rgb_near.isBlue())
         {
-            if(isEnemyPushable(i,j-2,180.0f))
+            if(isEnemyPushable(i,j+2,0.0f))
             {
                 rgb_far.setBlue();
-                characters_map.at(i).at(j-2) = rgb_far;
+                characters_map.at(i).at(j+2) = rgb_far;
 
                 rgb_far.setYellow();
-                characters_map.at(i).at(j-4) = rgb_far;
+                characters_map.at(i).at(j+4) = rgb_far;
 
                 for(int k = 0; k < scythers.size(); k++)
                 {
-                    if(scythers.at(k).getPosition().equals(i, j-2))
+                    if(scythers.at(k).getPosition().equals(i, j+2))
                     {
                         Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j-4);
+                        enemy.setPosition(i, j+4);
                         scythers.at(k) = enemy;
                     }
                 }
             }
         }
     }
-    else if(player.getXRotation() == 270.0f)
+    else if(player.getYRotation() == 180.0f)
     {
         A_RGB rgb_near = characters_map.at(i+1).at(j);
         A_RGB rgb_far = characters_map.at(i+2).at(j);
@@ -744,6 +683,53 @@ void GameMap::push()
                     {
                         Scyther enemy = scythers.at(k);
                         enemy.setPosition(i+4, j);
+                        scythers.at(k) = enemy;
+                    }
+                }
+            }
+        }
+    }
+    else if(player.getYRotation() == 270.0f)
+    {
+        A_RGB rgb_near = characters_map.at(i).at(j-1);
+        A_RGB rgb_far = characters_map.at(i).at(j-2);
+        if(rgb_near.isYellow())
+        {
+            if(isEnemyPushable(i,j-1,180.0f))
+            {
+                rgb_near.setBlue();
+                characters_map.at(i).at(j-1) = rgb_near;
+
+                rgb_near.setYellow();
+                characters_map.at(i).at(j-3) = rgb_near;
+
+                for(int k = 0; k < scythers.size(); k++)
+                {
+                    if(scythers.at(k).getPosition().equals(i, j-1))
+                    {
+                        Scyther enemy = scythers.at(k);
+                        enemy.setPosition(i, j-3);
+                        scythers.at(k) = enemy;
+                    }
+                }
+            }
+        }
+        else if(rgb_far.isYellow() && rgb_near.isBlue())
+        {
+            if(isEnemyPushable(i,j-2,180.0f))
+            {
+                rgb_far.setBlue();
+                characters_map.at(i).at(j-2) = rgb_far;
+
+                rgb_far.setYellow();
+                characters_map.at(i).at(j-4) = rgb_far;
+
+                for(int k = 0; k < scythers.size(); k++)
+                {
+                    if(scythers.at(k).getPosition().equals(i, j-2))
+                    {
+                        Scyther enemy = scythers.at(k);
+                        enemy.setPosition(i, j-4);
                         scythers.at(k) = enemy;
                     }
                 }

@@ -47,9 +47,8 @@ void Cam::setFirstPersonCam(Diglett player)
     float xRotation = player.getXRotation();
     float yRotation = player.getYRotation();
 
-    gluLookAt(posX, posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180)), posZ,
-		posX + sin(yRotation*PI/180), posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180))
-              + cos(xRotation*PI/180), posZ - cos(yRotation*PI/180),
+    gluLookAt(posX, posY, posZ,
+		posX + sin(yRotation*PI/180), posY + cos(xRotation*PI/180), posZ - cos(yRotation*PI/180),
 		0.0, 1.0, 0.0);
 }
 
