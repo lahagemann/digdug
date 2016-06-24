@@ -38,7 +38,7 @@ const char* GAME_NAME = "Dig(lett) Dug(trio)";
 int mainWindowId = 0;
 int MouseXPosition = 0;
 int MouseYPosition = 0;
-float planeSize = 32.0f;
+float planeSize = 40.0f;
 GLuint texture;         /* Texture object */
 GLenum type;            /* Texture type */
 int windowHeight = 480;
@@ -68,6 +68,8 @@ GLMmodel *snorlaxModel;
 GLMmodel *diglettModel;
 GLMmodel *sharpedoModel;
 GLMmodel *cube;
+GLMmodel *cube_hole;
+GLMmodel *cube_crack;
 
 void initTexture()
 {
@@ -147,16 +149,23 @@ void mainInit()
 	// habilita o z-buffer
 	glEnable(GL_DEPTH_TEST);
     initTexture();
+
+    // inicializa todos os modelos 3D que serão multiplicados
     diglettModel = (GLMmodel*)malloc(sizeof(GLMmodel));
     scytherModel = (GLMmodel*)malloc(sizeof(GLMmodel));
     sharpedoModel = (GLMmodel*)malloc(sizeof(GLMmodel));
     snorlaxModel = (GLMmodel*)malloc(sizeof(GLMmodel));
     cube = (GLMmodel*)malloc(sizeof(GLMmodel));
+    cube_hole = (GLMmodel*)malloc(sizeof(GLMmodel));
+    cube_crack = (GLMmodel*)malloc(sizeof(GLMmodel));
+
     load_new_model("Diglett.obj", &diglettModel, 0.5f);
     load_new_model("Scyther.obj", &scytherModel, 0.5f);
     load_new_model("Sharpedo.obj", &sharpedoModel, 0.5f);
     load_new_model("Snorlax.obj", &snorlaxModel, 0.5f);
-    load_new_model("cube.obj", &cube, 1.0f);
+    load_new_model("cube.obj", &cube, 0.5f);
+    load_new_model("cube_hole.obj", &cube_hole, 0.5f);
+    load_new_model("cube_crack.obj", &cube_crack, 0.5f);
 }
 
 void mainRender()
@@ -299,8 +308,6 @@ void renderScene()
         glPopMatrix();
     }
 
-    /*
-    std::cout << game_map.getSharpedos().size() << std::endl;
     for(int i = 0; i < game_map.getSharpedos().size(); i++)
     {
         Sharpedo sharpedo = game_map.getSharpedos().at(i);
@@ -312,7 +319,7 @@ void renderScene()
         glPopMatrix();
     }
 
-
+    /*
     for(int i = 0; i < game_map.getSnorlaxs().size(); i++)
     {
         Snorlax snorlax = game_map.getSnorlaxs().at(i);
@@ -329,36 +336,39 @@ void renderScene()
         for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
         {
             A_RGB rgb = game_map.getStageMap().at(i).at(j);
-            /*if(rgb.isBlack())
+            if(rgb.isBlack())
             {
-                Hole hole = Hole(i,j);
+                Ground hole = Ground(i,j);
                 hole.getPosition().convert_to_xz(&x, &z);
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
-                    glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glScalef(0.5f,0.5f,0.5f);
+                    glmDraw(cube_hole, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
-            else*/ if(rgb.isGreen())
+            else if(rgb.isGreen())
             {
-                Floor floor = Floor(i,j);
+                Ground floor = Ground(i,j);
                 floor.getPosition().convert_to_xz(&x, &z);
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
+                    glScalef(0.5f,0.5f,0.5f);
                     glmDraw(cube, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
-            /*else if(rgb.isRed())
+            else if(rgb.isRed())
             {
-                Crack crack = Crack(i,j);
+                Ground crack = Ground(i,j);
                 crack.getPosition().convert_to_xz(&x, &z);
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
-                    glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glScalef(0.5f,0.5f,0.5f);
+                    glmDraw(cube_crack, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
-            }*/
+            }
         }
     }
 

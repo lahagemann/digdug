@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1466782848 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
+1466787354 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
@@ -172,14 +172,14 @@
 1465171026 source:c:\users\luiza\documents\diglettdug\src\aposition.cpp
 	"APosition.h"
 
-1466782668 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
+1466786382 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
 	"Cam.h"
 
 1466776474 c:\users\luiza\documents\diglettdug\src\cam.h
 	<cmath>
 	"Diglett.h"
 
-1466781924 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+1466786913 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
 	"GameMap.h"
 	<iostream>
 

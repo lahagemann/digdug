@@ -79,7 +79,7 @@ void Cam::setUpperCam()
 {
     camOption = UPPER_CAM_OPTION;
 
-    gluLookAt(0.0, 50.0, 10.0,
+    gluLookAt(0.0, 30.0, 10.0,
 		0.0, 0.0, 0.0,
 		0.0, 1.0, 0.0);
 }

@@ -202,7 +202,7 @@ void GameMap::load_models()
     //BITMAPINFO	*info;           /* Bitmap information */
     //GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
 
-    bits = LoadDIBitmap("Stage1.bmp", &info);
+    bits = LoadDIBitmap("Stage2.bmp", &info);
     if(bits == (GLubyte *)0)
     {
 		std::cout << "Error loading!" << std::endl << std::endl;
@@ -238,84 +238,65 @@ void GameMap::load_models()
         A_RGB rgb = A_RGB(r,g,b);
         if(rgb.isBlack()) //hole
         {
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
             rgb.setBlue();
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isRed()) //crack
         {
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
             rgb.setBlue();
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isGreen()) //ground
         {
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
             rgb.setBlue();
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isBlue()) //sea
         {
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
             rgb.setBlue();
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isYellow()) //enemy
         {
-            Scyther enemy = Scyther(i/32,31 - i%32);
+            Scyther enemy = Scyther(31-i/32,31 - i%32);
             scythers.push_back(enemy);
 
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
             rgb.setGreen();
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isMagenta()) //snorlax
         {
-            Snorlax obstacle = Snorlax(i/32,31 - i%32);
+            Snorlax obstacle = Snorlax(31-i/32,31 - i%32);
             snorlaxs.push_back(obstacle);
 
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
             rgb.setGreen();
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isCyan()) //sharpedo
         {
-            Sharpedo sharpedo = Sharpedo(i/32,31 - i%32);
+            Sharpedo sharpedo = Sharpedo(31-i/32,31 - i%32);
             sharpedos.push_back(sharpedo);
 
-            characters_map.at(i/32).push_back(rgb);
+            characters_map.at(31-i/32).push_back(rgb);
             rgb.setBlue();
-            stage_map.at(i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(rgb);
         }
         else if(rgb.isWhite()) //player
         {
-            this->player = Diglett(i/32,31 - i%32);
+            this->player = Diglett(31-i/32,31 - i%32);
 
             A_RGB green = A_RGB(0,255,0);
             rgb.setBlue();
-            characters_map.at(i/32).push_back(rgb);
-            stage_map.at(i/32).push_back(green);
+            characters_map.at(31-i/32).push_back(rgb);
+            stage_map.at(31-i/32).push_back(green);
         }
     }
-
-    int countYellow = 0, countCyan = 0, countMagenta = 0, countWhite = 0;
-    for(int i = 0; i < 32; i++)
-    {
-        for(int j = 0; j < 32; j++)
-        {
-            A_RGB rgb = stage_map.at(i).at(j);
-            if(rgb.isRed())
-                countYellow++;
-            else if(rgb.isGreen())
-                countMagenta++;
-            else if(rgb.isBlue())
-                countCyan++;
-            else if(rgb.isBlack())
-                countWhite++;
-        }
-    }
-
-    std::cout << "r: " << countYellow << " g: " << countMagenta << " blu: " << countCyan << " bla: " << countWhite << std::endl;
 
     /*
     for(int i = 0; i < info->bmiHeader.biHeight; i++)
