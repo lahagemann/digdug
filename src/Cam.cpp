@@ -37,38 +37,42 @@ void Cam::setFirstPersonCam(Diglett player)
 {
     camOption = FIRST_PERSON_CAM_OPTION;
 
+    float posX, posY, posZ;
     player.getPosition().convert_to_xz(&posX, &posZ);
     posY = 1.0f;
 
-    xRotation = player.getXRotation();
-    yRotation = player.getYRotation();
-    playerHeadPosition = player.getHeadPosition();
+    float xRotation = player.getXRotation();
+    float yRotation = player.getYRotation();
+
+    gluLookAt(posX, posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180)), posZ,
+		posX + sin(yRotation*PI/180), posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180)) + cos(xRotation*PI/180), posZ -cos(yRotation*PI/180),
+		0.0, 1.0, 0.0);
 }
 
 void Cam::setThirdPersonCam(Diglett player)
 {
     camOption = THIRD_PERSON_CAM_OPTION;
 
+    float posX, posY, posZ;
     player.getPosition().convert_to_xz(&posX, &posZ);
     posY = 1.5f;
     posZ += 3.0f;
 
-    xRotation = player.getXRotation();
-    yRotation = player.getYRotation();
-    playerHeadPosition = 0.0f;
+    float xRotation = player.getXRotation();
+    float yRotation = player.getYRotation();
+
+    gluLookAt(posX, posY, posZ,
+		posX + sin(yRotation*PI/180), posY + cos(xRotation*PI/180), posZ - cos(yRotation*PI/180),
+		0.0, 1.0, 0.0);
 }
 
 void Cam::setUpperCam()
 {
     camOption = UPPER_CAM_OPTION;
 
-    posX = 2.0f;
-    posY = 2.0f;
-    posZ = 2.0f;
-
-    xRotation = 90.0f;
-    yRotation = 245.0f;
-    playerHeadPosition = 0.0f;
+    gluLookAt(0.0, 50.0, -10.0,
+		0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0);
 }
 
 void Cam::updateCam(Diglett player)
@@ -81,8 +85,4 @@ void Cam::updateCam(Diglett player)
 
     else if(camOption == THIRD_PERSON_CAM_OPTION)
         setThirdPersonCam(player);
-
-    gluLookAt(posX, posY + 0.025 * std::abs(sin(playerHeadPosition*PI/180)), posZ,
-		posX + sin(yRotation*PI/180), posY + 0.025 * std::abs(sin(playerHeadPosition*PI/180)) + cos(xRotation*PI/180), posZ -cos(yRotation*PI/180),
-		0.0, 1.0, 0.0);
 }

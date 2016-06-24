@@ -25,8 +25,6 @@ class Cam
         const float PI = 3.14159265;
 
         int camOption;
-        float posX, posY, posZ;
-        float xRotation, yRotation, playerHeadPosition;
 };
 
 #endif // CAM_H
