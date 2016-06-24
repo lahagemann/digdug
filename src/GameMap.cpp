@@ -194,7 +194,13 @@ bool GameMap::isPlayerDead()
 void GameMap::load_models()
 {
     BITMAPINFO	*info;           /* Bitmap information */
-    GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
+    GLubyte	    *bits;           /* Bitmap RGB pixels */
+    GLubyte     *ptr;            /* Pointer into bit buffer */
+    GLubyte	    *rgba;           /* RGBA pixel buffer */
+    GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
+
+    //BITMAPINFO	*info;           /* Bitmap information */
+    //GLubyte     *ptr, *bits;            /* Pointer into bit buffer */
 
     bits = LoadDIBitmap("Stage1.bmp", &info);
     if(bits == (GLubyte *)0)
@@ -203,6 +209,113 @@ void GameMap::load_models()
 		return;
 	}
 
+    for(int j = 0; j < 32; j++)
+	{
+	    std::vector<A_RGB> charRGBLine;
+        characters_map.push_back(charRGBLine);
+
+        std::vector<A_RGB> stageRGBLine;
+        stage_map.push_back(stageRGBLine);
+	}
+
+	rgba = (GLubyte *)malloc(info->bmiHeader.biWidth * info->bmiHeader.biHeight * 4);
+
+    int i = info->bmiHeader.biWidth * info->bmiHeader.biHeight-1;
+    for( rgbaptr = rgba, ptr = bits;  i >= 0; i--, rgbaptr += 3, ptr += 3)
+    {
+        rgbaptr[0] = ptr[2];     // windows BMP = BGR
+        rgbaptr[1] = ptr[1];
+        rgbaptr[2] = ptr[0];
+        //rgbaptr[3] = (ptr[0] + ptr[1] + ptr[2]) / 3;
+
+
+        int r = ptr[0];
+        int g = ptr[1];
+        int b = ptr[2];
+
+        A_RGB rgb = A_RGB(r,g,b);
+        if(rgb.isBlack()) //hole
+        {
+            stage_map.at(i/32).push_back(rgb);
+            rgb.setBlue();
+            characters_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isRed()) //crack
+        {
+            stage_map.at(i/32).push_back(rgb);
+            rgb.setBlue();
+            characters_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isGreen()) //ground
+        {
+            stage_map.at(i/32).push_back(rgb);
+            rgb.setBlue();
+            characters_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isBlue()) //sea
+        {
+            stage_map.at(i/32).push_back(rgb);
+            rgb.setBlue();
+            characters_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isYellow()) //enemy
+        {
+            Scyther enemy = Scyther(i/32,31 - i%32);
+            scythers.push_back(enemy);
+
+            characters_map.at(i/32).push_back(rgb);
+            rgb.setGreen();
+            stage_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isMagenta()) //snorlax
+        {
+            Snorlax obstacle = Snorlax(i/32,31 - i%32);
+            snorlaxs.push_back(obstacle);
+
+            characters_map.at(i/32).push_back(rgb);
+            rgb.setGreen();
+            stage_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isCyan()) //sharpedo
+        {
+            Sharpedo sharpedo = Sharpedo(i/32,31 - i%32);
+            sharpedos.push_back(sharpedo);
+
+            characters_map.at(i/32).push_back(rgb);
+            rgb.setBlue();
+            stage_map.at(i/32).push_back(rgb);
+        }
+        else if(rgb.isWhite()) //player
+        {
+            this->player = Diglett(i/32,31 - i%32);
+
+            A_RGB green = A_RGB(0,255,0);
+            rgb.setBlue();
+            characters_map.at(i/32).push_back(rgb);
+            stage_map.at(i/32).push_back(green);
+        }
+    }
+
+    int countYellow = 0, countCyan = 0, countMagenta = 0, countWhite = 0;
+    for(int i = 0; i < 32; i++)
+    {
+        for(int j = 0; j < 32; j++)
+        {
+            A_RGB rgb = stage_map.at(i).at(j);
+            if(rgb.isYellow())
+                countYellow++;
+            else if(rgb.isMagenta())
+                countMagenta++;
+            else if(rgb.isCyan())
+                countCyan++;
+            else if(rgb.isWhite())
+                countWhite++;
+        }
+    }
+
+    std::cout << "y: " << countYellow << " m: " << countMagenta << " c: " << countCyan << " w: " << countWhite << std::endl;
+
+    /*
     for(int i = 0; i < info->bmiHeader.biHeight; i++)
     {
         std::vector<A_RGB> charRGBLine;
@@ -284,6 +397,7 @@ void GameMap::load_models()
             }
         }
     }
+    */
     std::cout << "done\n" << std::endl;
 }
 

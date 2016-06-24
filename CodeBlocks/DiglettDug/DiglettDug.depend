@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1466762484 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
+1466777959 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
@@ -142,10 +142,10 @@
 1465152092 c:\users\luiza\documents\diglettdug\src\position.h
 	<stdio.h>
 
-1466761421 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
+1466776474 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
 	"Diglett.h"
 
-1466695901 c:\users\luiza\documents\diglettdug\src\diglett.h
+1466776475 c:\users\luiza\documents\diglettdug\src\diglett.h
 	"Character.h"
 
 1466710056 source:c:\users\luiza\documents\diglettdug\src\scyther.cpp
@@ -172,14 +172,14 @@
 1465171026 source:c:\users\luiza\documents\diglettdug\src\aposition.cpp
 	"APosition.h"
 
-1466762385 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
+1466776474 source:c:\users\luiza\documents\diglettdug\src\cam.cpp
 	"Cam.h"
 
-1466762356 c:\users\luiza\documents\diglettdug\src\cam.h
+1466776474 c:\users\luiza\documents\diglettdug\src\cam.h
 	<cmath>
 	"Diglett.h"
 
-1466762774 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+1466777822 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
 	"GameMap.h"
 	<iostream>
 
@@ -409,10 +409,10 @@
 1466701584 c:\users\luiza\documents\diglettdug\src\model.h
 	"glm.h"
 
-1466533845 source:c:\users\luiza\documents\diglettdug\src\gamelight.cpp
+1466776475 source:c:\users\luiza\documents\diglettdug\src\gamelight.cpp
 	"GameLight.h"
 
-1466697536 c:\users\luiza\documents\diglettdug\src\gamelight.h
+1466776475 c:\users\luiza\documents\diglettdug\src\gamelight.h
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>

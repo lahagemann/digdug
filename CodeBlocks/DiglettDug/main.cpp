@@ -285,7 +285,6 @@ void renderScene()
     glPopMatrix();
 
     // loading enemies...
-    std::cout << game_map.getScythers().size() << std::endl;
     for(int i = 0; i < game_map.getScythers().size(); i++)
     {
         Scyther schyther = game_map.getScythers().at(i);
@@ -297,6 +296,7 @@ void renderScene()
         glPopMatrix();
     }
 
+    /*
     std::cout << game_map.getSharpedos().size() << std::endl;
     for(int i = 0; i < game_map.getSharpedos().size(); i++)
     {
@@ -309,6 +309,7 @@ void renderScene()
         glPopMatrix();
     }
 
+
     for(int i = 0; i < game_map.getSnorlaxs().size(); i++)
     {
         Snorlax snorlax = game_map.getSnorlaxs().at(i);
@@ -319,7 +320,7 @@ void renderScene()
             glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
-    /*
+
     for(int i = 0; i < game_map.getStageMap().size(); i++)
     {
         for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
