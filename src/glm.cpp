@@ -31,12 +31,24 @@
 #define T(x) (model->triangles[(x)])
 GLuint glmLoadTexture(char *filename, GLboolean alpha, GLboolean repeat, GLboolean filtering, GLboolean mipmaps, GLfloat *texcoordwidth, GLfloat *texcoordheight);
 
+
+
+
 /* _GLMnode: general purpose node */
 typedef struct _GLMnode {
     GLuint         index;
     GLboolean      averaged;
     struct _GLMnode* next;
 } GLMnode;
+
+
+char *strdup2 (const char *s) {
+    char *d = (char*) malloc (strlen (s) + 1);   // Allocate memory
+    if (d != NULL) strcpy (d,s);         // Copy string if okay
+    return d;                            // Return new memory
+}
+
+
 
 
 /* glmMax: returns the maximum of two floats */
@@ -191,7 +203,7 @@ glmAddGroup(GLMmodel* model, char* name)
     group = glmFindGroup(model, name);
     if (!group) {
         group = (GLMgroup*)malloc(sizeof(GLMgroup));
-        group->name = strdup(name);
+        group->name = strdup2(name);
         group->material = 0;
         group->numtriangles = 0;
         group->triangles = NULL;
@@ -236,7 +248,7 @@ glmDirName(char* path)
     char* dir;
     char* s;
 
-    dir = strdup(path);
+    dir = strdup2(path);
 
     s = strrchr(dir, '/');
     if (s)
@@ -262,7 +274,7 @@ int glmFindOrAddTexture(GLMmodel* model, char* name,mycallback *call)
     }
 	char afis[80];
 	sprintf(afis,"Loading Textures (%s )...",name);
-	// MODIFIED 21/04/2014
+	// MODIFIED
 	//int procent = ((float)((float)model->numtextures*30/total_textures)/100)*(call->end-call->start)+call->start;
 	//if (call) call->loadcallback(procent,afis); // textures represent 30% from the model (just saying :))
 	if (strstr(name,":\\"))
@@ -286,11 +298,10 @@ int glmFindOrAddTexture(GLMmodel* model, char* name,mycallback *call)
 
     model->numtextures++;
     model->textures = (GLMtexture*)realloc(model->textures, sizeof(GLMtexture)*model->numtextures);
-    model->textures[model->numtextures-1].name = strdup(numefis);
+    model->textures[model->numtextures-1].name = strdup2(numefis);
     model->textures[model->numtextures-1].id = glmLoadTexture(filename, GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE, &width, &height);
     model->textures[model->numtextures-1].width = width;
     model->textures[model->numtextures-1].height = height;
-
 
     free(filename);
 
@@ -372,7 +383,7 @@ glmReadMTL(GLMmodel* model, char* name, mycallback *call)
         model->materials[i].specular[3] = 1.0;
 		model->materials[i].IDTextura = -1;
     }
-    model->materials[0].name = strdup("default");
+    model->materials[0].name = strdup2("default");
 
     /* now, read in the data */
     nummaterials = 0;
@@ -386,7 +397,7 @@ glmReadMTL(GLMmodel* model, char* name, mycallback *call)
             fgets(buf, sizeof(buf), file);
             sscanf(buf, "%s %s", buf, buf);
             nummaterials++;
-            model->materials[nummaterials].name = strdup(buf);
+            model->materials[nummaterials].name = strdup2(buf);
             break;
         case 'N':
             if (buf[1]!='s') break; // 3DS pune 'i' aici pentru indici de refractie si se incurca
@@ -425,7 +436,7 @@ glmReadMTL(GLMmodel* model, char* name, mycallback *call)
             // harta de texturi
             filename = (char *)malloc(FILENAME_MAX);
             fgets(filename, FILENAME_MAX, file);
-            textura = strdup(filename);
+            textura = strdup2(filename);
             free(filename);
             if(strncmp(buf, "map_Kd", 6) == 0)
 			{
@@ -519,6 +530,7 @@ static GLvoid glmFirstPass(GLMmodel* model, FILE* file, mycallback *call)
     char        buf[128];
 
     /* make a default group */
+
     group = glmAddGroup(model, "default");
 
     numvertices = numnormals = numtexcoords = numtriangles = 0;
@@ -554,7 +566,7 @@ static GLvoid glmFirstPass(GLMmodel* model, FILE* file, mycallback *call)
             case 'm': //mtllib
                 fgets(buf, sizeof(buf), file);
                 sscanf(buf, "%s %s", buf, buf);
-                model->mtllibname = strdup(buf);
+                model->mtllibname = strdup2(buf);
                 glmReadMTL(model, buf, call);
                 break;
             case 'u': //usemtl
@@ -740,7 +752,7 @@ static GLvoid glmSecondPass(GLMmodel* model, FILE* file, mycallback *call)
                     T(numtriangles).vindices[0] = v;
 					if (n== 181228)
 					{
-						printf("");
+						printf(" ");
 					}
                     T(numtriangles).nindices[0] = n;
                     fscanf(file, "%d//%d", &v, &n);
@@ -1187,7 +1199,7 @@ glmVertexNormals(GLMmodel* model, GLfloat angle)
 		{
 			if (node->index==204543)
 				{
-					printf("");
+					printf(" ");
 				}
             if (node->averaged) {
 
@@ -1423,7 +1435,7 @@ GLMmodel* glmReadOBJ(char* filename,mycallback *call)
 
     /* allocate a new model */
     model = (GLMmodel*)malloc(sizeof(GLMmodel));
-    model->pathname    = strdup(filename);
+    model->pathname    = strdup2(filename);
     model->mtllibname    = NULL;
     model->numvertices   = 0;
     model->vertices    = NULL;
@@ -1751,14 +1763,14 @@ GLvoid glmDraw(GLMmodel* model, GLuint mode,char *drawonly)
     group = model->groups;
     while (group)
 	{
+//	    printf("BOI");
 		if (drawonly)
 			if (strcmp(group->name,drawonly))
 			{
 				group=group->next;
 				continue;
 			}
-
-		material = &model->materials[group->material];
+		material = &model->materials[group->material];;
 		if (material)
 			IDTextura = material->IDTextura;
 		else IDTextura=-1;

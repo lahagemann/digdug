@@ -27,7 +27,7 @@ class Character
         void walk(Direction dir);
 
     private:
-        bool load_new_model(const char *filename, GLfloat sFactor);
+        //bool load_new_model(const char *filename, GLfloat sFactor);
 
         GLMmodel *model;
         CharacterPosition position;

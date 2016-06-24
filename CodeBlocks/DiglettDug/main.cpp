@@ -62,6 +62,12 @@ bool rotateLeftPressed;
 bool rotateRightPressed;
 bool walkPressed;
 
+/* static models */
+GLMmodel *scytherModel;
+GLMmodel *snorlaxModel;
+GLMmodel *diglettModel;
+GLMmodel *sharpedoModel;
+
 void initTexture()
 {
     BITMAPINFO	*info;           /* Bitmap information */
@@ -107,6 +113,29 @@ void initTexture()
                   0, GL_RGBA, GL_UNSIGNED_BYTE, rgba );
 }
 
+bool load_new_model(const char *pszFilename, GLMmodel **model, GLfloat sFactor)
+{
+    char aszFilename[256];
+    strcpy(aszFilename, pszFilename);
+
+    if (*model) {
+
+    free(*model);
+    *model = NULL;
+    }
+
+    *model = glmReadOBJ(aszFilename);
+    if (!(*model))
+    return false;
+
+    glmUnitize(*model);
+//    glmScale(model,sFactor); // USED TO SCALE THE OBJECT
+    glmFacetNormals(*model);
+    glmVertexNormals(*model, 90.0);
+
+    return true;
+}
+
 void mainInit()
 {
     glClearColor(1.0,1.0,1.0,0.0);
@@ -117,6 +146,14 @@ void mainInit()
 	// habilita o z-buffer
 	glEnable(GL_DEPTH_TEST);
     initTexture();
+    diglettModel = (GLMmodel*)malloc(sizeof(GLMmodel));
+    scytherModel = (GLMmodel*)malloc(sizeof(GLMmodel));
+    sharpedoModel = (GLMmodel*)malloc(sizeof(GLMmodel));
+    snorlaxModel = (GLMmodel*)malloc(sizeof(GLMmodel));
+    load_new_model("Diglett.obj", &diglettModel, 0.5f);
+    load_new_model("Scyther.obj", &scytherModel, 0.5f);
+    load_new_model("Sharpedo.obj", &sharpedoModel, 0.5f);
+    load_new_model("Snorlax.obj", &snorlaxModel, 0.5f);
 }
 
 void mainRender()
@@ -200,17 +237,21 @@ void onMouseMove(int x, int y)
 
 void onMousePassiveMove(int x, int y)
 {
-    game_map.player.setXRotation(y - MouseYPosition);
-    game_map.player.setYRotation(x - MouseXPosition);
+    if(cam.getCurrentCamOption() == 2)
+    {
+        game_map.player.setXRotation(y - MouseYPosition);
+        game_map.player.setYRotation(x - MouseXPosition);
 
-	if(game_map.player.getXRotation() < -128.0)
-		game_map.player.setXRotation(-128.0);
+        if(game_map.player.getXRotation() < -128.0)
+            game_map.player.setXRotation(-128.0);
 
-	if(game_map.player.getXRotation() > -45.0)
-		game_map.player.setXRotation(-45.0);
+        if(game_map.player.getXRotation() > -45.0)
+            game_map.player.setXRotation(-45.0);
 
-	MouseXPosition = x;
-	MouseYPosition = y;
+        MouseXPosition = x;
+        MouseYPosition = y;
+    }
+
 }
 
 void onWindowReshape(int x, int y)
@@ -236,11 +277,14 @@ void renderScene()
 	game_map.player.getPosition().convert_to_xz(&x, &z);
 
 	glPushMatrix();
-        glTranslatef(x,0.0f,z);
-        glmDraw(game_map.player.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glTranslatef(x,1.0f,z);
+        glRotatef(180.0f,0.0f,1.0f,0.0f);
+        glScalef(0.5f,0.5f,0.5f);
+        glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
     glPopMatrix();
 
     // loading enemies...
+    std::cout << game_map.getScythers().size() << std::endl;
     for(int i = 0; i < game_map.getScythers().size(); i++)
     {
         Scyther schyther = game_map.getScythers().at(i);
@@ -248,10 +292,11 @@ void renderScene()
 
         glPushMatrix();
             glTranslatef(x,0.0f,z);
-            glmDraw(schyther.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+            glmDraw(scytherModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
 
+    std::cout << game_map.getSharpedos().size() << std::endl;
     for(int i = 0; i < game_map.getSharpedos().size(); i++)
     {
         Sharpedo sharpedo = game_map.getSharpedos().at(i);
@@ -259,7 +304,7 @@ void renderScene()
 
         glPushMatrix();
             glTranslatef(x,0.0f,z);
-            glmDraw(sharpedo.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+            glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
 
@@ -270,10 +315,10 @@ void renderScene()
 
         glPushMatrix();
             glTranslatef(x,0.0f,z);
-            glmDraw(snorlax.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+            glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
-
+    /*
     for(int i = 0; i < game_map.getStageMap().size(); i++)
     {
         for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
@@ -286,7 +331,7 @@ void renderScene()
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
-                    glmDraw(hole.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
             else if(rgb.isGreen())
@@ -296,7 +341,7 @@ void renderScene()
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
-                    glmDraw(floor.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
             else if(rgb.isRed())
@@ -306,12 +351,12 @@ void renderScene()
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
-                    glmDraw(crack.getModel(), GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
         }
     }
-
+    */
     glBindTexture(type, texture);
 
 	renderSea();
@@ -338,19 +383,19 @@ void renderSea()
             glBegin(GL_QUADS);
                 glTexCoord2f(1.0f, 0.0f);   // coords for the texture
                 glNormal3f(0.0f,1.0f,0.0f);
-                glVertex3f(i * (float)planeSize/xQuads, 0.0f, (j+1) * (float)planeSize/zQuads);
+                glVertex3f(i * (float)planeSize/xQuads, -1.0f, (j+1) * (float)planeSize/zQuads);
 
                 glTexCoord2f(0.0f, 0.0f);  // coords for the texture
                 glNormal3f(0.0f,1.0f,0.0f);
-                glVertex3f((i+1) * (float)planeSize/xQuads, 0.0f, (j+1) * (float)planeSize/zQuads);
+                glVertex3f((i+1) * (float)planeSize/xQuads, -1.0f, (j+1) * (float)planeSize/zQuads);
 
                 glTexCoord2f(0.0f, 1.0f);  // coords for the texture
                 glNormal3f(0.0f,1.0f,0.0f);
-                glVertex3f((i+1) * (float)planeSize/xQuads, 0.0f, j * (float)planeSize/zQuads);
+                glVertex3f((i+1) * (float)planeSize/xQuads, -1.0f, j * (float)planeSize/zQuads);
 
                 glTexCoord2f(1.0f, 1.0f);  // coords for the texture
                 glNormal3f(0.0f,1.0f,0.0f);
-                glVertex3f(i * (float)planeSize/xQuads, 0.0f, j * (float)planeSize/zQuads);
+                glVertex3f(i * (float)planeSize/xQuads, -1.0f, j * (float)planeSize/zQuads);
 
             glEnd();
         }

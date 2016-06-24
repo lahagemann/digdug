@@ -38,7 +38,7 @@ float Character::getYRotation()
 void Character::setModel(const char *filename, GLfloat sFactor)
 {
     model = (GLMmodel *)malloc(sizeof(GLMmodel));
-    load_new_model(filename, sFactor);
+    //load_new_model(filename, sFactor);
 }
 
 void Character::setPosition(CharacterPosition position)
@@ -96,21 +96,21 @@ void Character::walk(Direction dir)
             break;
 
         case rotateLeft:
-            if(this->xRotation == 270.0f)
-                this->xRotation = 0.0f;
+            if(this->yRotation == 270.0f)
+                this->yRotation = 0.0f;
             else
-                this->xRotation += 90.0f;
+                this->yRotation += 90.0f;
             break;
 
         case rotateRight:
-            if(this->xRotation == 0.0f)
-                this->xRotation = 270.0f;
+            if(this->yRotation == 0.0f)
+                this->yRotation = 270.0f;
             else
-                this->xRotation -= 90.0f;
+                this->yRotation -= 90.0f;
             break;
     }
 }
-
+/*
 bool Character::load_new_model(const char *filename, GLfloat sFactor)
 {
     char aszFilename[256];
@@ -133,3 +133,4 @@ bool Character::load_new_model(const char *filename, GLfloat sFactor)
 
     return true;
 }
+*/

@@ -28,6 +28,11 @@ void Cam::changeCam(Diglett player)
         setFirstPersonCam(player);
 }
 
+int Cam::getCurrentCamOption()
+{
+    return this->camOption;
+}
+
 void Cam::setFirstPersonCam(Diglett player)
 {
     camOption = FIRST_PERSON_CAM_OPTION;
@@ -46,7 +51,7 @@ void Cam::setThirdPersonCam(Diglett player)
 
     player.getPosition().convert_to_xz(&posX, &posZ);
     posY = 1.5f;
-    posZ += 1.0f;
+    posZ += 3.0f;
 
     xRotation = player.getXRotation();
     yRotation = player.getYRotation();

@@ -218,6 +218,7 @@ void GameMap::load_models()
             int b = ptr[0];
 
             A_RGB rgb = A_RGB(r,g,b);
+            std::cout << r << " " << g << " " << b << std::endl;
             //characters_map.at(i).push_back(rgb);
 
             if(rgb.isBlack()) //hole
