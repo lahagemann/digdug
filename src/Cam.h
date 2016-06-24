@@ -13,6 +13,7 @@ class Cam
 
         void changeCam(Diglett player);
         int getCurrentCamOption();
+        bool isUpperCam();
         void setFirstPersonCam(Diglett player);
         void setThirdPersonCam(Diglett player);
         void setUpperCam();

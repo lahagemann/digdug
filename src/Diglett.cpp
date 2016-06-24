@@ -25,3 +25,25 @@ float Diglett::getHeadPosition()
 {
     return headPosition;
 }
+
+void Diglett::walkIn2DMode(Direction dir)
+{
+    switch(dir)
+    {
+        case forwards:
+            this->setPosition(this->getPosition().i+1, this->getPosition().j);
+            break;
+
+        case backwards:
+            this->setPosition(this->getPosition().i-1, this->getPosition().j);
+            break;
+
+        case rotateLeft:
+            this->setPosition(this->getPosition().i, this->getPosition().j-1);
+            break;
+
+        case rotateRight:
+            this->setPosition(this->getPosition().i, this->getPosition().j+1);
+            break;
+    }
+}

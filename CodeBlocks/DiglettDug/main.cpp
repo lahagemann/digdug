@@ -425,22 +425,54 @@ void updateState()
 {
     if(walkPressed)
     {
-        if(!game_map.checkObstacleCollision(Character::forwards))
-            game_map.player.walk(Character::forwards);
+        if(cam.isUpperCam())
+        {
+            game_map.player.walkIn2DMode(Character::forwards);
+        }
+        else
+        {
+            if(!game_map.checkObstacleCollision(Character::forwards))
+                game_map.player.walk(Character::forwards);
+        }
     }
 
 
     if(backPressed)
     {
-        if(!game_map.checkObstacleCollision(Character::backwards))
-            game_map.player.walk(Character::backwards);
+        if(cam.isUpperCam())
+        {
+            game_map.player.walkIn2DMode(Character::backwards);
+        }
+        else
+        {
+            if(!game_map.checkObstacleCollision(Character::backwards))
+                game_map.player.walk(Character::backwards);
+        }
     }
 
     if(rotateLeftPressed)
-        game_map.player.walk(Character::rotateLeft);
+    {
+        if(cam.isUpperCam())
+        {
+            game_map.player.walkIn2DMode(Character::rotateLeft);
+        }
+        else
+        {
+            game_map.player.walk(Character::rotateLeft);
+        }
+    }
 
     if(rotateRightPressed)
-        game_map.player.walk(Character::rotateRight);
+    {
+        if(cam.isUpperCam())
+        {
+            game_map.player.walkIn2DMode(Character::rotateRight);
+        }
+        else
+        {
+            game_map.player.walk(Character::rotateRight);
+        }
+    }
 
     if(makeCrackPressed)
         game_map.makeCrack();

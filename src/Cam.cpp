@@ -33,6 +33,14 @@ int Cam::getCurrentCamOption()
     return this->camOption;
 }
 
+bool Cam::isUpperCam()
+{
+    if(camOption == UPPER_CAM_OPTION)
+        return true;
+    else
+        return false;
+}
+
 void Cam::setFirstPersonCam(Diglett player)
 {
     camOption = FIRST_PERSON_CAM_OPTION;
