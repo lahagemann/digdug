@@ -58,12 +58,8 @@
 		<Unit filename="../../src/Character.h" />
 		<Unit filename="../../src/CharacterPosition.cpp" />
 		<Unit filename="../../src/CharacterPosition.h" />
-		<Unit filename="../../src/Crack.cpp" />
-		<Unit filename="../../src/Crack.h" />
 		<Unit filename="../../src/Diglett.cpp" />
 		<Unit filename="../../src/Diglett.h" />
-		<Unit filename="../../src/Floor.cpp" />
-		<Unit filename="../../src/Floor.h" />
 		<Unit filename="../../src/GameLight.cpp" />
 		<Unit filename="../../src/GameLight.h" />
 		<Unit filename="../../src/GameMap.cpp" />
@@ -71,8 +67,6 @@
 		<Unit filename="../../src/GameSettings.h" />
 		<Unit filename="../../src/Ground.cpp" />
 		<Unit filename="../../src/Ground.h" />
-		<Unit filename="../../src/Hole.cpp" />
-		<Unit filename="../../src/Hole.h" />
 		<Unit filename="../../src/Scyther.cpp" />
 		<Unit filename="../../src/Scyther.h" />
 		<Unit filename="../../src/Sharpedo.cpp" />
