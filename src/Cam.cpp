@@ -5,12 +5,6 @@ Cam::Cam()
     camOption = THIRD_PERSON_CAM_OPTION;
 }
 
-Cam::Cam(Diglett player)
-{
-    camOption = THIRD_PERSON_CAM_OPTION;
-    updateCam(player);
-}
-
 Cam::~Cam()
 {
     //dtor
@@ -51,10 +45,11 @@ void Cam::setFirstPersonCam(Diglett player)
     posZ -= 0.2f;
 
     float xRotation = player.getXRotation();
-    float yRotation = player.getYRotation();
+    float yRotation = player.getYRotation() + 270.0f;
 
     gluLookAt(posX, posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180)), posZ,
-		posX + sin(yRotation*PI/180), posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180)) + cos(xRotation*PI/180), posZ -cos(yRotation*PI/180),
+		posX - sin(yRotation*PI/180), posY + 0.025 * std::abs(sin(player.getHeadPosition()*PI/180))
+              + cos(xRotation*PI/180), posZ + cos(yRotation*PI/180),
 		0.0, 1.0, 0.0);
 }
 
@@ -68,10 +63,10 @@ void Cam::setThirdPersonCam(Diglett player)
     posZ += 3.0f;
 
     float xRotation = player.getXRotation();
-    float yRotation = player.getYRotation();
+    float yRotation = player.getYRotation() + 270.0f;
 
     gluLookAt(posX, posY, posZ,
-		posX + sin(yRotation*PI/180), posY + cos(xRotation*PI/180), posZ - cos(yRotation*PI/180),
+		posX - sin(yRotation*PI/180), posY + cos(xRotation*PI/180), posZ + cos(yRotation*PI/180),
 		0.0, 1.0, 0.0);
 }
 

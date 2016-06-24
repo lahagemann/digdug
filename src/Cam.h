@@ -8,7 +8,6 @@ class Cam
 {
     public:
         Cam();
-        Cam(Diglett player);
         virtual ~Cam();
 
         void changeCam(Diglett player);
