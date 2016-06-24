@@ -2,13 +2,12 @@
 
 Crack::Crack() : Ground()
 {
-    this->setModel("Diglett.obj");
-
+    //ctor
 }
 
 Crack::Crack(int i, int j) : Ground(i,j)
 {
-    this->setModel("Diglett.obj");
+    //ctor
 }
 
 Crack::~Crack()

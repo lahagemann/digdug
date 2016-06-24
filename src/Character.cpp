@@ -15,11 +15,6 @@ Character::~Character()
     //dtor
 }
 
-GLMmodel* Character::getModel()
-{
-    return model;
-}
-
 CharacterPosition Character::getPosition()
 {
     return this->position;
@@ -33,12 +28,6 @@ float Character::getXRotation()
 float Character::getYRotation()
 {
     return yRotation;
-}
-
-void Character::setModel(const char *filename, GLfloat sFactor)
-{
-    model = (GLMmodel *)malloc(sizeof(GLMmodel));
-    //load_new_model(filename, sFactor);
 }
 
 void Character::setPosition(CharacterPosition position)
@@ -65,12 +54,6 @@ void Character::setYRotation(float rotation)
 
 void Character::walk(Direction dir)
 {
-    /* TODO:
-            - verificar se o movimento é permitido
-            - verificar se o jogador se matou
-            - verificar colisão com inimigos
-    */
-
     switch(dir)
     {
         case forwards:
@@ -110,27 +93,3 @@ void Character::walk(Direction dir)
             break;
     }
 }
-/*
-bool Character::load_new_model(const char *filename, GLfloat sFactor)
-{
-    char aszFilename[256];
-    strcpy(aszFilename, filename);
-
-    if(model)
-    {
-        free(model);
-        model = NULL;
-    }
-
-    model = glmReadOBJ(aszFilename);
-    if(!model)
-        return false;
-
-    glmUnitize(model);
-    glmScale(model,sFactor);
-    glmFacetNormals(model);
-    glmVertexNormals(model, 90.0);
-
-    return true;
-}
-*/

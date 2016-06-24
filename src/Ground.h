@@ -11,15 +11,11 @@ class Ground
         Ground(int i, int j);
         virtual ~Ground();
 
-        GLMmodel* getModel();
         CharacterPosition getPosition();
-        void setModel(const char *filename);
+        void setPosition(int i, int j);
 
     private:
-        bool load_new_model(const char *filename);
-
         CharacterPosition position;
-        GLMmodel *model;
 };
 
 #endif // GROUND_H

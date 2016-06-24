@@ -15,11 +15,9 @@ class Character
         Character(int i, int j);
         virtual ~Character();
 
-        GLMmodel* getModel();
         CharacterPosition getPosition();
         float getXRotation();
         float getYRotation();
-        void setModel(const char *filename, GLfloat sFactor);
         void setPosition(CharacterPosition position);
         void setPosition(int i, int j);
         void setXRotation(float rotation);
@@ -27,9 +25,6 @@ class Character
         void walk(Direction dir);
 
     private:
-        //bool load_new_model(const char *filename, GLfloat sFactor);
-
-        GLMmodel *model;
         CharacterPosition position;
         float xRotation, yRotation;
 };

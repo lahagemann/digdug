@@ -2,13 +2,12 @@
 
 Floor::Floor() : Ground()
 {
-    this->setModel("Scyther.obj");
-
+    //ctor
 }
 
 Floor::Floor(int i, int j) : Ground(i,j)
 {
-    this->setModel("Scyther.obj");
+    //ctor
 }
 
 Floor::~Floor()

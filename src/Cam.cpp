@@ -47,7 +47,8 @@ void Cam::setFirstPersonCam(Diglett player)
 
     float posX, posY, posZ;
     player.getPosition().convert_to_xz(&posX, &posZ);
-    posY = 1.0f;
+    posY = 1.2f;
+    posZ -= 0.2f;
 
     float xRotation = player.getXRotation();
     float yRotation = player.getYRotation();
@@ -78,7 +79,7 @@ void Cam::setUpperCam()
 {
     camOption = UPPER_CAM_OPTION;
 
-    gluLookAt(0.0, 50.0, -10.0,
+    gluLookAt(0.0, 50.0, 10.0,
 		0.0, 0.0, 0.0,
 		0.0, 1.0, 0.0);
 }

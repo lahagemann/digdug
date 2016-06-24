@@ -15,41 +15,12 @@ Ground::~Ground()
     //dtor
 }
 
-GLMmodel* Ground::getModel()
-{
-    return model;
-}
-
 CharacterPosition Ground::getPosition()
 {
     return this->position;
 }
 
-void Ground::setModel(const char* filename)
+void Ground::setPosition(int i, int j)
 {
-    model = (GLMmodel *)malloc(sizeof(GLMmodel));
-    load_new_model(filename);
+    this->position = CharacterPosition(i,j);
 }
-
-bool Ground::load_new_model(const char *filename)
-{
-    char aszFilename[256];
-    strcpy(aszFilename, filename);
-
-    if(model)
-    {
-        free(model);
-        model = NULL;
-    }
-
-    model = glmReadOBJ(aszFilename);
-    if(!model)
-        return false;
-
-    glmUnitize(model);
-    glmFacetNormals(model);
-    glmVertexNormals(model, 90.0);
-
-    return true;
-}
-
