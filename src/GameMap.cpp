@@ -221,17 +221,19 @@ void GameMap::load_models()
 	rgba = (GLubyte *)malloc(info->bmiHeader.biWidth * info->bmiHeader.biHeight * 4);
 
     int i = info->bmiHeader.biWidth * info->bmiHeader.biHeight-1;
-    for( rgbaptr = rgba, ptr = bits;  i >= 0; i--, rgbaptr += 3, ptr += 3)
+    for( rgbaptr = rgba, ptr = bits;  i >= 0; i--, rgbaptr += 4, ptr += 3)
     {
         rgbaptr[0] = ptr[2];     // windows BMP = BGR
         rgbaptr[1] = ptr[1];
         rgbaptr[2] = ptr[0];
-        //rgbaptr[3] = (ptr[0] + ptr[1] + ptr[2]) / 3;
+        rgbaptr[3] = (ptr[0] + ptr[1] + ptr[2]) / 3;
 
 
-        int r = ptr[0];
+        int r = ptr[2];
         int g = ptr[1];
-        int b = ptr[2];
+        int b = ptr[0];
+
+        //std::cout << i << " " << r << " " << g << " " << b << std::endl;
 
         A_RGB rgb = A_RGB(r,g,b);
         if(rgb.isBlack()) //hole
@@ -302,18 +304,18 @@ void GameMap::load_models()
         for(int j = 0; j < 32; j++)
         {
             A_RGB rgb = stage_map.at(i).at(j);
-            if(rgb.isYellow())
+            if(rgb.isRed())
                 countYellow++;
-            else if(rgb.isMagenta())
+            else if(rgb.isGreen())
                 countMagenta++;
-            else if(rgb.isCyan())
+            else if(rgb.isBlue())
                 countCyan++;
-            else if(rgb.isWhite())
+            else if(rgb.isBlack())
                 countWhite++;
         }
     }
 
-    std::cout << "y: " << countYellow << " m: " << countMagenta << " c: " << countCyan << " w: " << countWhite << std::endl;
+    std::cout << "r: " << countYellow << " g: " << countMagenta << " blu: " << countCyan << " bla: " << countWhite << std::endl;
 
     /*
     for(int i = 0; i < info->bmiHeader.biHeight; i++)

@@ -38,7 +38,7 @@ const char* GAME_NAME = "Dig(lett) Dug(trio)";
 int mainWindowId = 0;
 int MouseXPosition = 0;
 int MouseYPosition = 0;
-float planeSize = 31.0f;
+float planeSize = 32.0f;
 GLuint texture;         /* Texture object */
 GLenum type;            /* Texture type */
 int windowHeight = 480;
@@ -67,6 +67,7 @@ GLMmodel *scytherModel;
 GLMmodel *snorlaxModel;
 GLMmodel *diglettModel;
 GLMmodel *sharpedoModel;
+GLMmodel *cube;
 
 void initTexture()
 {
@@ -150,10 +151,12 @@ void mainInit()
     scytherModel = (GLMmodel*)malloc(sizeof(GLMmodel));
     sharpedoModel = (GLMmodel*)malloc(sizeof(GLMmodel));
     snorlaxModel = (GLMmodel*)malloc(sizeof(GLMmodel));
+    cube = (GLMmodel*)malloc(sizeof(GLMmodel));
     load_new_model("Diglett.obj", &diglettModel, 0.5f);
     load_new_model("Scyther.obj", &scytherModel, 0.5f);
     load_new_model("Sharpedo.obj", &sharpedoModel, 0.5f);
     load_new_model("Snorlax.obj", &snorlaxModel, 0.5f);
+    load_new_model("cube.obj", &cube, 1.0f);
 }
 
 void mainRender()
@@ -291,7 +294,7 @@ void renderScene()
         schyther.getPosition().convert_to_xz(&x, &z);
 
         glPushMatrix();
-            glTranslatef(x,0.0f,z);
+            glTranslatef(x,1.0f,z);
             glmDraw(scytherModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
@@ -320,13 +323,13 @@ void renderScene()
             glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
     }
-
+    */
     for(int i = 0; i < game_map.getStageMap().size(); i++)
     {
         for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
         {
             A_RGB rgb = game_map.getStageMap().at(i).at(j);
-            if(rgb.isBlack())
+            /*if(rgb.isBlack())
             {
                 Hole hole = Hole(i,j);
                 hole.getPosition().convert_to_xz(&x, &z);
@@ -336,17 +339,17 @@ void renderScene()
                     glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
-            else if(rgb.isGreen())
+            else*/ if(rgb.isGreen())
             {
                 Floor floor = Floor(i,j);
                 floor.getPosition().convert_to_xz(&x, &z);
 
                 glPushMatrix();
                     glTranslatef(x,-0.5f,z);
-                    glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glmDraw(cube, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
             }
-            else if(rgb.isRed())
+            /*else if(rgb.isRed())
             {
                 Crack crack = Crack(i,j);
                 crack.getPosition().convert_to_xz(&x, &z);
@@ -355,10 +358,10 @@ void renderScene()
                     glTranslatef(x,-0.5f,z);
                     glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
                 glPopMatrix();
-            }
+            }*/
         }
     }
-    */
+
     glBindTexture(type, texture);
 
 	renderSea();
