@@ -122,6 +122,61 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
     return false;
 }
 
+void GameMap::flood_fill()
+{
+    // seed = size/2-1 size/2-1 = 15 15
+    flood_map = stage_map;
+    int flood_size = 0;
+
+    // primeira seed
+    flood_step(16,16);
+
+    //verifica se a área
+    if(flood_size > field_size/2)
+    {
+        // deleta tudo que ficou verde no flood_map
+        for(int i=0)
+    }
+    else
+    {
+        // deleta tudo que ficou amarelo no flood_map.
+    }
+
+
+
+
+}
+
+void GameMap::flood_step(int i, int j)
+{
+    if(flood_size == field_size)
+        return;
+
+    A_RGB north, east, west, south, current;
+
+    // pinta célula atual no flood_map.
+    current.setYellow();
+    flood_map.at(i).at(j) = current;
+    flood_size++;
+
+    north = flood_map.at(i-1).at(j);
+    east = flood_map.at(i).at(j+1);
+    south = flood_map.at(i+1).at(j);
+    west = flood_map.at(i).at(j-1);
+
+    if(!north.isGreen() && !east.isGreen() && !south.isGreen() && !west.isGreen())
+        return;
+
+    if(north.isGreen())
+        flood_step(i-1,j);
+    if(east.isGreen())
+        flood_step(i,j+1);
+    if(south.isGreen())
+        flood_step(i+1,j);
+    if(west.isGreen())
+        flood_step(i,j-1);
+}
+
 std::vector< std::vector<A_RGB> > GameMap::getCharactersMap()
 {
     return characters_map;
@@ -205,67 +260,65 @@ bool GameMap::isPlayerDead()
     return false;
 }
 
-bool GameMap::isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *direction)
+bool GameMap::isPlayerNearEnemy(int enemiesIndex, int* direction)
 {
     Scyther scyther = scythers.at(enemiesIndex);
+    int posI = scyther.getPosition().i;
+    int posJ = scyther.getPosition().j;
+
+    int playerI = player.getPosition().i;
+    int playerJ = player.getPosition().j;
 
     // case north
-    if(directionOptions[0] != 0)
+    for(int i = 1; i < 5; i++)
     {
-        for(int i = 1; i < 5; i++)
+        if(playerI == posI - i && playerJ == posJ)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i - i).at(scyther.getPosition().j);
-            if(rgb.isWhite())
-            {
-                *direction = 1;
-                return true;
-            }
+            *direction = 1;
+            return true;
         }
     }
 
-    if(directionOptions[1] != 0) // case east
+    // case east
+    for(int j = 1; j < 5; j++)
     {
-        for(int j = 1; j < 5; j++)
+        if(playerI == posI && playerJ == posJ - j)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i).at(scyther.getPosition().j - j);
-            if(rgb.isWhite())
-            {
-                *direction = 2;
-                return true;
-            }
+            *direction = 2;
+            return true;
         }
     }
 
     // case south
-    if(directionOptions[2] != 0)
+    for(int i = 1; i < 5; i++)
     {
-        for(int i = 1; i < 5; i++)
+        if(playerI == posI + i && playerJ == posJ)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i + i).at(scyther.getPosition().j);
-            if(rgb.isWhite())
-            {
-                *direction = 3;
-                return true;
-            }
+            *direction = 3;
+            return true;
         }
     }
 
     // case west
-    if(directionOptions[1] != 0)
+    for(int j = 1; j < 5; j++)
     {
-        for(int j = 1; j < 5; j++)
+        if(playerI == posI && playerJ == posJ + j)
         {
-            A_RGB rgb = stage_map.at(scyther.getPosition().i).at(scyther.getPosition().j + j);
-            if(rgb.isWhite())
-            {
-                *direction = 4;
-                return true;
-            }
+            *direction = 4;
+            return true;
         }
     }
-
-    *direction = 5;
     return false;
+}
+
+bool GameMap::isScytherDead(int enemiesIndex)
+{
+    Scyther scyther = scythers.at(enemiesIndex);
+    A_RGB rgb = stage_map.at(scyther.getPosition().i).at(scyther.getPosition().j);
+    if(rgb.isBlue())
+        return true;
+    else
+        return false;
 }
 
 void GameMap::load_models()
@@ -290,6 +343,7 @@ void GameMap::load_models()
         std::vector<A_RGB> stageRGBLine;
         stage_map.push_back(stageRGBLine);
 	}
+	field_size = 0;
 
 	rgba = (GLubyte *)malloc(info->bmiHeader.biWidth * info->bmiHeader.biHeight * 4);
 
@@ -320,6 +374,7 @@ void GameMap::load_models()
             stage_map.at(31-i/32).push_back(rgb);
             rgb.setBlue();
             characters_map.at(31-i/32).push_back(rgb);
+            field_size++;
         }
         else if(rgb.isBlue()) //sea
         {
@@ -457,6 +512,10 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex, int direction)
 {
     A_RGB rgb, stage_rgb;
     Scyther enemy;
+    int dir;
+
+    if(isPlayerNearEnemy(enemiesIndex, &dir))
+        direction = dir;
 
     if(direction == 1) //north
     {
@@ -473,6 +532,7 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex, int direction)
 
                 enemy = scythers.at(enemiesIndex);
                 enemy.setPosition(i-1, j);
+                enemy.setYRotation(0.0f);
                 scythers.at(enemiesIndex) = enemy;
             }
         }
@@ -492,6 +552,7 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex, int direction)
 
                 enemy = scythers.at(enemiesIndex);
                 enemy.setPosition(i, j-1);
+                enemy.setYRotation(270.0f);
                 scythers.at(enemiesIndex) = enemy;
             }
         }
@@ -511,6 +572,7 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex, int direction)
 
                 enemy = scythers.at(enemiesIndex);
                 enemy.setPosition(i+1, j);
+                enemy.setYRotation(180.0f);
                 scythers.at(enemiesIndex) = enemy;
             }
         }
@@ -530,15 +592,99 @@ void GameMap::moveAScyther(int i, int j, int enemiesIndex, int direction)
 
                 enemy = scythers.at(enemiesIndex);
                 enemy.setPosition(i, j+1);
+                enemy.setYRotation(90.0f);
                 scythers.at(enemiesIndex) = enemy;
             }
         }
     }
 }
 
-void GameMap::moveASharpedo(int i, int j, int enemiesIndex)
+void GameMap::moveASharpedo(int i, int j, int enemiesIndex, int direction)
 {
+    A_RGB rgb, stage_rgb;
+    Sharpedo sharpedo;
+    int dir;
 
+    if(direction == 1) //north
+    {
+        if(i > 0)
+        {
+            rgb = characters_map.at(i-1).at(j);
+            stage_rgb = stage_map.at(i-1).at(j);
+            if(rgb.isBlue() && stage_rgb.isBlue())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setCyan();
+                characters_map.at(i-1).at(j) = rgb;
+
+                sharpedo = sharpedos.at(enemiesIndex);
+                sharpedo.setPosition(i-1, j);
+                sharpedo.setYRotation(0.0f);
+                sharpedos.at(enemiesIndex) = sharpedo;
+            }
+        }
+    }
+    else if(direction == 2) //east
+    {
+        if(j > 0)
+        {
+            rgb = characters_map.at(i).at(j-1);
+            stage_rgb = stage_map.at(i).at(j-1);
+            if(rgb.isBlue() && stage_rgb.isBlue())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setCyan();
+                characters_map.at(i).at(j-1) = rgb;
+
+                sharpedo = sharpedos.at(enemiesIndex);
+                sharpedo.setPosition(i, j-1);
+                sharpedo.setYRotation(270.0f);
+                sharpedos.at(enemiesIndex) = sharpedo;
+            }
+        }
+    }
+    else if(direction == 3) //south
+    {
+        if(i < 31)
+        {
+            rgb = characters_map.at(i+1).at(j);
+            stage_rgb = stage_map.at(i+1).at(j);
+            if(rgb.isBlue() && stage_rgb.isBlue())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setCyan();
+                characters_map.at(i+1).at(j) = rgb;
+
+                sharpedo = sharpedos.at(enemiesIndex);
+                sharpedo.setPosition(i+1, j);
+                sharpedo.setYRotation(180.0f);
+                sharpedos.at(enemiesIndex) = sharpedo;
+            }
+        }
+    }
+    else if(direction == 4) // west
+    {
+        if(j < 31)
+        {
+            rgb = characters_map.at(i).at(j+1);
+            stage_rgb = stage_map.at(i).at(j+1);
+            if(rgb.isBlue() && stage_rgb.isBlue())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setCyan();
+                characters_map.at(i).at(j+1) = rgb;
+
+                sharpedo = sharpedos.at(enemiesIndex);
+                sharpedo.setPosition(i, j+1);
+                sharpedo.setYRotation(90.0f);
+                sharpedos.at(enemiesIndex) = sharpedo;
+            }
+        }
+    }
 }
 
 void GameMap::moveEnemies()
@@ -552,8 +698,22 @@ void GameMap::moveEnemies()
         moveAScyther(scyther.getPosition().i,scyther.getPosition().j,k,direction);
     }
 
-    //for(int k=0; k<sharpedos.size(); k++)
-        //moveASharpedo(i,j,k);
+    for(int k=0; k<sharpedos.size(); k++)
+    {
+        int direction = rand() % 5 + 1;
+        Sharpedo sharpie = sharpedos.at(k);
+        moveASharpedo(sharpie.getPosition().i,sharpie.getPosition().j,k,direction);
+    }
+
+    std::vector<Scyther> livingScythers;
+
+    for(int k=0; k<scythers.size(); k++)
+    {
+        Scyther s = scythers.at(k);
+        if(!isScytherDead(k))
+            livingScythers.push_back(s);
+    }
+    scythers = livingScythers;
 }
 
 void GameMap::push()

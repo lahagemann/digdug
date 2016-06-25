@@ -9,8 +9,6 @@ class Diglett : public Character
         Diglett();
         Diglett(int i, int j);
         virtual ~Diglett();
-
-        void walkIn2DMode(Direction dir);
 };
 
 #endif // DIGLETT_H

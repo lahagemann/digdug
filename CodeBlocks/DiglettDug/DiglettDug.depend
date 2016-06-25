@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1466819581 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
+1466879811 source:c:\users\luiza\documents\diglettdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
@@ -128,7 +128,7 @@
 1465152167 source:c:\users\luiza\documents\diglettdug\src\position.cpp
 	"Position.h"
 
-1466812626 source:c:\users\luiza\documents\diglettdug\src\character.cpp
+1466872864 source:c:\users\luiza\documents\diglettdug\src\character.cpp
 	"Character.h"
 
 1466872881 c:\users\luiza\documents\diglettdug\src\character.h
@@ -140,10 +140,10 @@
 1465152092 c:\users\luiza\documents\diglettdug\src\position.h
 	<stdio.h>
 
-1466812626 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
+1466878425 source:c:\users\luiza\documents\diglettdug\src\diglett.cpp
 	"Diglett.h"
 
-1466812626 c:\users\luiza\documents\diglettdug\src\diglett.h
+1466878420 c:\users\luiza\documents\diglettdug\src\diglett.h
 	"Character.h"
 
 1466812626 source:c:\users\luiza\documents\diglettdug\src\scyther.cpp
@@ -177,12 +177,12 @@
 	<cmath>
 	"Diglett.h"
 
-1466825218 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
+1466880165 source:c:\users\luiza\documents\diglettdug\src\gamemap.cpp
 	"GameMap.h"
 	<stdlib.h>
 	<time.h>
 
-1466820886 c:\users\luiza\documents\diglettdug\src\gamemap.h
+1466879712 c:\users\luiza\documents\diglettdug\src\gamemap.h
 	<stdio.h>
 	<iostream>
 	<ctime>

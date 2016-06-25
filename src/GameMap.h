@@ -33,11 +33,12 @@ class GameMap
         bool isPlayerAboveHole();
         bool isPlayerAboveWater();
         bool isPlayerDead();
-        bool isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *direction);
+        bool isPlayerNearEnemy(int enemiesIndex, int* direction);
+        bool isScytherDead(int enemiesIndex);
         void load_models();
         void makeCrack();
         void moveAScyther(int i, int j, int enemiesIndex, int direction);
-        void moveASharpedo(int i, int j, int enemiesIndex);
+        void moveASharpedo(int i, int j, int enemiesIndex, int direction);
         void moveEnemies();
         void push();
 
@@ -46,9 +47,13 @@ class GameMap
     private:
         std::vector< std::vector<A_RGB> > stage_map;
         std::vector< std::vector<A_RGB> > characters_map;
+        std::vector< std::vector<A_RGB> > flood_map;
         std::vector<Scyther> scythers;
         std::vector<Sharpedo> sharpedos;
         std::vector<Snorlax> snorlaxs;
+
+        int field_size;
+        int flood_size;
 };
 
 #endif // GAMEMAP_H

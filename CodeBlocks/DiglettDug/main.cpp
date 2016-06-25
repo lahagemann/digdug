@@ -288,7 +288,7 @@ void renderScene()
 	game_map.player.getPosition().convert_to_xz(&x, &z);
 
 	glPushMatrix();
-        glTranslatef(x,0.5f,z);
+        glTranslatef(x,0.3f,z);
         glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
         glScalef(0.5f,0.5f,0.5f);
         glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
@@ -313,7 +313,7 @@ void renderScene()
         sharpedo.getPosition().convert_to_xz(&x, &z);
 
         glPushMatrix();
-            glTranslatef(x,0.0f,z);
+            glTranslatef(x,-0.5f,z);
             glRotatef(sharpedo.getYRotation(),0.0f,1.0f,0.0f);
             glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
         glPopMatrix();
@@ -387,7 +387,7 @@ void renderSea()
 
 	glPushMatrix();
 
-    glTranslatef(-(float)planeSize/2.0f, 0.0f, -(float)planeSize/2.0f);
+    glTranslatef(-(float)planeSize/2.0f, 0.2f, -(float)planeSize/2.0f);
 
 	float textureScaleX = 10.0;
 	float textureScaleY = 10.0;
@@ -450,7 +450,6 @@ void updateState()
             if(!game_map.checkObstacleCollision(Character::forwards))
                 game_map.player.walk(Character::forwards);
         }
-        game_map.moveEnemies();
     }
 
 
@@ -507,7 +506,7 @@ void updateState()
         changeCamera = false;
     }
 
-
+    game_map.moveEnemies();
 
     if(game_map.isPlayerDead())
         exit(0);
