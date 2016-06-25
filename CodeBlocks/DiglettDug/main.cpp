@@ -17,6 +17,7 @@
 
 /* function declaration */
 void initTexture(void);
+bool load_new_model(const char *pszFilename, GLMmodel **model);
 void loadEnemies();
 void loadIsland();
 void loadPlayer();
@@ -120,7 +121,7 @@ void initTexture()
                   0, GL_RGBA, GL_UNSIGNED_BYTE, rgba );
 }
 
-bool load_new_model(const char *pszFilename, GLMmodel **model, GLfloat sFactor)
+bool load_new_model(const char *pszFilename, GLMmodel **model)
 {
     char aszFilename[256];
     strcpy(aszFilename, pszFilename);
@@ -269,13 +270,13 @@ void mainInit()
     cube_hole = (GLMmodel*)malloc(sizeof(GLMmodel));
     cube_crack = (GLMmodel*)malloc(sizeof(GLMmodel));
 
-    load_new_model("Diglett.obj", &diglettModel, 0.5f);
-    load_new_model("Scyther.obj", &scytherModel, 0.5f);
-    load_new_model("Sharpedo.obj", &sharpedoModel, 0.5f);
-    load_new_model("Snorlax.obj", &snorlaxModel, 0.5f);
-    load_new_model("cube.obj", &cube, 0.5f);
-    load_new_model("cube_hole.obj", &cube_hole, 0.5f);
-    load_new_model("cube_crack.obj", &cube_crack, 0.5f);
+    load_new_model("Diglett.obj", &diglettModel);
+    load_new_model("Scyther.obj", &scytherModel);
+    load_new_model("Sharpedo.obj", &sharpedoModel);
+    load_new_model("Snorlax.obj", &snorlaxModel);
+    load_new_model("cube.obj", &cube);
+    load_new_model("cube_hole.obj", &cube_hole);
+    load_new_model("cube_crack.obj", &cube_crack);
 }
 
 void mainRender()
@@ -289,12 +290,15 @@ void mainRender()
 
 void miniMapRender()
 {
-    glutSetWindow(subWindowId);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    renderScene(true);
-    glFlush();
-    glutPostRedisplay();
+    if(!cam.isUpperCam())
+    {
+        glutSetWindow(subWindowId);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glLoadIdentity();
+        renderScene(true);
+        glFlush();
+        glutPostRedisplay();
+    }
 }
 
 void onKeyDown(unsigned char key, int x, int y)
