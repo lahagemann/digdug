@@ -14,15 +14,16 @@ class Cam
         int getCurrentCamOption();
         bool isUpperCam();
         void setFirstPersonCam(Diglett player);
+        void setMiniMapCam();
         void setThirdPersonCam(Diglett player);
         void setUpperCam();
         void updateCam(Diglett player);
 
     private:
-        const int UPPER_CAM_OPTION = 1;
-        const int FIRST_PERSON_CAM_OPTION = 2;
-        const int THIRD_PERSON_CAM_OPTION = 3;
-        const float PI = 3.14159265;
+        const static int UPPER_CAM_OPTION = 1;
+        const static int FIRST_PERSON_CAM_OPTION = 2;
+        const static int THIRD_PERSON_CAM_OPTION = 3;
+        const static float PI = 3.14159265;
 
         int camOption;
 };

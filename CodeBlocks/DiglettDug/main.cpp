@@ -17,15 +17,19 @@
 
 /* function declaration */
 void initTexture(void);
+void loadEnemies();
+void loadIsland();
+void loadPlayer();
 void mainRender();
 void mainInit();
+void miniMapRender();
 void onKeyDown(unsigned char key, int x, int y);
 void onKeyUp(unsigned char key, int x, int y);
 void onMouseButton(int button, int state, int x, int y);
 void onMouseMove(int x, int y);
 void onMousePassiveMove(int x, int y);
 void onWindowReshape(int x, int y);
-void renderScene();
+void renderScene(bool miniMapOption);
 void renderSea();
 void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 void setWindow();
@@ -34,6 +38,7 @@ void updateState();
 /* global var declaration */
 const char* GAME_NAME = "Dig(lett) Dug(trio)";
 int mainWindowId = 0;
+int subWindowId = 0;
 int MouseXPosition = 0;
 int MouseYPosition = 0;
 float planeSize = 40.0f;
@@ -46,6 +51,7 @@ int windowYPos = 150;
 
 /* game objects declaration */
 Cam cam;
+Cam miniMapCam;
 GameLight light;
 GameMap game_map = GameMap();
 GameSettings settings;
@@ -61,13 +67,13 @@ bool rotateRightPressed;
 bool walkPressed;
 
 /* static models */
-GLMmodel *scytherModel;
-GLMmodel *snorlaxModel;
-GLMmodel *diglettModel;
-GLMmodel *sharpedoModel;
 GLMmodel *cube;
-GLMmodel *cube_hole;
 GLMmodel *cube_crack;
+GLMmodel *cube_hole;
+GLMmodel *diglettModel;
+GLMmodel *scytherModel;
+GLMmodel *sharpedoModel;
+GLMmodel *snorlaxModel;
 
 void initTexture()
 {
@@ -84,9 +90,9 @@ void initTexture()
 
     // Figure out the type of texture
     if (info->bmiHeader.biHeight == 1)
-      type = GL_TEXTURE_1D;
+        type = GL_TEXTURE_1D;
     else
-      type = GL_TEXTURE_2D;
+        type = GL_TEXTURE_2D;
 
     // Create and bind a texture object
     glGenTextures(1, &texture);
@@ -130,11 +136,117 @@ bool load_new_model(const char *pszFilename, GLMmodel **model, GLfloat sFactor)
     return false;
 
     glmUnitize(*model);
-//    glmScale(model,sFactor); // USED TO SCALE THE OBJECT
     glmFacetNormals(*model);
     glmVertexNormals(*model, 90.0);
 
     return true;
+}
+
+void loadEnemies()
+{
+    float x, z;
+
+    for(int i = 0; i < game_map.getScythers().size(); i++)
+    {
+        Scyther schyther = game_map.getScythers().at(i);
+        schyther.getPosition().convert_to_xz(&x, &z);
+
+        glPushMatrix();
+            glTranslatef(x,0.5f,z);
+            glRotatef(schyther.getYRotation(),0.0f,1.0f,0.0f);
+            glmDraw(scytherModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glPopMatrix();
+    }
+
+    for(int i = 0; i < game_map.getSharpedos().size(); i++)
+    {
+        Sharpedo sharpedo = game_map.getSharpedos().at(i);
+        sharpedo.getPosition().convert_to_xz(&x, &z);
+
+        glPushMatrix();
+            glTranslatef(x,-0.5f,z);
+            glRotatef(sharpedo.getYRotation(),0.0f,1.0f,0.0f);
+            glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glPopMatrix();
+    }
+
+    for(int i = 0; i < game_map.getSnorlaxs().size(); i++)
+    {
+        Snorlax snorlax = game_map.getSnorlaxs().at(i);
+        snorlax.getPosition().convert_to_xz(&x, &z);
+
+        glPushMatrix();
+            glTranslatef(x,0.2f,z);
+            glRotatef(snorlax.getYRotation(),0.0f,1.0f,0.0f);
+            glRotatef(270.0f,1.0f,0.0f,0.0f);
+            glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        glPopMatrix();
+    }
+}
+
+void loadIsland()
+{
+    float x, z;
+
+    for(int i = 0; i < game_map.getStageMap().size(); i++)
+    {
+        for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
+        {
+            A_RGB rgb = game_map.getStageMap().at(i).at(j);
+            if(rgb.isBlack())
+            {
+                Ground hole = Ground(i,j);
+                hole.getPosition().convert_to_xz(&x, &z);
+
+                glPushMatrix();
+                    glTranslatef(x,-0.5f,z);
+                    glScalef(0.5f,0.5f,0.5f);
+                    glmDraw(cube_hole, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                glPopMatrix();
+            }
+            else if(rgb.isGreen())
+            {
+                Ground floor = Ground(i,j);
+                floor.getPosition().convert_to_xz(&x, &z);
+
+                glPushMatrix();
+                    glTranslatef(x,-0.5f,z);
+                    glScalef(0.5f,0.5f,0.5f);
+                    glmDraw(cube, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                glPopMatrix();
+            }
+            else if(rgb.isRed())
+            {
+                Ground crack = Ground(i,j);
+                crack.getPosition().convert_to_xz(&x, &z);
+
+                glPushMatrix();
+                    glTranslatef(x,-0.5f,z);
+                    glScalef(0.5f,0.5f,0.5f);
+                    glmDraw(cube_crack, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                glPopMatrix();
+            }
+        }
+    }
+}
+
+void loadPlayer()
+{
+    float x, z;
+
+    game_map.player.getPosition().convert_to_xz(&x, &z);
+
+    glPushMatrix();
+        glTranslatef(x,0.3f,z);
+        glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
+        glScalef(0.5f,0.5f,0.5f);
+        glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+    glPopMatrix();
+}
+
+void mainIdle() {
+	glutSetWindow(mainWindowId);
+	glutPostRedisplay();
 }
 
 void mainInit()
@@ -169,10 +281,20 @@ void mainInit()
 void mainRender()
 {
     updateState();
-	renderScene();
+	renderScene(false);
 	glFlush();
 	glutPostRedisplay();
 	Sleep(30);
+}
+
+void miniMapRender()
+{
+    glutSetWindow(subWindowId);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    renderScene(true);
+    glFlush();
+    glutPostRedisplay();
 }
 
 void onKeyDown(unsigned char key, int x, int y)
@@ -272,109 +394,23 @@ void onWindowReshape(int x, int y)
 	setViewport(0, windowWidth, 0, windowHeight);
 }
 
-void renderScene()
+void renderScene(bool miniMapOption)
 {
     light.makeLight();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // limpar o depth buffer
 
-	glMatrixMode(GL_MODELVIEW);
+    glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	cam.updateCam(game_map.player);
+	if(miniMapOption)
+        miniMapCam.setMiniMapCam();
+    else
+        cam.updateCam(game_map.player);
 
-    float x, z;
-	// loading player...
-
-	game_map.player.getPosition().convert_to_xz(&x, &z);
-
-	glPushMatrix();
-        glTranslatef(x,0.3f,z);
-        glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
-        glScalef(0.5f,0.5f,0.5f);
-        glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-    glPopMatrix();
-
-    // loading enemies...
-    for(int i = 0; i < game_map.getScythers().size(); i++)
-    {
-        Scyther schyther = game_map.getScythers().at(i);
-        schyther.getPosition().convert_to_xz(&x, &z);
-
-        glPushMatrix();
-            glTranslatef(x,0.5f,z);
-            glRotatef(schyther.getYRotation(),0.0f,1.0f,0.0f);
-            glmDraw(scytherModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-        glPopMatrix();
-    }
-
-    for(int i = 0; i < game_map.getSharpedos().size(); i++)
-    {
-        Sharpedo sharpedo = game_map.getSharpedos().at(i);
-        sharpedo.getPosition().convert_to_xz(&x, &z);
-
-        glPushMatrix();
-            glTranslatef(x,-0.5f,z);
-            glRotatef(sharpedo.getYRotation(),0.0f,1.0f,0.0f);
-            glmDraw(sharpedoModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-        glPopMatrix();
-    }
-
-    for(int i = 0; i < game_map.getSnorlaxs().size(); i++)
-    {
-        Snorlax snorlax = game_map.getSnorlaxs().at(i);
-        snorlax.getPosition().convert_to_xz(&x, &z);
-
-        glPushMatrix();
-            glTranslatef(x,0.2f,z);
-            glRotatef(snorlax.getYRotation(),0.0f,1.0f,0.0f);
-            glRotatef(270.0f,1.0f,0.0f,0.0f);
-            glmDraw(snorlaxModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-        glPopMatrix();
-    }
-
-    for(int i = 0; i < game_map.getStageMap().size(); i++)
-    {
-        for(int j = 0; j < game_map.getStageMap().at(i).size(); j++)
-        {
-            A_RGB rgb = game_map.getStageMap().at(i).at(j);
-            if(rgb.isBlack())
-            {
-                Ground hole = Ground(i,j);
-                hole.getPosition().convert_to_xz(&x, &z);
-
-                glPushMatrix();
-                    glTranslatef(x,-0.5f,z);
-                    glScalef(0.5f,0.5f,0.5f);
-                    glmDraw(cube_hole, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-                glPopMatrix();
-            }
-            else if(rgb.isGreen())
-            {
-                Ground floor = Ground(i,j);
-                floor.getPosition().convert_to_xz(&x, &z);
-
-                glPushMatrix();
-                    glTranslatef(x,-0.5f,z);
-                    glScalef(0.5f,0.5f,0.5f);
-                    glmDraw(cube, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-                glPopMatrix();
-            }
-            else if(rgb.isRed())
-            {
-                Ground crack = Ground(i,j);
-                crack.getPosition().convert_to_xz(&x, &z);
-
-                glPushMatrix();
-                    glTranslatef(x,-0.5f,z);
-                    glScalef(0.5f,0.5f,0.5f);
-                    glmDraw(cube_crack, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-                glPopMatrix();
-            }
-        }
-    }
-
+	loadPlayer();
+	loadEnemies();
+	loadIsland();
     glBindTexture(type, texture);
-
 	renderSea();
 }
 
@@ -439,60 +475,18 @@ void setWindow()
 void updateState()
 {
     if(walkPressed)
-    {
-        if(cam.isUpperCam())
-        {
-            if(!game_map.checkObstacleCollision(Character::forwards))
-                game_map.player.walkIn2DMode(Character::forwards);
-        }
-        else
-        {
-            if(!game_map.checkObstacleCollision(Character::forwards))
-                game_map.player.walk(Character::forwards);
-        }
-    }
-
+        if(!game_map.checkObstacleCollision(Character::forwards))
+            game_map.player.walk(Character::forwards);
 
     if(backPressed)
-    {
-        if(cam.isUpperCam())
-        {
-            if(!game_map.checkObstacleCollision(Character::backwards))
-                game_map.player.walkIn2DMode(Character::backwards);
-        }
-        else
-        {
-            if(!game_map.checkObstacleCollision(Character::backwards))
-                game_map.player.walk(Character::backwards);
-        }
-
-    }
+        if(!game_map.checkObstacleCollision(Character::backwards))
+            game_map.player.walk(Character::backwards);
 
     if(rotateLeftPressed)
-    {
-        if(cam.isUpperCam())
-        {
-            if(!game_map.checkObstacleCollision(Character::rotateLeft))
-                game_map.player.walkIn2DMode(Character::rotateLeft);
-        }
-        else
-        {
-            game_map.player.walk(Character::rotateLeft);
-        }
-    }
+        game_map.player.walk(Character::rotateLeft);
 
     if(rotateRightPressed)
-    {
-        if(cam.isUpperCam())
-        {
-            if(!game_map.checkObstacleCollision(Character::rotateRight))
-                game_map.player.walkIn2DMode(Character::rotateRight);
-        }
-        else
-        {
-            game_map.player.walk(Character::rotateRight);
-        }
-    }
+        game_map.player.walk(Character::rotateRight);
 
     if(makeCrackPressed)
         game_map.makeCrack();
@@ -535,6 +529,11 @@ int main(int argc, char *argv[])
 	glutKeyboardFunc(onKeyDown);
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
+
+	subWindowId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
+	glutDisplayFunc(miniMapRender);
+    mainInit();
+
 	glutMainLoop();
 
     return 0;
