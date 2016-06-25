@@ -17,10 +17,10 @@
 					<Add directory="../include" />
 				</Compiler>
 				<Linker>
-					<Add library="../lib/EFX-Util.lib" />
-					<Add library="../lib/GlU32.Lib" />
-					<Add library="../lib/glut32.lib" />
-					<Add library="../lib/OpenGL32.Lib" />
+					<Add library="..\lib\EFX-Util.lib" />
+					<Add library="..\lib\GlU32.Lib" />
+					<Add library="..\lib\glut32.lib" />
+					<Add library="..\lib\OpenGL32.Lib" />
 					<Add directory="../lib" />
 				</Linker>
 			</Target>
