@@ -126,24 +126,115 @@ void GameMap::flood_fill()
 {
     // seed = size/2-1 size/2-1 = 15 15
     flood_map = stage_map;
-    int flood_size = 0;
+    this->flood_size = 0;
 
     // primeira seed
-    flood_step(16,16);
+    int m = player.getPosition().i;
+    int n = player.getPosition().j;
+    A_RGB northwest, northeast, southwest, southeast;
+    northwest = stage_map.at(m-1).at(n-1);
+    northeast = stage_map.at(m-1).at(n+1);
+    southwest = stage_map.at(m+1).at(n-1);
+    southeast = stage_map.at(m+1).at(n+1);
+
+    if(northwest.isGreen())
+        flood_step(m-1, n-1);
+    else if(northeast.isGreen())
+        flood_step(m-1, n+1);
+    else if(southwest.isGreen())
+        flood_step(m+1, n-1);
+    else if(southeast.isGreen())
+        flood_step(m+1, n+1);
+
+    std::cout << flood_size << std::endl;
 
     //verifica se a área
-    if(flood_size > field_size/2)
+    if((float)this->flood_size > field_size/2.0f)
     {
         // deleta tudo que ficou verde no flood_map
-        for(int i=0)
+        for(int i=0; i < flood_map.size(); i++)
+        {
+            for(int j=0; j < flood_map.at(i).size(); j++)
+            {
+                A_RGB rgb = flood_map.at(i).at(j);
+                if(rgb.isGreen())
+                {
+                    rgb.setBlue();
+                    stage_map.at(i).at(j) = rgb;
+
+                    rgb = characters_map.at(i).at(j);
+                    if(rgb.isYellow())
+                    {
+                        std::vector<Scyther> livingScythers;
+                        for(int k=0; k<scythers.size(); k++)
+                        {
+                            Scyther scyther = scythers.at(k);
+                            if(!scyther.getPosition().equals(i,j))
+                                livingScythers.push_back(scyther);
+                        }
+                        scythers = livingScythers;
+                    }
+                    else if(rgb.isMagenta())
+                    {
+                        std::vector<Snorlax> livingSnorlaxes;
+                        for(int k=0; k<snorlaxs.size(); k++)
+                        {
+                            Snorlax snorlax = snorlaxs.at(k);
+                            if(!snorlax.getPosition().equals(i,j))
+                                livingSnorlaxes.push_back(snorlax);
+                        }
+                        snorlaxs = livingSnorlaxes;
+                    }
+                    rgb.setBlue();
+                    characters_map.at(i).at(j) = rgb;
+                }
+            }
+        }
+        field_size = flood_size;
     }
     else
     {
         // deleta tudo que ficou amarelo no flood_map.
+        for(int i=0; i < flood_map.size(); i++)
+        {
+            for(int j=0; j < flood_map.at(i).size(); j++)
+            {
+                A_RGB rgb = flood_map.at(i).at(j);
+                if(rgb.isYellow())
+                {
+                    rgb.setBlue();
+                    stage_map.at(i).at(j) = rgb;
+
+                    rgb = characters_map.at(i).at(j);
+                    if(rgb.isYellow())
+                    {
+                        std::vector<Scyther> livingScythers;
+                        for(int k=0; k<scythers.size(); k++)
+                        {
+                            Scyther scyther = scythers.at(k);
+                            if(!scyther.getPosition().equals(i,j))
+                                livingScythers.push_back(scyther);
+                        }
+                        scythers = livingScythers;
+                    }
+                    else if(rgb.isMagenta())
+                    {
+                        std::vector<Snorlax> livingSnorlaxes;
+                        for(int k=0; k<snorlaxs.size(); k++)
+                        {
+                            Snorlax snorlax = snorlaxs.at(k);
+                            if(!snorlax.getPosition().equals(i,j))
+                                livingSnorlaxes.push_back(snorlax);
+                        }
+                        snorlaxs = livingSnorlaxes;
+                    }
+                    rgb.setBlue();
+                    characters_map.at(i).at(j) = rgb;
+                }
+            }
+        }
+        field_size = field_size - flood_size;
     }
-
-
-
 
 }
 
@@ -157,7 +248,8 @@ void GameMap::flood_step(int i, int j)
     // pinta célula atual no flood_map.
     current.setYellow();
     flood_map.at(i).at(j) = current;
-    flood_size++;
+    this->flood_size++;
+
 
     north = flood_map.at(i-1).at(j);
     east = flood_map.at(i).at(j+1);
@@ -169,10 +261,16 @@ void GameMap::flood_step(int i, int j)
 
     if(north.isGreen())
         flood_step(i-1,j);
+
+    east = flood_map.at(i).at(j+1);
     if(east.isGreen())
         flood_step(i,j+1);
+
+    south = flood_map.at(i+1).at(j);
     if(south.isGreen())
         flood_step(i+1,j);
+
+    west = flood_map.at(i).at(j-1);
     if(west.isGreen())
         flood_step(i,j-1);
 }
@@ -443,6 +541,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = player.getPosition().i - 1; k > iterationPosition; k--)
                     stage_map.at(k).at(player.getPosition().j) = mapPositionColor;
+                flood_fill();
             }
         }
         else if(player.getYRotation() == 90.0f) // Virado para a esquerda do mapa
@@ -463,6 +562,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = player.getPosition().j + 1; k < iterationPosition; k++)
                     stage_map.at(player.getPosition().i).at(k) = mapPositionColor;
+                flood_fill();
             }
         }
         else if(player.getYRotation() == 180.0f) // Virado para a parte inferior do mapa
@@ -483,6 +583,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = player.getPosition().i + 1; k < iterationPosition; k++)
                     stage_map.at(k).at(player.getPosition().j) = mapPositionColor;
+                flood_fill();
             }
         }
         else if(player.getYRotation() == 270.0f) // Virado para a direita do mapa
@@ -503,6 +604,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = player.getPosition().j - 1; k > iterationPosition; k--)
                     stage_map.at(player.getPosition().i).at(k) = mapPositionColor;
+                flood_fill();
             }
         }
     }

@@ -24,6 +24,7 @@ class GameMap
         bool checkEnemyCollision(int i, int j);
         bool checkObstacleCollision(Diglett::Direction direction);
         void flood_fill();
+        void flood_step(int i, int j);
         std::vector< std::vector<A_RGB> > getCharactersMap();
         std::vector<Scyther> getScythers();
         std::vector<Sharpedo> getSharpedos();
