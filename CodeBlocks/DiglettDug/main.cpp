@@ -442,7 +442,8 @@ void updateState()
     {
         if(cam.isUpperCam())
         {
-            game_map.player.walkIn2DMode(Character::forwards);
+            if(!game_map.checkObstacleCollision(Character::forwards))
+                game_map.player.walkIn2DMode(Character::forwards);
         }
         else
         {
@@ -457,7 +458,8 @@ void updateState()
     {
         if(cam.isUpperCam())
         {
-            game_map.player.walkIn2DMode(Character::backwards);
+            if(!game_map.checkObstacleCollision(Character::backwards))
+                game_map.player.walkIn2DMode(Character::backwards);
         }
         else
         {
@@ -471,7 +473,8 @@ void updateState()
     {
         if(cam.isUpperCam())
         {
-            game_map.player.walkIn2DMode(Character::rotateLeft);
+            if(!game_map.checkObstacleCollision(Character::rotateLeft))
+                game_map.player.walkIn2DMode(Character::rotateLeft);
         }
         else
         {
@@ -483,7 +486,8 @@ void updateState()
     {
         if(cam.isUpperCam())
         {
-            game_map.player.walkIn2DMode(Character::rotateRight);
+            if(!game_map.checkObstacleCollision(Character::rotateRight))
+                game_map.player.walkIn2DMode(Character::rotateRight);
         }
         else
         {
