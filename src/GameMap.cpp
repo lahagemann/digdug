@@ -426,7 +426,7 @@ void GameMap::load_models()
     GLubyte     *ptr;            /* Pointer into bit buffer */
     GLubyte	    *rgba;           /* RGBA pixel buffer */
 
-    bits = LoadDIBitmap("Stage2.bmp", &info);
+    bits = LoadDIBitmap("Stage1.bmp", &info);
     if(bits == (GLubyte *)0)
     {
 		std::cout << "Error loading!" << std::endl << std::endl;

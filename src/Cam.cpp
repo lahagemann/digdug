@@ -68,9 +68,9 @@ void Cam::setFirstPersonCam(Diglett player)
 
 void Cam::setMiniMapCam()
 {
-    gluLookAt(0.0, 30.0, 1.0,
-		0.0, 0.0, 0.0,
-		0.0, 1.0, 0.0);
+    gluLookAt(0.0, 33.0, -1.0,
+		0.0, 0.0, -1.0,
+		0.0, 0.0, -1.0);
 }
 
 void Cam::setThirdPersonCam(Diglett player)
