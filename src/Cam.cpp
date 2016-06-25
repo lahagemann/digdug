@@ -40,15 +40,29 @@ void Cam::setFirstPersonCam(Diglett player)
     camOption = FIRST_PERSON_CAM_OPTION;
 
     float posX, posY, posZ;
-    player.getPosition().convert_to_xz(&posZ, &posX);
-    posY = 1.2f;
-    posZ -= 0.2f;
+    player.getPosition().convert_to_xz(&posX, &posZ);
+    posY = 0.7f;
 
     float xRotation = player.getXRotation();
     float yRotation = player.getYRotation();
 
+    if(yRotation == 0.0f) // Virado para a parte superior do mapa
+        posZ += 0.2f;
+    else if(yRotation == 90.0f) // Virado para a esquerda do mapa
+    {
+        yRotation = 270.0f; // Transforma coordenadas mao direita em mao esquerda
+        posX += 0.2f;
+    }
+    else if(yRotation == 180.0f) // Virado para a parte inferior do mapa
+        posZ -= 0.2f;
+    else if(yRotation == 270.0f) // Virado para a direita do mapa
+    {
+        yRotation = 90.0f; // Transforma coordenadas mao direita em mao esquerda
+        posX -= 0.2f;
+    }
+
     gluLookAt(posX, posY, posZ,
-		posX + sin(yRotation*PI/180), posY + cos(xRotation*PI/180), posZ - cos(yRotation*PI/180),
+		posX + sin((yRotation+180)*PI/180), posY + cos(xRotation*PI/180), posZ - cos((yRotation+180)*PI/180),
 		0.0, 1.0, 0.0);
 }
 
@@ -56,25 +70,30 @@ void Cam::setThirdPersonCam(Diglett player)
 {
     camOption = THIRD_PERSON_CAM_OPTION;
 
-    float posX, posZ;
+    float posX, posY, posZ;
     player.getPosition().convert_to_xz(&posX, &posZ);
+    posY = 1.5f;
 
+    float xRotation = player.getXRotation();
     float yRotation = player.getYRotation();
-    float camXDistance = posX;
-    float camYDistance = 1.5f;
-    float camZDistance = posZ;
 
-    if(player.getYRotation() == 0.0f)
-        camXDistance -= 3.0f;
-    else if(player.getYRotation() == 90.0f)
-        camZDistance += 3.0f;
-    else if(player.getYRotation() == 180.0f)
-        camXDistance += 3.0f;
-    else if(player.getYRotation() == 270.0f)
-        camZDistance -= 3.0f;
+    if(yRotation == 0.0f) // Virado para a parte superior do mapa
+        posZ -= 3.0f;
+    else if(yRotation == 90.0f) // Virado para a esquerda do mapa
+    {
+        yRotation = 270.0f; // Transforma coordenadas mao direita em mao esquerda
+        posX -= 3.0f;
+    }
+    else if(yRotation == 180.0f) // Virado para a parte inferior do mapa
+        posZ += 3.0f;
+    else if(yRotation == 270.0f) // Virado para a direita do mapa
+    {
+        yRotation = 90.0f; // Transforma coordenadas mao direita em mao esquerda
+        posX += 3.0f;
+    }
 
-    gluLookAt(camXDistance, camYDistance, camZDistance,
-		posX, camYDistance - 0.3f, posZ,
+    gluLookAt(posX, posY + 0.3, posZ,
+		posX + sin((yRotation+180)*PI/180), posY + cos(xRotation*PI/180), posZ - cos((yRotation+180)*PI/180),
 		0.0, 1.0, 0.0);
 }
 

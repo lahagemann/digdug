@@ -23,6 +23,7 @@ class Character
         void setXRotation(float rotation);
         void setYRotation(float rotation);
         void walk(Direction dir);
+        void walkIn2DMode(Direction dir);
 
     private:
         CharacterPosition position;

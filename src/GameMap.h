@@ -36,7 +36,7 @@ class GameMap
         bool isPlayerNearEnemy(int enemiesIndex, int directionOptions[4], int *direction);
         void load_models();
         void makeCrack();
-        void moveAScyther(int i, int j, int enemiesIndex);
+        void moveAScyther(int i, int j, int enemiesIndex, int direction);
         void moveASharpedo(int i, int j, int enemiesIndex);
         void moveEnemies();
         void push();

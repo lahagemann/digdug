@@ -1,4 +1,6 @@
 #include "GameMap.h"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 GameMap::GameMap()
 {
@@ -98,6 +100,22 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
                 else
                     return false;
             }
+        }
+        else if(direction == Character::rotateLeft)
+        {
+            A_RGB rgb = characters_map.at(i).at(j-1);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
+        }
+        else if(direction == Character::rotateRight)
+        {
+            A_RGB rgb = characters_map.at(i).at(j+1);
+            if(rgb.isMagenta())
+                return true;
+            else
+                return false;
         }
     }
 
@@ -427,93 +445,87 @@ void GameMap::makeCrack()
     }
 }
 
-void GameMap::moveAScyther(int i, int j, int enemiesIndex)
+void GameMap::moveAScyther(int i, int j, int enemiesIndex, int direction)
 {
-    int direction;
-    int directionOptions[4] = {1,2,3,4};
-    bool moved = false;
-    Scyther scyther = scythers.at(enemiesIndex);
+    A_RGB rgb, stage_rgb;
+    Scyther enemy;
 
-    while(!moved)
+    if(direction == 1) //north
     {
-        if(isPlayerNearEnemy(enemiesIndex, directionOptions, &direction))
+        if(i > 0)
         {
-            if(directionOptions[0] == 0 && directionOptions[1] == 0
-               && directionOptions[1] == 0 && directionOptions[1] == 0)
-                direction = 5;
-        }
-        else
-        {
-            srand (time(NULL));
-            direction = rand() % 5 + 1;
-            moved = false;
-        }
+            rgb = characters_map.at(i-1).at(j);
+            stage_rgb = stage_map.at(i-1).at(j);
+            if(rgb.isBlue() && stage_rgb.isGreen())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setYellow();
+                characters_map.at(i-1).at(j) = rgb;
 
-        A_RGB rgb;
-
-        switch(direction)
-        {
-            case 1: //north
-                rgb = stage_map.at(i-1).at(j);
-                if(rgb.isGreen())
-                {
-                    CharacterPosition pos = CharacterPosition(i-1,j);
-                    scyther.setPosition(pos);
-                    scyther.setYRotation(90.0f);
-                    scythers.at(enemiesIndex) = scyther;
-                    directionOptions[0] = 0;
-                    moved = true;
-                }
-                break;
-            case 2: //east
-                rgb = stage_map.at(i).at(j+1);
-                if(rgb.isGreen())
-                {
-                    CharacterPosition pos = CharacterPosition(i,j+1);
-                    scyther.setPosition(pos);
-                    scyther.setYRotation(0.0f);
-                    scythers.at(enemiesIndex) = scyther;
-                    directionOptions[1] = 0;
-                    moved = true;
-                }
-                break;
-            case 3: //south
-                rgb = stage_map.at(i+1).at(j);
-                if(rgb.isGreen())
-                {
-                    CharacterPosition pos = CharacterPosition(i+1,j);
-                    scyther.setPosition(pos);
-                    scyther.setYRotation(270.0f);
-                    scythers.at(enemiesIndex) = scyther;
-                    directionOptions[3] = 0;
-                    moved = true;
-                }
-                break;
-            case 4: //west
-                rgb = stage_map.at(i).at(j-1);
-                if(rgb.isGreen())
-                {
-                    CharacterPosition pos = CharacterPosition(i+1,j);
-                    scyther.setPosition(pos);
-                    scyther.setYRotation(180.0f);
-                    scythers.at(enemiesIndex) = scyther;
-                    directionOptions[4] = 0;
-                    moved = true;
-                }
-                break;
-            case 5: //don't move
-                moved = true;
-                break;
-            default:
-                break;
+                enemy = scythers.at(enemiesIndex);
+                enemy.setPosition(i-1, j);
+                scythers.at(enemiesIndex) = enemy;
+            }
         }
     }
+    else if(direction == 2) //east
+    {
+        if(j > 0)
+        {
+            rgb = characters_map.at(i).at(j-1);
+            stage_rgb = stage_map.at(i).at(j-1);
+            if(rgb.isBlue() && stage_rgb.isGreen())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setYellow();
+                characters_map.at(i).at(j-1) = rgb;
 
+                enemy = scythers.at(enemiesIndex);
+                enemy.setPosition(i, j-1);
+                scythers.at(enemiesIndex) = enemy;
+            }
+        }
+    }
+    else if(direction == 3) //south
+    {
+        if(i < 31)
+        {
+            rgb = characters_map.at(i+1).at(j);
+            stage_rgb = stage_map.at(i+1).at(j);
+            if(rgb.isBlue() && stage_rgb.isGreen())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setYellow();
+                characters_map.at(i+1).at(j) = rgb;
 
-    // detectar se o player está a 4 células de distância deste scyther.
+                enemy = scythers.at(enemiesIndex);
+                enemy.setPosition(i+1, j);
+                scythers.at(enemiesIndex) = enemy;
+            }
+        }
+    }
+    else if(direction == 4)
+    {
+        if(j < 31)
+        {
+            rgb = characters_map.at(i).at(j+1);
+            stage_rgb = stage_map.at(i).at(j+1);
+            if(rgb.isBlue() && stage_rgb.isGreen())
+            {
+                rgb.setBlue();
+                characters_map.at(i).at(j) = rgb;
+                rgb.setYellow();
+                characters_map.at(i).at(j+1) = rgb;
 
-    //scythers.at(enemiesIndex);
-
+                enemy = scythers.at(enemiesIndex);
+                enemy.setPosition(i, j+1);
+                scythers.at(enemiesIndex) = enemy;
+            }
+        }
+    }
 }
 
 void GameMap::moveASharpedo(int i, int j, int enemiesIndex)
@@ -523,24 +535,17 @@ void GameMap::moveASharpedo(int i, int j, int enemiesIndex)
 
 void GameMap::moveEnemies()
 {
-    for(int i=0; i<characters_map.size(); i++)
-        for(int j=0; j<characters_map.at(i).size(); j++)
-        {
-            A_RGB currentCharacter = characters_map.at(i).at(j);
+    srand (time(NULL));
 
-            if(currentCharacter.isYellow()) // A wild Scyther appears
-            {
-                for(int k=0; k<scythers.size(); k++)
-                    if(scythers.at(k).getPosition().equals(i,j))
-                        moveAScyther(i,j,k);
-            }
-            else if(currentCharacter.isCyan()) // A wild Sharpedo appears
-            {
-                for(int k=0; k<sharpedos.size(); k++)
-                    if(sharpedos.at(k).getPosition().equals(i,j))
-                        moveASharpedo(i,j,k);
-            }
-        }
+    for(int k=0; k<scythers.size(); k++)
+    {
+        int direction = rand() % 4 + 1;
+        Scyther scyther = scythers.at(k);
+        moveAScyther(scyther.getPosition().i,scyther.getPosition().j,k,direction);
+    }
+
+    //for(int k=0; k<sharpedos.size(); k++)
+        //moveASharpedo(i,j,k);
 }
 
 void GameMap::push()

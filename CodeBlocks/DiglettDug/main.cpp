@@ -449,6 +449,7 @@ void updateState()
             if(!game_map.checkObstacleCollision(Character::forwards))
                 game_map.player.walk(Character::forwards);
         }
+        game_map.moveEnemies();
     }
 
 
@@ -463,6 +464,7 @@ void updateState()
             if(!game_map.checkObstacleCollision(Character::backwards))
                 game_map.player.walk(Character::backwards);
         }
+
     }
 
     if(rotateLeftPressed)
@@ -501,7 +503,7 @@ void updateState()
         changeCamera = false;
     }
 
-    //game_map.moveEnemies();
+
 
     if(game_map.isPlayerDead())
         exit(0);
