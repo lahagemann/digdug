@@ -7,6 +7,7 @@
 #include <gl/gl.h>
 #include <gl/glut.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "../../src/Cam.h"
@@ -487,13 +488,14 @@ void setWindow()
 
 void showGameTime()
 {
-    int gameTime = getGameTime();
-    glColor3f(1, 1 - gameTime/30, 1 - gameTime/45);
-    glRasterPos2f(2000, 100);
+    /*char* cronometer;
+    sprintf(cronometer, "Time: %d\0", getGameTime());
 
-    std::string cronometer = "Time: " + gameTime;
-    for(int i = 0; i < cronometer.length(); i++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, cronometer.at(i));
+    glLoadIdentity();
+    glRasterPos2f(1500, 1500);
+    for(int i = 0; i < strlen(cronometer); i++)
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, cronometer[i]);
+    glPopMatrix();*/
 }
 
 void updateState()

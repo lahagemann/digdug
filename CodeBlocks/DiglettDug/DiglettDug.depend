@@ -314,7 +314,7 @@
 	<gl/glut.h>
 	"A_RGB.h"
 
-1466905151 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
+1466907969 source:c:\users\marcelo\documents\git\digdug\src\gamemap.cpp
 	"GameMap.h"
 
 1466904703 c:\users\marcelo\documents\git\digdug\src\gamemap.h
@@ -390,12 +390,13 @@
 1466701152 source:c:\users\marcelo\documents\git\digdug\src\model.cpp
 	"Model.h"
 
-1466904887 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
+1466907982 source:c:\users\marcelo\documents\git\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
 	<stdlib.h>
+	<string.h>
 	<time.h>
 	"../../src/Cam.h"
 	"../../src/GameLight.h"
