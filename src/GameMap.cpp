@@ -247,15 +247,7 @@ void GameMap::flood_step(int i, int j)
     flood_map.at(i).at(j) = current;
     this->flood_size++;
 
-
     north = flood_map.at(i-1).at(j);
-    east = flood_map.at(i).at(j+1);
-    south = flood_map.at(i+1).at(j);
-    west = flood_map.at(i).at(j-1);
-
-    if(!north.isGreen() && !east.isGreen() && !south.isGreen() && !west.isGreen())
-        return;
-
     if(north.isGreen())
         flood_step(i-1,j);
 

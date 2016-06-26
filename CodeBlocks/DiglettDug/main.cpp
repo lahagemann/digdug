@@ -299,15 +299,12 @@ void mainRender()
 
 void miniMapRender()
 {
-    if(!cam.isUpperCam())
-    {
-        glutSetWindow(subWindowId);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity();
-        renderScene(true);
-        glFlush();
-        glutPostRedisplay();
-    }
+    glutSetWindow(subWindowId);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    renderScene(true);
+    glFlush();
+    glutPostRedisplay();
 }
 
 void onKeyDown(unsigned char key, int x, int y)
