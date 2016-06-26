@@ -367,7 +367,7 @@ bool GameMap::isPlayerAboveWater()
 
 bool GameMap::isPlayerDead(int time)
 {
-    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j) || isPlayerAboveWater() || time > 90)
+    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j) || isPlayerAboveWater() || time > 60)
         return true;
 
     return false;

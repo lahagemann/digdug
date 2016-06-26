@@ -547,7 +547,10 @@ void setWindow()
 void showGameTime()
 {
     char cronometer[10];
-    sprintf(cronometer, "Time: %d\0", getGameTime());
+    int gameTime = getGameTime();
+    if(gameTime >= 60)
+        gameTime = 60;
+    sprintf(cronometer, "Time: %d\0", gameTime);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -677,6 +680,15 @@ void updateState()
 
 int main(int argc, char *argv[])
 {
+    std::cout << "W - andar para frente" << std::endl;
+    std::cout << "S - andar para tras" << std::endl;
+    std::cout << "A - girar para a esquerda" << std::endl;
+    std::cout << "D - girar para a esquerda" << std::endl;
+    std::cout << "F - empurrar inimigo" << std::endl;
+    std::cout << "V - trocar a câmera" << std::endl;
+    std::cout << "SPACE - criar rachadura" << std::endl;
+    std::cout << std::endl << std::endl;
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(windowWidth, windowHeight);
