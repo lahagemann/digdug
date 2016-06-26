@@ -432,7 +432,7 @@
 1466782668 source:c:\users\luiza\documents\diglettdug\src\hole.cpp
 	"Hole.h"
 
-1466958377 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
+1466959450 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
@@ -589,6 +589,6 @@
 1466906189 source:c:\users\luiza\documents\digdug\src\texture.cpp
 	"Texture.h"
 
-1466956218 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
+1466959168 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
 	"GameMap.h"
 

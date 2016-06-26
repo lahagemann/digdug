@@ -547,9 +547,9 @@ void setWindow()
 void showGameTime()
 {
     char cronometer[10];
-    int gameTime = getGameTime();
-    if(gameTime >= 60)
-        gameTime = 60;
+    int gameTime = 60 - getGameTime();
+    if(gameTime <= 0)
+        gameTime = 0;
     sprintf(cronometer, "Time: %d\0", gameTime);
 
 	glMatrixMode(GL_MODELVIEW);
