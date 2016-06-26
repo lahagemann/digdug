@@ -3,7 +3,7 @@
 Cam::Cam()
 {
     camOption = INITIAL_CAM;
-    begginingCamXPosition = 10.0f;
+    begginingCamXPosition = 8.0f;
     begginingCamYPosition = 5.0f;
     begginingCamZPosition = sqrt(begginingCamXPosition);
 }
@@ -80,10 +80,10 @@ void Cam::setFirstPersonCam(Diglett player)
 void Cam::setInitialCam(Diglett player)
 {
     if(begginingCamXPosition > 1.0f)
-        begginingCamXPosition -= 0.25f;
+        begginingCamXPosition -= 0.5f;
 
     if(begginingCamYPosition > 1.5f)
-        begginingCamYPosition -= 0.125f;
+        begginingCamYPosition -= 0.25f;
 
     if(begginingCamZPosition < -3.0f)
         begginingCamZPosition += sqrt(begginingCamXPosition);
@@ -92,12 +92,12 @@ void Cam::setInitialCam(Diglett player)
 
     float posX, posY, posZ;
     player.getPosition().convert_to_xz(&posX, &posZ);
-    posY = 1.5f;
+    posY = 0.7f;
 
     gluLookAt((posX - sin(player.getXRotation()*PI/180)) + begginingCamXPosition,
               posY + begginingCamYPosition,
               (posZ + cos(player.getYRotation()*PI/180)) + begginingCamZPosition,
-        posX ,posY,posZ,
+        posX, posY, posZ,
 		0.0, 1.0, 0.0);
 
     if(begginingCamXPosition == 1.0f && begginingCamYPosition == 1.5f && begginingCamZPosition == -3.0f)
