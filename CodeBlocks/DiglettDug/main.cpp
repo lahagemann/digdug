@@ -292,6 +292,7 @@ void mainRender()
 {
     updateState();
 	renderScene(false);
+	showGameTime();
 	glFlush();
 	glutPostRedisplay();
 	Sleep(30);
@@ -422,7 +423,6 @@ void renderScene(bool miniMapOption)
 	loadIsland();
     glBindTexture(type, texture);
 	renderSea();
-	showGameTime();
 }
 
 void renderSea()
@@ -485,14 +485,26 @@ void setWindow()
 
 void showGameTime()
 {
-    /*char* cronometer;
+    char cronometer[10];
     sprintf(cronometer, "Time: %d\0", getGameTime());
 
-    glLoadIdentity();
-    glRasterPos2f(1500, 1500);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+    glOrtho(0,3000,0,3000,0,80000);
+
+    glRasterPos2f(2500, 2800);
     for(int i = 0; i < strlen(cronometer); i++)
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, cronometer[i]);
-    glPopMatrix();*/
+
+    glPopMatrix();
+
+    glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 }
 
 void updateState()
@@ -539,8 +551,6 @@ void updateState()
 
 int main(int argc, char *argv[])
 {
-    initialTime = clock();
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(windowWidth, windowHeight);
@@ -565,6 +575,7 @@ int main(int argc, char *argv[])
 	glutDisplayFunc(miniMapRender);
     mainInit();
 
+    initialTime = clock();
 	glutMainLoop();
 
     return 0;
