@@ -7,6 +7,7 @@
 #include <gl/gl.h>
 #include <gl/glut.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "../../src/Cam.h"
 #include "../../src/GameLight.h"
@@ -34,10 +35,12 @@ void renderScene(bool miniMapOption);
 void renderSea();
 void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 void setWindow();
+void showGameTime();
 void updateState();
 
 /* global var declaration */
 const char* GAME_NAME = "Dig(lett) Dug(trio)";
+clock_t initialTime;
 int mainWindowId = 0;
 int subWindowId = 0;
 int MouseXPosition = 0;
@@ -75,6 +78,11 @@ GLMmodel *diglettModel;
 GLMmodel *scytherModel;
 GLMmodel *sharpedoModel;
 GLMmodel *snorlaxModel;
+
+int getGameTime()
+{
+    return (clock() - initialTime) / (double)CLOCKS_PER_SEC;
+}
 
 void initTexture()
 {
@@ -126,15 +134,15 @@ bool load_new_model(const char *pszFilename, GLMmodel **model)
     char aszFilename[256];
     strcpy(aszFilename, pszFilename);
 
-    if (*model) {
-
-    free(*model);
-    *model = NULL;
+    if (*model)
+    {
+        free(*model);
+        *model = NULL;
     }
 
     *model = glmReadOBJ(aszFilename);
     if (!(*model))
-    return false;
+        return false;
 
     glmUnitize(*model);
     glmFacetNormals(*model);
@@ -416,6 +424,7 @@ void renderScene(bool miniMapOption)
 	loadIsland();
     glBindTexture(type, texture);
 	renderSea();
+	showGameTime();
 }
 
 void renderSea()
@@ -476,6 +485,17 @@ void setWindow()
 	glLoadIdentity();
 }
 
+void showGameTime()
+{
+    int gameTime = getGameTime();
+    glColor3f(1, 1 - gameTime/30, 1 - gameTime/45);
+    glRasterPos2f(2000, 100);
+
+    std::string cronometer = "Time: " + gameTime;
+    for(int i = 0; i < cronometer.length(); i++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, cronometer.at(i));
+}
+
 void updateState()
 {
     if(walkPressed)
@@ -496,7 +516,7 @@ void updateState()
         game_map.makeCrack();
 
     if(pushPressed)
-        game_map.push();
+        game_map.push(getGameTime());
 
     if(changeCamera)
     {
@@ -514,6 +534,8 @@ void updateState()
 
 int main(int argc, char *argv[])
 {
+    initialTime = clock();
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(windowWidth, windowHeight);

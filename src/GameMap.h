@@ -2,8 +2,9 @@
 #define GAMEMAP_H
 
 #include <stdio.h>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 #include <iostream>
-#include <ctime>
 #include <vector>
 #include "A_RGB.h"
 #include "bitmap.h"
@@ -41,7 +42,7 @@ class GameMap
         void moveAScyther(int i, int j, int enemiesIndex, int direction);
         void moveASharpedo(int i, int j, int enemiesIndex, int direction);
         void moveEnemies();
-        void push();
+        void push(int seconds);
 
         Diglett player;
 
@@ -55,6 +56,7 @@ class GameMap
 
         int field_size;
         int flood_size;
+        int lastTimeEnemyPushed;
 };
 
 #endif // GAMEMAP_H

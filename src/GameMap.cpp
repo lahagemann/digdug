@@ -1,10 +1,9 @@
 #include "GameMap.h"
-#include <stdlib.h>     /* srand, rand */
-#include <time.h>       /* time */
 
 GameMap::GameMap()
 {
     load_models();
+    lastTimeEnemyPushed = 0;
 }
 
 GameMap::~GameMap()
@@ -818,197 +817,205 @@ void GameMap::moveEnemies()
     scythers = livingScythers;
 }
 
-void GameMap::push()
+void GameMap::push(int pushTime)
 {
-    int i = player.getPosition().i;
-    int j = player.getPosition().j;
-
-    if(player.getYRotation() == 0.0f)
+    if(pushTime - lastTimeEnemyPushed >= 2)
     {
-        A_RGB rgb_near = characters_map.at(i-1).at(j);
-        A_RGB rgb_far = characters_map.at(i-2).at(j);
-        if(rgb_near.isYellow())
+        std::cout << "TE EMPURREI MALDITOOO! " << pushTime << std::endl;
+        int i = player.getPosition().i;
+        int j = player.getPosition().j;
+
+        if(player.getYRotation() == 0.0f)
         {
-            if(isEnemyPushable(i-1,j,90.0f))
+            A_RGB rgb_near = characters_map.at(i-1).at(j);
+            A_RGB rgb_far = characters_map.at(i-2).at(j);
+            if(rgb_near.isYellow())
             {
-                rgb_near.setBlue();
-                characters_map.at(i-1).at(j) = rgb_near;
-
-                rgb_near.setYellow();
-                characters_map.at(i-3).at(j) = rgb_near;
-
-                for(int k = 0; k < scythers.size(); k++)
+                if(isEnemyPushable(i-1,j,90.0f))
                 {
-                    if(scythers.at(k).getPosition().equals(i-1, j))
+                    rgb_near.setBlue();
+                    characters_map.at(i-1).at(j) = rgb_near;
+
+                    rgb_near.setYellow();
+                    characters_map.at(i-3).at(j) = rgb_near;
+
+                    for(int k = 0; k < scythers.size(); k++)
                     {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i-3, j);
-                        scythers.at(k) = enemy;
+                        if(scythers.at(k).getPosition().equals(i-1, j))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i-3, j);
+                            scythers.at(k) = enemy;
+                        }
+                    }
+                }
+            }
+            else if(rgb_far.isYellow() && rgb_near.isBlue())
+            {
+                if(isEnemyPushable(i-2,j,90.0f))
+                {
+                    rgb_far.setBlue();
+                    characters_map.at(i-2).at(j) = rgb_far;
+
+                    rgb_far.setYellow();
+                    characters_map.at(i-4).at(j) = rgb_far;
+
+                    for(int k = 0; k < scythers.size(); k++)
+                    {
+                        if(scythers.at(k).getPosition().equals(i-2, j))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i-4, j);
+                            scythers.at(k) = enemy;
+                        }
                     }
                 }
             }
         }
-        else if(rgb_far.isYellow() && rgb_near.isBlue())
+        else if(player.getYRotation() == 90.0f)
         {
-            if(isEnemyPushable(i-2,j,90.0f))
+            A_RGB rgb_near = characters_map.at(i).at(j+1);
+            A_RGB rgb_far = characters_map.at(i).at(j+2);
+            if(rgb_near.isYellow())
             {
-                rgb_far.setBlue();
-                characters_map.at(i-2).at(j) = rgb_far;
-
-                rgb_far.setYellow();
-                characters_map.at(i-4).at(j) = rgb_far;
-
-                for(int k = 0; k < scythers.size(); k++)
+                if(isEnemyPushable(i,j+1,0.0f))
                 {
-                    if(scythers.at(k).getPosition().equals(i-2, j))
+                    rgb_near.setBlue();
+                    characters_map.at(i).at(j+1) = rgb_near;
+
+                    rgb_near.setYellow();
+                    characters_map.at(i).at(j+3) = rgb_near;
+
+                    for(int k = 0; k < scythers.size(); k++)
                     {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i-4, j);
-                        scythers.at(k) = enemy;
+                        if(scythers.at(k).getPosition().equals(i, j+1))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i, j+3);
+                            scythers.at(k) = enemy;
+                        }
+                    }
+                }
+            }
+            else if(rgb_far.isYellow() && rgb_near.isBlue())
+            {
+                if(isEnemyPushable(i,j+2,0.0f))
+                {
+                    rgb_far.setBlue();
+                    characters_map.at(i).at(j+2) = rgb_far;
+
+                    rgb_far.setYellow();
+                    characters_map.at(i).at(j+4) = rgb_far;
+
+                    for(int k = 0; k < scythers.size(); k++)
+                    {
+                        if(scythers.at(k).getPosition().equals(i, j+2))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i, j+4);
+                            scythers.at(k) = enemy;
+                        }
                     }
                 }
             }
         }
+        else if(player.getYRotation() == 180.0f)
+        {
+            A_RGB rgb_near = characters_map.at(i+1).at(j);
+            A_RGB rgb_far = characters_map.at(i+2).at(j);
+            if(rgb_near.isYellow())
+            {
+                if(isEnemyPushable(i+1,j,270.0f))
+                {
+                    rgb_near.setBlue();
+                    characters_map.at(i+1).at(j) = rgb_near;
+
+                    rgb_near.setYellow();
+                    characters_map.at(i+3).at(j) = rgb_near;
+
+                    for(int k = 0; k < scythers.size(); k++)
+                    {
+                        if(scythers.at(k).getPosition().equals(i+1, j))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i+3, j);
+                            scythers.at(k) = enemy;
+                        }
+                    }
+                }
+            }
+            else if(rgb_far.isYellow() && rgb_near.isBlue())
+            {
+                if(isEnemyPushable(i+2,j,270.0f))
+                {
+                    rgb_far.setBlue();
+                    characters_map.at(i+2).at(j) = rgb_far;
+
+                    rgb_far.setYellow();
+                    characters_map.at(i+4).at(j) = rgb_far;
+
+                    for(int k = 0; k < scythers.size(); k++)
+                    {
+                        if(scythers.at(k).getPosition().equals(i+2, j))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i+4, j);
+                            scythers.at(k) = enemy;
+                        }
+                    }
+                }
+            }
+        }
+        else if(player.getYRotation() == 270.0f)
+        {
+            A_RGB rgb_near = characters_map.at(i).at(j-1);
+            A_RGB rgb_far = characters_map.at(i).at(j-2);
+            if(rgb_near.isYellow())
+            {
+                if(isEnemyPushable(i,j-1,180.0f))
+                {
+                    rgb_near.setBlue();
+                    characters_map.at(i).at(j-1) = rgb_near;
+
+                    rgb_near.setYellow();
+                    characters_map.at(i).at(j-3) = rgb_near;
+
+                    for(int k = 0; k < scythers.size(); k++)
+                    {
+                        if(scythers.at(k).getPosition().equals(i, j-1))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i, j-3);
+                            scythers.at(k) = enemy;
+                        }
+                    }
+                }
+            }
+            else if(rgb_far.isYellow() && rgb_near.isBlue())
+            {
+                if(isEnemyPushable(i,j-2,180.0f))
+                {
+                    rgb_far.setBlue();
+                    characters_map.at(i).at(j-2) = rgb_far;
+
+                    rgb_far.setYellow();
+                    characters_map.at(i).at(j-4) = rgb_far;
+
+                    for(int k = 0; k < scythers.size(); k++)
+                    {
+                        if(scythers.at(k).getPosition().equals(i, j-2))
+                        {
+                            Scyther enemy = scythers.at(k);
+                            enemy.setPosition(i, j-4);
+                            scythers.at(k) = enemy;
+                        }
+                    }
+                }
+            }
+        }
+
+        lastTimeEnemyPushed = pushTime;
     }
-    else if(player.getYRotation() == 90.0f)
-    {
-        A_RGB rgb_near = characters_map.at(i).at(j+1);
-        A_RGB rgb_far = characters_map.at(i).at(j+2);
-        if(rgb_near.isYellow())
-        {
-            if(isEnemyPushable(i,j+1,0.0f))
-            {
-                rgb_near.setBlue();
-                characters_map.at(i).at(j+1) = rgb_near;
-
-                rgb_near.setYellow();
-                characters_map.at(i).at(j+3) = rgb_near;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i, j+1))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j+3);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-        else if(rgb_far.isYellow() && rgb_near.isBlue())
-        {
-            if(isEnemyPushable(i,j+2,0.0f))
-            {
-                rgb_far.setBlue();
-                characters_map.at(i).at(j+2) = rgb_far;
-
-                rgb_far.setYellow();
-                characters_map.at(i).at(j+4) = rgb_far;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i, j+2))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j+4);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-    }
-    else if(player.getYRotation() == 180.0f)
-    {
-        A_RGB rgb_near = characters_map.at(i+1).at(j);
-        A_RGB rgb_far = characters_map.at(i+2).at(j);
-        if(rgb_near.isYellow())
-        {
-            if(isEnemyPushable(i+1,j,270.0f))
-            {
-                rgb_near.setBlue();
-                characters_map.at(i+1).at(j) = rgb_near;
-
-                rgb_near.setYellow();
-                characters_map.at(i+3).at(j) = rgb_near;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i+1, j))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i+3, j);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-        else if(rgb_far.isYellow() && rgb_near.isBlue())
-        {
-            if(isEnemyPushable(i+2,j,270.0f))
-            {
-                rgb_far.setBlue();
-                characters_map.at(i+2).at(j) = rgb_far;
-
-                rgb_far.setYellow();
-                characters_map.at(i+4).at(j) = rgb_far;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i+2, j))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i+4, j);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-    }
-    else if(player.getYRotation() == 270.0f)
-    {
-        A_RGB rgb_near = characters_map.at(i).at(j-1);
-        A_RGB rgb_far = characters_map.at(i).at(j-2);
-        if(rgb_near.isYellow())
-        {
-            if(isEnemyPushable(i,j-1,180.0f))
-            {
-                rgb_near.setBlue();
-                characters_map.at(i).at(j-1) = rgb_near;
-
-                rgb_near.setYellow();
-                characters_map.at(i).at(j-3) = rgb_near;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i, j-1))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j-3);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-        else if(rgb_far.isYellow() && rgb_near.isBlue())
-        {
-            if(isEnemyPushable(i,j-2,180.0f))
-            {
-                rgb_far.setBlue();
-                characters_map.at(i).at(j-2) = rgb_far;
-
-                rgb_far.setYellow();
-                characters_map.at(i).at(j-4) = rgb_far;
-
-                for(int k = 0; k < scythers.size(); k++)
-                {
-                    if(scythers.at(k).getPosition().equals(i, j-2))
-                    {
-                        Scyther enemy = scythers.at(k);
-                        enemy.setPosition(i, j-4);
-                        scythers.at(k) = enemy;
-                    }
-                }
-            }
-        }
-    }
+    else
+        std::cout << "AINDA PRECISO ESPERAR ALGUNS SEGUNDOS... " << pushTime << std::endl;
 }
