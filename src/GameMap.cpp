@@ -121,6 +121,42 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
     return false;
 }
 
+void GameMap::clean_cracks()
+{
+    for(int i=0; i < stage_map.size(); i++)
+    {
+        for(int j=0; j < stage_map.at(i).size(); j++)
+        {
+            A_RGB rgb = stage_map.at(i).at(j);
+            if(rgb.isBlack() || rgb.isRed())
+            {
+                A_RGB north, east, west, south;
+                north = stage_map.at(i-1).at(j);
+                east = stage_map.at(i).at(j+1);
+                west = stage_map.at(i).at(j-1);
+                south = stage_map.at(i+1).at(j);
+
+                int counter = 0;
+
+                if(north.isBlue())
+                    counter++;
+                if(west.isBlue())
+                    counter++;
+                if(south.isBlue())
+                    counter++;
+                if(east.isBlue())
+                    counter++;
+
+                if(counter >= 3)
+                {
+                    rgb.setBlue();
+                    stage_map.at(i).at(j) = rgb;
+                }
+            }
+        }
+    }
+}
+
 void GameMap::flood_fill()
 {
     flood_map = stage_map;
@@ -521,6 +557,7 @@ void GameMap::makeCrack()
                 for(int k = playerI - 1; k > iterationPosition; k--)
                     stage_map.at(k).at(playerJ) = mapPositionColor;
                 flood_fill();
+                clean_cracks();
             }
         }
         else if(player.getYRotation() == 90.0f) // Virado para a esquerda do mapa
@@ -542,6 +579,7 @@ void GameMap::makeCrack()
                 for(int k = playerJ + 1; k < iterationPosition; k++)
                     stage_map.at(playerI).at(k) = mapPositionColor;
                 flood_fill();
+                clean_cracks();
             }
         }
         else if(player.getYRotation() == 180.0f) // Virado para a parte inferior do mapa
@@ -563,6 +601,7 @@ void GameMap::makeCrack()
                 for(int k = playerI + 1; k < iterationPosition; k++)
                     stage_map.at(k).at(playerJ) = mapPositionColor;
                 flood_fill();
+                clean_cracks();
             }
         }
         else if(player.getYRotation() == 270.0f) // Virado para a direita do mapa
@@ -584,6 +623,7 @@ void GameMap::makeCrack()
                 for(int k = playerJ - 1; k > iterationPosition; k--)
                     stage_map.at(playerI).at(k) = mapPositionColor;
                 flood_fill();
+                clean_cracks();
             }
         }
     }

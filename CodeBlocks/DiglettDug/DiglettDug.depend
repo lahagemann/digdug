@@ -431,11 +431,12 @@
 1466782668 source:c:\users\luiza\documents\diglettdug\src\hole.cpp
 	"Hole.h"
 
-1466908215 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
+1466943000 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
+	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
@@ -490,7 +491,7 @@
 
 1466906189 c:\users\luiza\documents\digdug\src\a_rgb.h
 
-1466907902 c:\users\luiza\documents\digdug\src\gamemap.h
+1466917692 c:\users\luiza\documents\digdug\src\gamemap.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -517,7 +518,7 @@
 1466906189 c:\users\luiza\documents\digdug\src\snorlax.h
 	"Character.h"
 
-1466906189 c:\users\luiza\documents\digdug\src\gamesettings.h
+1466912164 c:\users\luiza\documents\digdug\src\gamesettings.h
 
 1466906189 c:\users\luiza\documents\digdug\src\ground.h
 	"CharacterPosition.h"
@@ -586,6 +587,6 @@
 1466906189 source:c:\users\luiza\documents\digdug\src\texture.cpp
 	"Texture.h"
 
-1466909104 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
+1466919017 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
 	"GameMap.h"
 

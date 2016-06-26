@@ -235,11 +235,26 @@ void loadIsland()
                 Ground crack = Ground(i,j);
                 crack.getPosition().convert_to_xz(&x, &z);
 
-                glPushMatrix();
-                    glTranslatef(x,-0.5f,z);
-                    glScalef(0.5f,0.5f,0.5f);
-                    glmDraw(cube_crack, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-                glPopMatrix();
+                A_RGB east = game_map.getStageMap().at(i).at(j+1);
+                A_RGB west = game_map.getStageMap().at(i).at(j-1);
+                if(east.isRed() || west.isRed())
+                {
+                    glPushMatrix();
+                        glTranslatef(x,-0.5f,z);
+                        glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+                        glScalef(0.5f,0.5f,0.5f);
+                        glmDraw(cube_crack, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glPopMatrix();
+                }
+                else
+                {
+                    glPushMatrix();
+                        glTranslatef(x,-0.5f,z);
+                        glScalef(0.5f,0.5f,0.5f);
+                        glmDraw(cube_crack, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+                    glPopMatrix();
+                }
+
             }
         }
     }
@@ -509,6 +524,8 @@ void showInitialScreen()
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
+    glBindTexture(initialScreenType, initialScreenTexture);
+
     glShadeModel(GL_SMOOTH);
 	glEnable(initialScreenType);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -519,16 +536,16 @@ void showInitialScreen()
 
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, -1.0f);
-        glVertex2f(0.0f, -1.0f);
+        glVertex3f(0.0f, -1.0f, 0.0f);
 
         glTexCoord2f(-1.0f, -1.0f);
-        glVertex2f(-1.0f, -1.0f);
+        glVertex3f(-1.0f, -1.0f, 0.0f);
 
         glTexCoord2f(-1.0f, 1.0f);
-        glVertex2f(-1.0f, 1.0f);
+        glVertex3f(-1.0f, 1.0f, 0.0f);
 
         glTexCoord2f(1.0f, 1.0f);
-        glVertex2f(1.0f, 1.0f);
+        glVertex3f(1.0f, 1.0f, 0.0f);
     glEnd();
 
 	glDisable(initialScreenType);
