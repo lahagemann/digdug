@@ -429,3 +429,160 @@
 1466782668 source:c:\users\luiza\documents\diglettdug\src\hole.cpp
 	"Hole.h"
 
+1466906188 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
+	<GLUT/glut.h>
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+	<stdlib.h>
+	<time.h>
+	"../../src/Cam.h"
+	"../../src/GameLight.h"
+	"../../src/GameMap.h"
+	"../../src/GameSettings.h"
+	"../../src/Ground.h"
+	"../../src/Model.h"
+
+1466906188 c:\users\luiza\documents\digdug\codeblocks\include\gl\gl.h
+
+1466906189 c:\users\luiza\documents\digdug\codeblocks\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1466906189 c:\users\luiza\documents\digdug\codeblocks\include\gl\glu.h
+	<stddef.h>
+	<GL/gl.h>
+
+1466906189 c:\users\luiza\documents\digdug\src\cam.h
+	<cmath>
+	"Diglett.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\diglett.h
+	"Character.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\character.h
+	<stdlib.h>
+	<string.h>
+	"CharacterPosition.h"
+	"Model.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\characterposition.h
+	<stdio.h>
+
+1466906189 c:\users\luiza\documents\digdug\src\model.h
+	"glm.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\glm.h
+	<GLUT/glut.h>
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+
+1466906189 c:\users\luiza\documents\digdug\src\gamelight.h
+	<windows.h>
+	<gl/gl.h>
+	<gl/glut.h>
+	"A_RGB.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\a_rgb.h
+
+1466906189 c:\users\luiza\documents\digdug\src\gamemap.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<iostream>
+	<vector>
+	"A_RGB.h"
+	"bitmap.h"
+	"Diglett.h"
+	"Scyther.h"
+	"Sharpedo.h"
+	"Snorlax.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\bitmap.h
+	<GL/glut.h>
+	<windows.h>
+	<wingdi.h>
+
+1466906189 c:\users\luiza\documents\digdug\src\scyther.h
+	"Character.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\sharpedo.h
+	"Character.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\snorlax.h
+	"Character.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\gamesettings.h
+
+1466906189 c:\users\luiza\documents\digdug\src\ground.h
+	"CharacterPosition.h"
+	"Model.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\a_rgb.cpp
+	"A_RGB.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\bitmap.c
+	"bitmap.h"
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+
+1466906189 source:c:\users\luiza\documents\digdug\src\cam.cpp
+	"Cam.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\character.cpp
+	"Character.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\characterposition.cpp
+	"CharacterPosition.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\diglett.cpp
+	"Diglett.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\gamelight.cpp
+	"GameLight.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\glm.cpp
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\glmimg.cpp
+	<string.h>
+	<math.h>
+	"Texture.h"
+	<windows.h>
+	<GL/gl.h>
+	"glm.h"
+
+1466906189 c:\users\luiza\documents\digdug\src\texture.h
+	<windows.h>
+	<windowsx.h>
+	<stdlib.h>
+	<stdio.h>
+	<GL/glut.h>
+	<math.h>
+
+1466906189 source:c:\users\luiza\documents\digdug\src\ground.cpp
+	"Ground.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\scyther.cpp
+	"Scyther.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\sharpedo.cpp
+	"Sharpedo.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\snorlax.cpp
+	"Snorlax.h"
+
+1466906189 source:c:\users\luiza\documents\digdug\src\texture.cpp
+	"Texture.h"
+
+1466907119 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
+	"GameMap.h"
+
