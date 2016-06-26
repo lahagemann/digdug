@@ -19,7 +19,7 @@
 #include "../../src/Model.h"
 
 /* function declaration */
-void initTexture(void);
+void initTexture(char* filename, GLuint *texture, GLenum *type);
 bool load_new_model(const char *pszFilename, GLMmodel **model);
 void loadEnemies();
 void loadIsland();
@@ -29,27 +29,29 @@ void mainInit();
 void miniMapRender();
 void onKeyDown(unsigned char key, int x, int y);
 void onKeyUp(unsigned char key, int x, int y);
-void onMouseButton(int button, int state, int x, int y);
-void onMouseMove(int x, int y);
-void onMousePassiveMove(int x, int y);
+void onWaitingEnter(unsigned char key, int x, int y);
 void onWindowReshape(int x, int y);
 void renderScene(bool miniMapOption);
 void renderSea();
 void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 void setWindow();
 void showGameTime();
+void showInitialScreen();
 void updateState();
 
 /* global var declaration */
 const char* GAME_NAME = "Dig(lett) Dug(trio)";
 clock_t initialTime;
+int initialScreenId = 0;
 int mainWindowId = 0;
-int subWindowId = 0;
+int miniMapId = 0;
 int MouseXPosition = 0;
 int MouseYPosition = 0;
 float planeSize = 40.0f;
-GLuint texture;         /* Texture object */
-GLenum type;            /* Texture type */
+GLuint texture;               /* Texture object */
+GLenum type;                  /* Texture type */
+GLuint initialScreenTexture;  /* Texture object */
+GLenum initialScreenType;     /* Texture type */
 int windowHeight = 480;
 int windowWidth = 600;
 int windowXPos = 100;
@@ -65,7 +67,7 @@ GameSettings settings;
 /* key pressing verification */
 bool backPressed;
 bool changeCamera;
-bool enterPressed;
+bool gameBegins;
 bool makeCrackPressed;
 bool pausePressed;
 bool pushPressed;
@@ -87,7 +89,7 @@ int getGameTime()
     return (clock() - initialTime) / (double)CLOCKS_PER_SEC;
 }
 
-void initTexture()
+void initTexture(char* filename, GLuint *texture, GLenum *type)
 {
     BITMAPINFO	*info;           /* Bitmap information */
     GLubyte	    *bits;           /* Bitmap RGB pixels */
@@ -96,19 +98,19 @@ void initTexture()
     GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
 
     // Load a texture object (256x256 true color)
-    bits = LoadDIBitmap("Models\\Sea.bmp", &info);
+    bits = LoadDIBitmap(filename, &info);
     if (bits == (GLubyte *)0)
 		return;
 
     // Figure out the type of texture
     if (info->bmiHeader.biHeight == 1)
-        type = GL_TEXTURE_1D;
+        *type = GL_TEXTURE_1D;
     else
-        type = GL_TEXTURE_2D;
+        *type = GL_TEXTURE_2D;
 
     // Create and bind a texture object
-    glGenTextures(1, &texture);
-	glBindTexture(type, texture);
+    glGenTextures(1, texture);
+	glBindTexture(*type, *texture);
 
     // Create an RGBA image
     rgba = (GLubyte *)malloc(info->bmiHeader.biWidth * info->bmiHeader.biHeight * 4);
@@ -123,12 +125,12 @@ void initTexture()
     }
 
 	// Set texture parameters
-	glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(*type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(*type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(*type, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(*type, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-    glTexImage2D(type, 0, 4, info->bmiHeader.biWidth, info->bmiHeader.biHeight,
+    glTexImage2D(*type, 0, 4, info->bmiHeader.biWidth, info->bmiHeader.biHeight,
                   0, GL_RGBA, GL_UNSIGNED_BYTE, rgba );
 }
 
@@ -270,7 +272,7 @@ void mainInit()
 
 	// habilita o z-buffer
 	glEnable(GL_DEPTH_TEST);
-    initTexture();
+    initTexture("Models\\Sea.bmp\0", &texture, &type);
 
     // inicializa todos os modelos 3D que serão multiplicados
     diglettModel = (GLMmodel*)malloc(sizeof(GLMmodel));
@@ -292,22 +294,27 @@ void mainInit()
 
 void mainRender()
 {
-    updateState();
-	renderScene(false);
-	showGameTime();
-	glFlush();
-	glutPostRedisplay();
-	Sleep(30);
+    if(gameBegins)
+    {
+        updateState();
+        renderScene(false);
+        showGameTime();
+        glFlush();
+        glutPostRedisplay();
+    }
 }
 
 void miniMapRender()
 {
-    glutSetWindow(subWindowId);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    renderScene(true);
-    glFlush();
-    glutPostRedisplay();
+    if(gameBegins)
+    {
+        glutSetWindow(miniMapId);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glLoadIdentity();
+        renderScene(true);
+        glFlush();
+        glutPostRedisplay();
+    }
 }
 
 void onKeyDown(unsigned char key, int x, int y)
@@ -328,7 +335,16 @@ void onKeyDown(unsigned char key, int x, int y)
         changeCamera = true;
 
     else if(tolower(key) == settings.make_crack)
+    {
+        if(!gameBegins)
+        {
+            glutDestroyWindow(initialScreenId);
+            PlaySound("Sounds\\77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
+            initialTime = clock();
+            gameBegins = true;
+        }
         makeCrackPressed = true;
+    }
 
     else if(tolower(key) == settings.push_enemy)
         pushPressed = true;
@@ -338,9 +354,6 @@ void onKeyDown(unsigned char key, int x, int y)
 
     else if(tolower(key) == settings.quit)
         exit(0);
-
-    else if(key == settings.enter)
-        enterPressed = true;
 }
 
 void onKeyUp(unsigned char key, int x, int y)
@@ -371,35 +384,6 @@ void onKeyUp(unsigned char key, int x, int y)
 
     else if(tolower(key) == settings.quit)
         exit(0);
-}
-
-void onMouseButton(int button, int state, int x, int y)
-{
-    glutPostRedisplay();
-}
-
-void onMouseMove(int x, int y)
-{
-    glutPostRedisplay();
-}
-
-void onMousePassiveMove(int x, int y)
-{
-    if(cam.getCurrentCamOption() == 2)
-    {
-        game_map.player.setXRotation(y - MouseYPosition);
-        game_map.player.setYRotation(x - MouseXPosition);
-
-        if(game_map.player.getXRotation() < -128.0)
-            game_map.player.setXRotation(-128.0);
-
-        if(game_map.player.getXRotation() > -45.0)
-            game_map.player.setXRotation(-45.0);
-
-        MouseXPosition = x;
-        MouseYPosition = y;
-    }
-
 }
 
 void onWindowReshape(int x, int y)
@@ -512,6 +496,38 @@ void showGameTime()
 	glPopMatrix();
 }
 
+void showInitialScreen()
+{
+    glutSetWindow(miniMapId);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+
+    initTexture("Screens\\InitialScreen.bmp", &initialScreenTexture, &initialScreenType);
+
+    glShadeModel(GL_SMOOTH);
+	glEnable(type);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	glPushMatrix();
+
+    float textureScaleX = 10.0;
+	float textureScaleY = 10.0;
+    glColor4f(1.0f,1.0f,1.0f,1.0f);
+
+    glBegin(GL_QUADS);
+        glTexCoord2f(1.0f, 0.0f);
+        glTexCoord2f(0.0f, 0.0f);
+        glTexCoord2f(0.0f, 1.0f);
+        glTexCoord2f(1.0f, 1.0f);
+    glEnd();
+
+	glDisable(type);
+	glPopMatrix();
+
+	glFlush();
+    glutPostRedisplay();
+}
+
 void updateState()
 {
     if(walkPressed)
@@ -567,24 +583,20 @@ int main(int argc, char *argv[])
 	mainWindowId = glutCreateWindow(GAME_NAME);
 	glutDisplayFunc(mainRender);
 	glutReshapeFunc(onWindowReshape);
+	mainInit();
 
-	// Register mouse events handlers
-	glutMouseFunc(onMouseButton);
-	glutMotionFunc(onMouseMove);
-	glutPassiveMotionFunc(onMousePassiveMove);
+	initialScreenId = glutCreateSubWindow(mainWindowId, 0, 0, windowWidth, windowHeight);
+	glutDisplayFunc(showInitialScreen);
 
 	// Register keyboard events handlers
 	glutKeyboardFunc(onKeyDown);
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
 
-	PlaySound("Sounds\\77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
-
-	subWindowId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
+	miniMapId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
 	glutDisplayFunc(miniMapRender);
     mainInit();
 
-    initialTime = clock();
 	glutMainLoop();
 
     return 0;
