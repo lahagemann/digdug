@@ -3,9 +3,9 @@
 Cam::Cam()
 {
     camOption = INITIAL_CAM;
-    begginingCamXPosition = 20.0f;
-    begginingCamYPosition = 10.0f;
-    begginingCamZPosition = -20.0f;
+    begginingCamXPosition = 10.0f;
+    begginingCamYPosition = 5.0f;
+    begginingCamZPosition = sqrt(begginingCamXPosition);
 }
 
 Cam::~Cam()
@@ -80,13 +80,15 @@ void Cam::setFirstPersonCam(Diglett player)
 void Cam::setInitialCam(Diglett player)
 {
     if(begginingCamXPosition > 1.0f)
-        begginingCamXPosition -= 1.0f;
+        begginingCamXPosition -= 0.25f;
 
     if(begginingCamYPosition > 1.5f)
-        begginingCamYPosition -= 0.5f;
+        begginingCamYPosition -= 0.125f;
 
     if(begginingCamZPosition < -3.0f)
-        begginingCamZPosition += 1.0f;
+        begginingCamZPosition += sqrt(begginingCamXPosition);
+    else
+        begginingCamZPosition = -3.0f;
 
     float posX, posY, posZ;
     player.getPosition().convert_to_xz(&posX, &posZ);
