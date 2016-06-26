@@ -310,27 +310,28 @@ void mainInit()
 
 void mainRender()
 {
+    //if(gameBegins)
+    //{
+    updateState();
+    renderScene(false);
     if(gameBegins)
-    {
-        updateState();
-        renderScene(false);
         showGameTime();
-        glFlush();
-        glutPostRedisplay();
-    }
+    glFlush();
+    glutPostRedisplay();
+    //}
 }
 
 void miniMapRender()
 {
-    if(gameBegins)
-    {
-        glutSetWindow(miniMapId);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glLoadIdentity();
-        renderScene(true);
-        glFlush();
-        glutPostRedisplay();
-    }
+    //if(gameBegins)
+    //{
+    glutSetWindow(miniMapId);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    renderScene(true);
+    glFlush();
+    glutPostRedisplay();
+    //}
 }
 
 void onKeyDown(unsigned char key, int x, int y)
@@ -351,16 +352,15 @@ void onKeyDown(unsigned char key, int x, int y)
         changeCamera = true;
 
     else if(tolower(key) == settings.make_crack)
-    {
+    /*{
         if(!gameBegins)
         {
             glutDestroyWindow(initialScreenId);
             PlaySound("Sounds\\77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
             initialTime = clock();
             gameBegins = true;
-        }
+        }*/
         makeCrackPressed = true;
-    }
 
     else if(tolower(key) == settings.push_enemy)
         pushPressed = true;
@@ -521,35 +521,39 @@ void showGameTime()
 void showInitialScreen()
 {
     glutSetWindow(initialScreenId);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+    light.makeLight();
 
-    glBindTexture(initialScreenType, initialScreenTexture);
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
 
-    glShadeModel(GL_SMOOTH);
-	glEnable(initialScreenType);
+    //glBindTexture(initialScreenType, initialScreenTexture);
+
+    //glShadeModel(GL_SMOOTH);
+	//glEnable(initialScreenType);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	glPushMatrix();
+	//glPushMatrix();
 
-    glColor4f(1.0f,0.0f,0.0f,0.0f);
+    glEnable(initialScreenType);
+    glBindTexture(initialScreenType, initialScreenTexture);
+    glBegin(GL_TRIANGLE_STRIP);
+        glTexCoord2f(0.0, 0.0);
+        glVertex2f(-1.0, -1.0);
 
-    glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, -1.0f);
-        glVertex3f(0.0f, -1.0f, 0.0f);
+        glTexCoord2f(1.0, 0.0);
+        glVertex2f(1.0, -1.0);
 
-        glTexCoord2f(-1.0f, -1.0f);
-        glVertex3f(-1.0f, -1.0f, 0.0f);
+        glTexCoord2f(0.0, 1.0);
+        glVertex2f(-1.0, 1.0);
 
-        glTexCoord2f(-1.0f, 1.0f);
-        glVertex3f(-1.0f, 1.0f, 0.0f);
-
-        glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(1.0f, 1.0f, 0.0f);
+        glTexCoord2f(1.0, 1.0);
+        glVertex2f(1.0, 1.0);
     glEnd();
 
-	glDisable(initialScreenType);
-	glPopMatrix();
+	//glDisable(initialScreenType);
+	//glPopMatrix();
 
 	glFlush();
     glutPostRedisplay();
@@ -557,30 +561,41 @@ void showInitialScreen()
 
 void updateState()
 {
-    if(walkPressed)
-        if(!game_map.checkObstacleCollision(Character::forwards))
-            game_map.player.walk(Character::forwards);
-
-    if(backPressed)
-        if(!game_map.checkObstacleCollision(Character::backwards))
-            game_map.player.walk(Character::backwards);
-
-    if(rotateLeftPressed)
-        game_map.player.walk(Character::rotateLeft);
-
-    if(rotateRightPressed)
-        game_map.player.walk(Character::rotateRight);
-
-    if(makeCrackPressed)
-        game_map.makeCrack();
-
-    if(pushPressed)
-        game_map.push(getGameTime());
-
-    if(changeCamera)
+    if(gameBegins)
     {
-        cam.changeCam(game_map.player);
-        changeCamera = false;
+        if(walkPressed)
+            if(!game_map.checkObstacleCollision(Character::forwards))
+                game_map.player.walk(Character::forwards);
+
+        if(backPressed)
+            if(!game_map.checkObstacleCollision(Character::backwards))
+                game_map.player.walk(Character::backwards);
+
+        if(rotateLeftPressed)
+            game_map.player.walk(Character::rotateLeft);
+
+        if(rotateRightPressed)
+            game_map.player.walk(Character::rotateRight);
+
+        if(makeCrackPressed)
+            game_map.makeCrack();
+
+        if(pushPressed)
+            game_map.push(getGameTime());
+
+        if(changeCamera)
+        {
+            cam.changeCam(game_map.player);
+            changeCamera = false;
+        }
+    }
+    else
+    {
+        if(!cam.isInitialCam())
+        {
+            initialTime = clock();
+            gameBegins = true;
+        }
     }
 
     game_map.moveEnemies();
@@ -615,12 +630,12 @@ int main(int argc, char *argv[])
 	mainInit();
 
     // Initial Screen
-	initialScreenId = glutCreateSubWindow(mainWindowId, 0, 0, windowWidth, windowHeight);
+	/*initialScreenId = glutCreateSubWindow(mainWindowId, 0, 0, windowWidth, windowHeight);
 	glutDisplayFunc(showInitialScreen);
 	glutReshapeFunc(onWindowReshape);
 	glutKeyboardFunc(onKeyDown);
 	glutKeyboardUpFunc(onKeyUp);
-	screenInit();
+	screenInit();*/
 
     // Mini Map
 	miniMapId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
@@ -628,6 +643,7 @@ int main(int argc, char *argv[])
 	glutReshapeFunc(onWindowReshape);
     mainInit();
 
+    PlaySound("Sounds\\77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
 	glutMainLoop();
 
     return 0;
