@@ -428,6 +428,9 @@ void renderScene(bool miniMapOption)
 	loadIsland();
     glBindTexture(type, texture);
 	renderSea();
+
+	if(!PlaySound("Sounds\\56_Rocket_Tower_Takeover.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP ))
+        PlaySound("Sounds\\56_Rocket_Tower_Takeover.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
 }
 
 void renderSea()
@@ -600,7 +603,7 @@ void updateState()
 
     game_map.moveEnemies();
 
-    if(game_map.isPlayerDead())
+    if(game_map.isPlayerDead(getGameTime()))
         exit(0);
 
     if(game_map.playerWon())
@@ -643,7 +646,7 @@ int main(int argc, char *argv[])
 	glutReshapeFunc(onWindowReshape);
     mainInit();
 
-    PlaySound("Sounds\\77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
+    PlaySound("Sounds\\56_Rocket_Tower_Takeover.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
 	glutMainLoop();
 
     return 0;

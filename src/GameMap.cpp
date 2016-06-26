@@ -365,9 +365,9 @@ bool GameMap::isPlayerAboveWater()
     return false;
 }
 
-bool GameMap::isPlayerDead()
+bool GameMap::isPlayerDead(int time)
 {
-    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j) || isPlayerAboveWater())
+    if(checkEnemyCollision(player.getPosition().i, player.getPosition().j) || isPlayerAboveWater() || time > 90)
         return true;
 
     return false;
@@ -556,8 +556,10 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = playerI - 1; k > iterationPosition; k--)
                     stage_map.at(k).at(playerJ) = mapPositionColor;
+                PlaySound("Sounds\\make_crack.wav", NULL, SND_ASYNC|SND_FILENAME);
                 flood_fill();
                 clean_cracks();
+                //PlaySound("Sounds\\island_emerging.wav", NULL, SND_ASYNC|SND_FILENAME);
             }
         }
         else if(player.getYRotation() == 90.0f) // Virado para a esquerda do mapa
@@ -578,6 +580,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = playerJ + 1; k < iterationPosition; k++)
                     stage_map.at(playerI).at(k) = mapPositionColor;
+                PlaySound("Sounds\\make_crack.wav", NULL, SND_ASYNC|SND_FILENAME);
                 flood_fill();
                 clean_cracks();
             }
@@ -600,6 +603,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = playerI + 1; k < iterationPosition; k++)
                     stage_map.at(k).at(playerJ) = mapPositionColor;
+                PlaySound("Sounds\\make_crack.wav", NULL, SND_ASYNC|SND_FILENAME);
                 flood_fill();
                 clean_cracks();
             }
@@ -622,6 +626,7 @@ void GameMap::makeCrack()
                 mapPositionColor.setRed();
                 for(int k = playerJ - 1; k > iterationPosition; k--)
                     stage_map.at(playerI).at(k) = mapPositionColor;
+                PlaySound("Sounds\\make_crack.wav", NULL, SND_ASYNC|SND_FILENAME);
                 flood_fill();
                 clean_cracks();
             }
@@ -838,7 +843,6 @@ void GameMap::push(int pushTime)
 {
     if(pushTime - lastTimeEnemyPushed >= 2)
     {
-        std::cout << "TE EMPURREI MALDITOOO! " << pushTime << std::endl;
         int i = player.getPosition().i;
         int j = player.getPosition().j;
 
@@ -865,6 +869,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
             else if(rgb_far.isYellow() && rgb_near.isBlue())
@@ -886,6 +891,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
         }
@@ -912,6 +918,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
             else if(rgb_far.isYellow() && rgb_near.isBlue())
@@ -933,6 +940,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
         }
@@ -959,6 +967,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
             else if(rgb_far.isYellow() && rgb_near.isBlue())
@@ -980,6 +989,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
         }
@@ -1006,6 +1016,7 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
             else if(rgb_far.isYellow() && rgb_near.isBlue())
@@ -1027,12 +1038,11 @@ void GameMap::push(int pushTime)
                             scythers.at(k) = enemy;
                         }
                     }
+                    PlaySound("Sounds\\enemy_killed 1.wav", NULL, SND_ASYNC|SND_FILENAME);
                 }
             }
         }
 
         lastTimeEnemyPushed = pushTime;
     }
-    else
-        std::cout << "AINDA PRECISO ESPERAR ALGUNS SEGUNDOS... " << pushTime << std::endl;
 }

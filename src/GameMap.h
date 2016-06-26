@@ -1,6 +1,7 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
 
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
@@ -35,7 +36,7 @@ class GameMap
         bool isEnemyPushable(int i, int j, float playerRotation);
         bool isPlayerAboveHole();
         bool isPlayerAboveWater();
-        bool isPlayerDead();
+        bool isPlayerDead(int time);
         bool isPlayerNearEnemy(int enemiesIndex, int* direction);
         bool isScytherDead(int enemiesIndex);
         void load_models();
