@@ -530,6 +530,12 @@ void updateState()
 
     if(game_map.isPlayerDead())
         exit(0);
+
+    if(game_map.playerWon())
+    {
+        std::cout << "\n\nVICTORY! :D" << std::endl;
+        exit(0);
+    }
 }
 
 /* Program entry point */

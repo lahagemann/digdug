@@ -430,12 +430,13 @@
 1466782668 source:c:\users\luiza\documents\diglettdug\src\hole.cpp
 	"Hole.h"
 
-1466906188 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
+1466908215 source:c:\users\luiza\documents\digdug\codeblocks\diglettdug\main.cpp
 	<GLUT/glut.h>
 	<windows.h>
 	<gl/gl.h>
 	<gl/glut.h>
 	<stdlib.h>
+	<string.h>
 	<time.h>
 	"../../src/Cam.h"
 	"../../src/GameLight.h"
@@ -488,7 +489,7 @@
 
 1466906189 c:\users\luiza\documents\digdug\src\a_rgb.h
 
-1466906189 c:\users\luiza\documents\digdug\src\gamemap.h
+1466907902 c:\users\luiza\documents\digdug\src\gamemap.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -584,6 +585,6 @@
 1466906189 source:c:\users\luiza\documents\digdug\src\texture.cpp
 	"Texture.h"
 
-1466907119 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
+1466908032 source:c:\users\luiza\documents\digdug\src\gamemap.cpp
 	"GameMap.h"
 

@@ -145,8 +145,6 @@ void GameMap::flood_fill()
     else if(southeast.isGreen())
         flood_step(m+1, n+1);
 
-    std::cout << flood_size << std::endl;
-
     //verifica se a área
     if((float)this->flood_size > field_size/2.0f)
     {
@@ -797,6 +795,14 @@ void GameMap::moveEnemies()
             livingScythers.push_back(s);
     }
     scythers = livingScythers;
+}
+
+bool GameMap::playerWon()
+{
+    if(scythers.size() == 0)
+        return true;
+
+    return false;
 }
 
 void GameMap::push(int pushTime)

@@ -42,6 +42,7 @@ class GameMap
         void moveAScyther(int i, int j, int enemiesIndex, int direction);
         void moveASharpedo(int i, int j, int enemiesIndex, int direction);
         void moveEnemies();
+        bool playerWon();
         void push(int seconds);
 
         Diglett player;
