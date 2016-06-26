@@ -94,9 +94,7 @@ void Cam::setInitialCam(Diglett player)
     player.getPosition().convert_to_xz(&posX, &posZ);
     posY = 0.7f;
 
-    gluLookAt((posX - sin(player.getXRotation()*PI/180)) + begginingCamXPosition,
-              posY + begginingCamYPosition,
-              (posZ + cos(player.getYRotation()*PI/180)) + begginingCamZPosition,
+    gluLookAt(posX + begginingCamXPosition, posY + begginingCamYPosition, posZ + begginingCamZPosition,
         posX, posY, posZ,
 		0.0, 1.0, 0.0);
 
