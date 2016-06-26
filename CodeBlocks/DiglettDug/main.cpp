@@ -42,6 +42,7 @@ void updateState();
 
 /* global var declaration */
 const char* GAME_NAME = "Dig(lett) Dug(trio)";
+int DiglettHeadBangs = 10;
 clock_t initialTime;
 int initialScreenId = 0;
 int mainWindowId = 0;
@@ -69,6 +70,7 @@ GameSettings settings;
 bool backPressed;
 bool changeCamera;
 bool gameBegins;
+bool isPlayerWinner;
 bool makeCrackPressed;
 bool pausePressed;
 bool pushPressed;
@@ -268,6 +270,36 @@ void loadPlayer()
 
     glPushMatrix();
         glTranslatef(x,0.3f,z);
+
+        if(isPlayerWinner)
+        {
+            GLfloat shear = (1.0f - 2 * (DiglettHeadBangs % 2)) / 2;
+            if((int)game_map.player.getYRotation() % 180 == 0)
+            {
+                glTranslatef(shear/4,0.0f,0.0f);
+
+                GLfloat m[16] = {
+                    1.0f, 0.0f, 0.0f, 0.0f,
+                    shear, 1.0f, 0.0f, 0.0f,
+                    0.0f, 0.0f, 1.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f, 1.0f
+                };
+                glMultMatrixf(m);
+            }
+            else
+            {
+                glTranslatef(0.0f,0.0f,shear/4);
+
+                GLfloat m[16] = {
+                    1.0f, 0.0f, 0.0f, 0.0f,
+                    0.0f, 1.0f, shear, 0.0f,
+                    0.0f, 0.0f, 1.0f, 0.0f,
+                    0.0f, 0.0f, 0.0f, 1.0f
+                };
+                glMultMatrixf(m);
+            }
+        }
+
         glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
         glScalef(0.5f,0.5f,0.5f);
         glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
@@ -608,10 +640,13 @@ void updateState()
 
     if(game_map.playerWon())
     {
-        //PlaySound("Sounds\\23_Trainer_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
-        //while(!enterPressed);
-        std::cout << "\n\nVICTORY! :D" << std::endl;
-        exit(0);
+        PlaySound("Sounds\\10_Wild_Pokemon_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
+        isPlayerWinner = true;
+
+        if(DiglettHeadBangs > 0)
+            DiglettHeadBangs--;
+        else
+            exit(0);
     }
 }
 
