@@ -13,6 +13,7 @@ class GameSettings
         const unsigned char make_crack = 32;        //spacebar
 
         const unsigned char pause = 112;            //p
+        const unsigned char enter = 13;              //enter
         const unsigned char quit = 27;              //esc
 };
 

@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -64,6 +65,7 @@ GameSettings settings;
 /* key pressing verification */
 bool backPressed;
 bool changeCamera;
+bool enterPressed;
 bool makeCrackPressed;
 bool pausePressed;
 bool pushPressed;
@@ -336,6 +338,9 @@ void onKeyDown(unsigned char key, int x, int y)
 
     else if(tolower(key) == settings.quit)
         exit(0);
+
+    else if(key == settings.enter)
+        enterPressed = true;
 }
 
 void onKeyUp(unsigned char key, int x, int y)
@@ -542,6 +547,8 @@ void updateState()
 
     if(game_map.playerWon())
     {
+        //PlaySound("23_Trainer_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
+        //while(!enterPressed);
         std::cout << "\n\nVICTORY! :D" << std::endl;
         exit(0);
     }
@@ -570,6 +577,8 @@ int main(int argc, char *argv[])
 	glutKeyboardFunc(onKeyDown);
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
+
+	PlaySound("77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
 
 	subWindowId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
 	glutDisplayFunc(miniMapRender);
