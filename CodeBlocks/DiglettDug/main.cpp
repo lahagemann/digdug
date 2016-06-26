@@ -42,7 +42,8 @@ void updateState();
 
 /* global var declaration */
 const char* GAME_NAME = "Dig(lett) Dug(trio)";
-int DiglettHeadBangs = 10;
+int DiglettHeadBangs = 30;
+float flattener = 0.5f;
 clock_t initialTime;
 int initialScreenId = 0;
 int mainWindowId = 0;
@@ -71,6 +72,7 @@ bool backPressed;
 bool changeCamera;
 bool gameBegins;
 bool isPlayerWinner;
+bool hasPlayerLost;
 bool makeCrackPressed;
 bool pausePressed;
 bool pushPressed;
@@ -300,9 +302,22 @@ void loadPlayer()
             }
         }
 
-        glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
-        glScalef(0.5f,0.5f,0.5f);
-        glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        if(hasPlayerLost)
+        {
+            glTranslatef(0.0f,-0.3f, 0.0f);
+            glTranslatef(0.0f,flattener/2.0f, 0.0f);
+            glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
+            glScalef(0.5f,flattener,0.5f);
+            glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+            flattener -= 0.037;
+        }
+        else
+        {
+            glRotatef(game_map.player.getYRotation(),0.0f,1.0f,0.0f);
+            glScalef(0.5f,0.5f,0.5f);
+            glmDraw(diglettModel, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
+        }
+
     glPopMatrix();
 }
 
@@ -636,11 +651,19 @@ void updateState()
     game_map.moveEnemies();
 
     if(game_map.isPlayerDead(getGameTime()))
-        exit(0);
+    {
+        if(!hasPlayerLost)
+            PlaySound("Sounds\\pacman_death.wav", NULL, SND_ASYNC|SND_FILENAME);
+        hasPlayerLost = true;
+        if(flattener <= 0.0f)
+            exit(0);
+    }
+
 
     if(game_map.playerWon())
     {
-        PlaySound("Sounds\\10_Wild_Pokemon_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
+        if(!isPlayerWinner)
+            PlaySound("Sounds\\10_Wild_Pokemon_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
         isPlayerWinner = true;
 
         if(DiglettHeadBangs > 0)
