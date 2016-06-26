@@ -24,8 +24,8 @@ bool load_new_model(const char *pszFilename, GLMmodel **model);
 void loadEnemies();
 void loadIsland();
 void loadPlayer();
-void mainRender();
 void mainInit();
+void mainRender();
 void miniMapRender();
 void onKeyDown(unsigned char key, int x, int y);
 void onKeyUp(unsigned char key, int x, int y);
@@ -33,6 +33,7 @@ void onWaitingEnter(unsigned char key, int x, int y);
 void onWindowReshape(int x, int y);
 void renderScene(bool miniMapOption);
 void renderSea();
+void screenInit();
 void setViewport(GLint left, GLint right, GLint bottom, GLint top);
 void setWindow();
 void showGameTime();
@@ -425,8 +426,6 @@ void renderSea()
 
     glTranslatef(-(float)planeSize/2.0f, 0.2f, -(float)planeSize/2.0f);
 
-	float textureScaleX = 10.0;
-	float textureScaleY = 10.0;
     glColor4f(1.0f,1.0f,1.0f,1.0f);
     int xQuads = 40;
     int zQuads = 40;
@@ -448,13 +447,21 @@ void renderSea()
                 glTexCoord2f(1.0f, 1.0f);  // coords for the texture
                 glNormal3f(0.0f,1.0f,0.0f);
                 glVertex3f(i * (float)planeSize/xQuads, -1.0f, j * (float)planeSize/zQuads);
-
             glEnd();
         }
     }
 
 	glDisable(type);
 	glPopMatrix();
+}
+
+void screenInit()
+{
+    glColor3f(0.0f,0.0f,0.0f);
+	setWindow();
+	setViewport(0, windowWidth, 0, windowHeight);
+
+    initTexture("Screens\\InitialScreen.bmp", &initialScreenTexture, &initialScreenType);
 }
 
 void setViewport(GLint left, GLint right, GLint bottom, GLint top)
@@ -498,30 +505,33 @@ void showGameTime()
 
 void showInitialScreen()
 {
-    glutSetWindow(miniMapId);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glutSetWindow(initialScreenId);
+    glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    initTexture("Screens\\InitialScreen.bmp", &initialScreenTexture, &initialScreenType);
-
     glShadeModel(GL_SMOOTH);
-	glEnable(type);
+	glEnable(initialScreenType);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	glPushMatrix();
 
-    float textureScaleX = 10.0;
-	float textureScaleY = 10.0;
-    glColor4f(1.0f,1.0f,1.0f,1.0f);
+    glColor4f(1.0f,0.0f,0.0f,0.0f);
 
     glBegin(GL_QUADS);
-        glTexCoord2f(1.0f, 0.0f);
-        glTexCoord2f(0.0f, 0.0f);
-        glTexCoord2f(0.0f, 1.0f);
+        glTexCoord2f(0.0f, -1.0f);
+        glVertex2f(0.0f, -1.0f);
+
+        glTexCoord2f(-1.0f, -1.0f);
+        glVertex2f(-1.0f, -1.0f);
+
+        glTexCoord2f(-1.0f, 1.0f);
+        glVertex2f(-1.0f, 1.0f);
+
         glTexCoord2f(1.0f, 1.0f);
+        glVertex2f(1.0f, 1.0f);
     glEnd();
 
-	glDisable(type);
+	glDisable(initialScreenType);
 	glPopMatrix();
 
 	glFlush();
@@ -593,11 +603,12 @@ int main(int argc, char *argv[])
 	glutReshapeFunc(onWindowReshape);
 	glutKeyboardFunc(onKeyDown);
 	glutKeyboardUpFunc(onKeyUp);
-	mainInit();
+	screenInit();
 
     // Mini Map
 	miniMapId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
 	glutDisplayFunc(miniMapRender);
+	glutReshapeFunc(onWindowReshape);
     mainInit();
 
 	glutMainLoop();
