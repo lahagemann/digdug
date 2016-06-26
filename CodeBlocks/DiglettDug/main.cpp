@@ -579,20 +579,23 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(windowWidth, windowHeight);
 	glutInitWindowPosition(windowXPos, windowYPos);
 
-	// Store main window id so that glui can send it redisplay events
+	// Main Window
 	mainWindowId = glutCreateWindow(GAME_NAME);
 	glutDisplayFunc(mainRender);
 	glutReshapeFunc(onWindowReshape);
-	mainInit();
-
-	initialScreenId = glutCreateSubWindow(mainWindowId, 0, 0, windowWidth, windowHeight);
-	glutDisplayFunc(showInitialScreen);
-
-	// Register keyboard events handlers
 	glutKeyboardFunc(onKeyDown);
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
 
+    // Initial Screen
+	initialScreenId = glutCreateSubWindow(mainWindowId, 0, 0, windowWidth, windowHeight);
+	glutDisplayFunc(showInitialScreen);
+	glutReshapeFunc(onWindowReshape);
+	glutKeyboardFunc(onKeyDown);
+	glutKeyboardUpFunc(onKeyUp);
+	mainInit();
+
+    // Mini Map
 	miniMapId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
 	glutDisplayFunc(miniMapRender);
     mainInit();
