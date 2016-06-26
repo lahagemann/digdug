@@ -123,7 +123,6 @@ bool GameMap::checkObstacleCollision(Character::Direction direction)
 
 void GameMap::flood_fill()
 {
-    // seed = size/2-1 size/2-1 = 15 15
     flood_map = stage_map;
     this->flood_size = 0;
 
@@ -406,7 +405,7 @@ void GameMap::load_models()
     GLubyte     *ptr;            /* Pointer into bit buffer */
     GLubyte	    *rgba;           /* RGBA pixel buffer */
 
-    bits = LoadDIBitmap("Stage1.bmp", &info);
+    bits = LoadDIBitmap("Stages\\Stage1.bmp", &info);
     if(bits == (GLubyte *)0)
     {
 		std::cout << "Error loading!" << std::endl << std::endl;
@@ -431,8 +430,6 @@ void GameMap::load_models()
         int r = ptr[2];
         int g = ptr[1];
         int b = ptr[0];
-
-        //std::cout << i << " " << r << " " << g << " " << b << std::endl;
 
         A_RGB rgb = A_RGB(r,g,b);
         if(rgb.isBlack()) //hole

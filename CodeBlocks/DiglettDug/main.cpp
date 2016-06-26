@@ -96,7 +96,7 @@ void initTexture()
     GLubyte	    *rgbaptr;        /* Pointer into RGBA buffer */
 
     // Load a texture object (256x256 true color)
-    bits = LoadDIBitmap("Textures\\Sea.bmp", &info);
+    bits = LoadDIBitmap("Models\\Sea.bmp", &info);
     if (bits == (GLubyte *)0)
 		return;
 
@@ -281,13 +281,13 @@ void mainInit()
     cube_hole = (GLMmodel*)malloc(sizeof(GLMmodel));
     cube_crack = (GLMmodel*)malloc(sizeof(GLMmodel));
 
-    load_new_model("Diglett.obj", &diglettModel);
-    load_new_model("Scyther.obj", &scytherModel);
-    load_new_model("Sharpedo.obj", &sharpedoModel);
-    load_new_model("Snorlax.obj", &snorlaxModel);
-    load_new_model("cube.obj", &cube);
-    load_new_model("cube_hole.obj", &cube_hole);
-    load_new_model("cube_crack.obj", &cube_crack);
+    load_new_model("Models/Diglett.obj", &diglettModel);
+    load_new_model("Models/Scyther.obj", &scytherModel);
+    load_new_model("Models/Sharpedo.obj", &sharpedoModel);
+    load_new_model("Models/Snorlax.obj", &snorlaxModel);
+    load_new_model("Models/cube.obj", &cube);
+    load_new_model("Models/cube_hole.obj", &cube_hole);
+    load_new_model("Models/cube_crack.obj", &cube_crack);
 }
 
 void mainRender()
@@ -547,7 +547,7 @@ void updateState()
 
     if(game_map.playerWon())
     {
-        //PlaySound("23_Trainer_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
+        //PlaySound("Sounds\\23_Trainer_Defeated.wav", NULL, SND_ASYNC|SND_FILENAME);
         //while(!enterPressed);
         std::cout << "\n\nVICTORY! :D" << std::endl;
         exit(0);
@@ -578,7 +578,7 @@ int main(int argc, char *argv[])
 	glutKeyboardUpFunc(onKeyUp);
 	mainInit();
 
-	PlaySound("77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
+	PlaySound("Sounds\\77_Routes_11_12_13.wav", NULL, SND_ASYNC|SND_FILENAME|SND_LOOP|SND_NOSTOP );
 
 	subWindowId = glutCreateSubWindow(mainWindowId, 0, 0,(windowWidth/3) - 40, (windowHeight/3) - 40);
 	glutDisplayFunc(miniMapRender);
